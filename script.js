@@ -57,8 +57,8 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const email = document.getElementById('emailInput').value;
-    const subject = 'Coming Soon - Notification Request';
-    const body = `Hi Rivers! I would like to be notified when the site launches.%0D%0A%0D%0AEmail: ${email}`;
+    const subject = 'Notify me when your portfolio launches!';
+    const body = `Hi Rivers!%0D%0A%0D%0AI'd love to check out your dev portfolio and learn more about your career journey. Please notify me when it's live!%0D%0A%0D%0AEmail: ${email}`;
     
     window.location.href = `mailto:hi@riosisraelg.dev?subject=${subject}&body=${body}`;
     
@@ -67,12 +67,12 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 
 // WhatsApp button
 document.getElementById('whatsappBtn').addEventListener('click', function() {
-    const message = 'Hi Rivers! I would like to be notified when your site launches.';
+    const message = 'Hi Rivers! I\'m interested in your dev portfolio and would love to learn more about your career. Let me know when it launches!';
     window.open(`https://wa.me/524427487589?text=${encodeURIComponent(message)}`, '_blank');
 });
 
 // SMS button
 document.getElementById('smsBtn').addEventListener('click', function() {
-    const message = 'Hi Rivers! I would like to be notified when your site launches.';
+    const message = 'Hi Rivers! I\'m interested in your dev portfolio and would love to learn more about your career. Let me know when it launches!';
     window.location.href = `sms:+524427487589&body=${encodeURIComponent(message)}`;
 });
