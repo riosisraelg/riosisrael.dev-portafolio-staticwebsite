@@ -298,6 +298,19 @@ button:hover {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
+#contactForm button {
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    font-weight: bold;
+}
+
+#contactForm button:hover {
+    background-color: #ccc;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
 .social-links {
     display: flex;
     justify-content: center;
