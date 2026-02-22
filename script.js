@@ -38,11 +38,26 @@ const messageToggle = document.getElementById('messageToggle');
 const contactForm = document.getElementById('contactForm');
 const messageOptions = document.getElementById('messageOptions');
 
+let inactivityTimer;
+
+function resetSelection() {
+    emailToggle.classList.remove('active');
+    messageToggle.classList.remove('active');
+    contactForm.classList.remove('active');
+    messageOptions.classList.remove('active');
+}
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(resetSelection, 5000);
+}
+
 emailToggle.addEventListener('click', function() {
     emailToggle.classList.add('active');
     messageToggle.classList.remove('active');
     contactForm.classList.add('active');
     messageOptions.classList.remove('active');
+    resetInactivityTimer();
 });
 
 messageToggle.addEventListener('click', function() {
@@ -50,7 +65,12 @@ messageToggle.addEventListener('click', function() {
     emailToggle.classList.remove('active');
     contactForm.classList.remove('active');
     messageOptions.classList.add('active');
+    resetInactivityTimer();
 });
+
+// Reset timer on any interaction with contact section
+document.querySelector('.contact-section').addEventListener('mousemove', resetInactivityTimer);
+document.querySelector('.contact-section').addEventListener('click', resetInactivityTimer);
 
 // Handle form submission
 document.getElementById('contactForm').addEventListener('submit', function(e) {
