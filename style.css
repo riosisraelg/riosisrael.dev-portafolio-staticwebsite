@@ -241,7 +241,7 @@ body {
 
 .message-options {
     display: none;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -253,11 +253,11 @@ body {
 .message-options button {
     flex: 1;
     max-width: 150px;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
 }
 
 .message-options button:hover {
-    flex: 1.3;
+    flex: 1.5;
     max-width: 180px;
 }
 
