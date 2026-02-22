@@ -196,7 +196,7 @@ body {
     max-width: 180px;
 }
 
-.toggle-btn:not(:hover) {
+.toggle-container:hover .toggle-btn:not(:hover) {
     flex: 0.7;
 }
 
@@ -277,7 +277,7 @@ body {
     max-width: 180px;
 }
 
-.message-options button:not(:hover) {
+.message-options:hover button:not(:hover) {
     flex: 0.7;
 }
 
