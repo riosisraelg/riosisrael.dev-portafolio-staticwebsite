@@ -67,7 +67,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 
 // WhatsApp button
 document.getElementById('whatsappBtn').addEventListener('click', function() {
-    const message = 'Hi! I would like to be notified when your site launches.';
+    const message = 'Hi Rivers! I would like to be notified when your site launches.';
     window.open(`https://wa.me/524427487589?text=${encodeURIComponent(message)}`, '_blank');
 });
 
