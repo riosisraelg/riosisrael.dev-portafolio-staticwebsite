@@ -58,7 +58,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     
     const email = document.getElementById('emailInput').value;
     const subject = 'Coming Soon - Notification Request';
-    const body = `I would like to be notified when the site launches.%0D%0A%0D%0AEmail: ${email}`;
+    const body = `Hi Rivers! I would like to be notified when the site launches.%0D%0A%0D%0AEmail: ${email}`;
     
     window.location.href = `mailto:hi@riosisraelg.dev?subject=${subject}&body=${body}`;
     
@@ -73,6 +73,6 @@ document.getElementById('whatsappBtn').addEventListener('click', function() {
 
 // SMS button
 document.getElementById('smsBtn').addEventListener('click', function() {
-    const message = 'Hi! I would like to be notified when your site launches.';
+    const message = 'Hi Rivers! I would like to be notified when your site launches.';
     window.location.href = `sms:+524427487589&body=${encodeURIComponent(message)}`;
 });
