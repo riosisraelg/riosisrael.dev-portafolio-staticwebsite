@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivers Rios - Dev Portfolio [UNDER CONSTRUCTION]</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="terminal-title">rivers@portfolio:~$</span>
+            <div class="terminal-controls">
+                <span class="control minimize">_</span>
+                <span class="control maximize">□</span>
+                <span class="control close">×</span>
+            </div>
+        </div>
+        <div class="terminal-body">
+            <div class="output-line">
+                <span class="prompt">rivers@portfolio:~$</span> cat status.txt
+            </div>
+            <div class="output-line">
+                <span class="ascii-art">
+ _   _ _   _ ___  _____ ____     ____ ___  _   _ ____ _____ ____  _   _  ____ _____ ___ ___  _   _ 
+| | | | \ | |  _ \| ____|  _ \   / ___/ _ \| \ | / ___|_   _|  _ \| | | |/ ___|_   _|_ _/ _ \| \ | |
+| | | |  \| | | | |  _| | |_) | | |  | | | |  \| \___ \ | | | |_) | | | | |     | |  | | | | |  \| |
+| |_| | |\  | |_| | |___|  _ <  | |__| |_| | |\  |___) || | |  _ <| |_| | |___  | |  | | |_| | |\  |
+ \___/|_| \_|____/|_____|_| \_\  \____\___/|_| \_|____/ |_| |_| \_\\___/ \____| |_| |___\___/|_| \_|
+                </span>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line">
+                <span class="info">[INFO]</span> Building dev portfolio and career showcase...
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line">
+                <span class="label">ETA:</span> <span id="etaDate">2026-03-31</span> | <span class="label">COUNTDOWN:</span> <span id="countdown">000:00:00:00</span>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line">
+                <span class="label">PROGRESS:</span> <span class="progress-text" id="progressBar">[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%</span>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line">
+                <span class="prompt">rivers@portfolio:~$</span> ./notify-me.sh
+            </div>
+            <div class="output-line">
+                <span class="comment"># Select notification method:</span>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="contact-options">
+                <button class="tui-btn" id="emailBtn">[1] EMAIL</button>
+                <button class="tui-btn" id="messageBtn">[2] MESSAGE</button>
+            </div>
+            <div class="contact-form" id="emailForm">
+                <div class="output-line">
+                    <span class="comment"># Enter your email:</span>
+                </div>
+                <form id="contactForm">
+                    <input type="email" id="emailInput" placeholder="your@email.com" required>
+                    <button type="submit" class="tui-btn submit">[SEND]</button>
+                </form>
+            </div>
+            <div class="message-form" id="messageForm">
+                <div class="output-line">
+                    <span class="comment"># Choose messaging platform:</span>
+                </div>
+                <div class="message-options">
+                    <button class="tui-btn" id="whatsappBtn">[A] WHATSAPP</button>
+                    <button class="tui-btn" id="smsBtn">[B] SMS</button>
+                </div>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line">
+                <span class="prompt">rivers@portfolio:~$</span> cat links.txt
+            </div>
+            <div class="output-line">
+                <span class="link">[→]</span> <a href="https://linkedin.com/in/riosisraelg" target="_blank">linkedin.com/in/riosisraelg</a>
+            </div>
+            <div class="output-line">
+                <span class="link">[→]</span> <a href="https://github.com/riosisraelg" target="_blank">github.com/riosisraelg</a>
+            </div>
+            <div class="output-line blank"></div>
+            <div class="output-line cursor">
+                <span class="prompt">rivers@portfolio:~$</span> <span class="blink">█</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
