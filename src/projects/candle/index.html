@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiting...</title>
+    <link rel="stylesheet" href="style.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="canvas-wrapper">
+            <div id="ambient-glow" class="glow ambient"></div>
+            <div id="fire-glow" class="glow fire"></div>
+            <canvas id="candle-canvas"></canvas>
+            <!-- Hidden controls overlay for clicking the candle area -->
+            <div id="interaction-layer"></div>
+        </div>
+        <div class="info-container">
+            <div id="timer" class="timer">00:00:00</div>
+            <div id="candle-counter" class="counter" style="display: none;">
+                Candles burnt: <span id="burnt-count">0</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js?v=3"></script>
+</body>
+</html>

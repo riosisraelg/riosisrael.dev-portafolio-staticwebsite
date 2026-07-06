@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rivers Rios - Dev Portfolio [UNDER CONSTRUCTION]</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
     <div class="terminal">
@@ -18,7 +18,7 @@
         </div>
         <div class="terminal-body">
             <div class="output-line">
-                <span class="prompt">rivers@portfolio:~$</span> cat status.txt
+                <span class="prompt">rivers@portfolio:~/portfolio$</span> cat status.txt
             </div>
             <div class="output-line">
                 <span class="ascii-art">
@@ -35,7 +35,7 @@
             </div>
             <div class="output-line blank"></div>
             <div class="output-line">
-                <span class="label">ETA:</span> <span id="etaDate">2026-03-31</span> | <span class="label">COUNTDOWN:</span> <span id="countdown">000:00:00:00</span>
+                <span class="label">ETA:</span> <span id="etaDate">2026-12-31</span> | <span class="label">COUNTDOWN:</span> <span id="countdown">000:00:00:00</span>
             </div>
             <div class="output-line blank"></div>
             <div class="output-line">
@@ -43,7 +43,7 @@
             </div>
             <div class="output-line blank"></div>
             <div class="output-line">
-                <span class="prompt">rivers@portfolio:~$</span> ./notify-me.sh
+                <span class="prompt">rivers@portfolio:~/portfolio$</span> ./notify-me.sh
             </div>
             <div class="output-line">
                 <span class="comment"># Select notification method:</span>
@@ -73,7 +73,7 @@
             </div>
             <div class="output-line blank"></div>
             <div class="output-line">
-                <span class="prompt">rivers@portfolio:~$</span> cat links.txt
+                <span class="prompt">rivers@portfolio:~/portfolio$</span> cat links.txt
             </div>
             <div class="output-line">
                 <span class="link">[→]</span> <a href="https://linkedin.com/in/riosisraelg" target="_blank">linkedin.com/in/riosisraelg</a>
@@ -82,11 +82,14 @@
                 <span class="link">[→]</span> <a href="https://github.com/riosisraelg" target="_blank">github.com/riosisraelg</a>
             </div>
             <div class="output-line blank"></div>
-            <div class="output-line cursor">
-                <span class="prompt">rivers@portfolio:~$</span> <span class="blink">█</span>
+            <div id="terminal-history"></div>
+            <div class="output-line cursor input-line">
+                <span class="prompt">rivers@portfolio:~/portfolio$</span>
+                <span id="cmdText"></span><span class="blink" id="cursor-block">█</span>
+                <input type="text" id="cmdInput" class="cmd-input" autofocus autocomplete="off" spellcheck="false">
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js?v=13"></script>
 </body>
 </html>

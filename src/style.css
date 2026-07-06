@@ -167,6 +167,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 30px rgba(165, 153, 233, 0.2);
     overflow: hidden;
+    position: relative; /* Needed for dragging logic */
+    will-change: transform;
 }
 
 .terminal-header {
@@ -176,6 +178,12 @@ body {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #4d21fc;
+    cursor: grab;
+    user-select: none; /* Prevent text selection while dragging */
+}
+
+.terminal-header:active {
+    cursor: grabbing;
 }
 
 .terminal-title {
@@ -246,6 +254,8 @@ body {
     padding: 20px;
     font-size: 0.9rem;
     line-height: 1.6;
+    height: 70vh;
+    overflow-y: auto;
 }
 
 .output-line {
@@ -400,4 +410,27 @@ a:hover {
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+.cmd-input {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: text;
+    z-index: 10;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.input-line .prompt {
+    margin-right: 8px;
+    white-space: pre;
 }
