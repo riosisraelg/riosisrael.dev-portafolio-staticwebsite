@@ -50,8 +50,8 @@ const candleBaseY = logicalHeight - 5; // Plate bottom touches the very edge
 const candleWidth = 26;
 const maxCandleHeight = 60; // Taller candle
 
-// 2 minutes for testing (will revert to 12 hours later)
-const MELT_DURATION_MS = 2 * 60 * 1000; 
+// 12 hours for production
+const MELT_DURATION_MS = 12 * 60 * 60 * 1000;
 
 // Initial progress from saved state
 currentMeltProgress = accumulatedTime / MELT_DURATION_MS;
