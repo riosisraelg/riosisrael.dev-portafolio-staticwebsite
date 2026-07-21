@@ -656,11 +656,44 @@ body {
     letter-spacing: 0.1em;
 }
 
-.attendance-description {
-    font-size: 0.8rem;
-    color: var(--gray-600);
-    line-height: 1.5;
-    margin: 0;
+.step-note {
+    font-size: 0.65rem;
+    color: var(--gray-500);
+    font-style: italic;
+    margin-top: 2px;
+}
+
+.tutorial-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    color: var(--fg);
+    text-decoration: none;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 8px;
+    transition: all var(--transition);
+}
+
+@media (prefers-color-scheme: dark) {
+    .tutorial-link {
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+}
+
+.tutorial-link:hover {
+    background: var(--surface);
+    transform: translateY(-1px);
+}
+
+.tutorial-link .material-symbols-outlined {
+    font-size: 14px;
 }
 
 .attendance-btn {
