@@ -15,6 +15,7 @@
     <meta property="og:url" content="https://riosisraelg.dev/projects/welcomePartyRicardoSierra29082026/">
     <meta property="og:type" content="website">
 
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -35,45 +36,56 @@
             <div class="hero-flag">🇩🇪 🇲🇽</div>
             <h1 class="hero-title">Willkommen zurück,<br>Ricardo</h1>
             <p class="hero-subtitle">Fiesta de bienvenida</p>
-            <div class="hero-date">
+            <button class="hero-date" id="openItineraryModal">
                 Sábado 29 de Agosto de 2026<br>
                 <span class="hero-time">15:00 — 22:00 hrs CST (GMT-6)</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ── Attendance Card ────────────────────── -->
+    <section class="section attendance-section">
+        <div class="section-card glass-card">
+            <div class="attendance-card">
+                <div class="attendance-header">
+                    <span class="attendance-label">Confirmación de Asistencia</span>
+                    <span class="attendance-badge">✓ Obligatoria</span>
+                </div>
+                <p class="attendance-description">Confirma tu asistencia en Apple Invites o con tu correo.</p>
+                <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="attendance-btn glass-btn">
+                    <span class="material-symbols-outlined">person_add</span>
+                    Confirmar
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- ── Primary CTA — Invitation ────────── -->
-    <section class="section primary-cta">
-        <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="invitation-btn" id="invitationBtn">
-            <span class="material-symbols-outlined">calendar_month</span>
-            Confirmar asistencia
-        </a>
-        <p class="cta-note"><strong>⚠️ Confirmación obligatoria.</strong><br>En Apple Invites, acepta la invitación con "Going". Si eres de Android, entra con tu correo y verifícalo para aceptar la invitación. ¡Así ambos podrán sincronizar el evento con su calendario de preferencia!</p>
-    </section>
+    <!-- ── Payment Section (Large Card) ──── -->
+    <section class="section payment-section">
+        <div class="section-card glass-card">
+            <div class="payment-large-card">
+                
+                <!-- Left: Cost Breakdown (Clickeable) -->
+                <button class="payment-large-left" id="openCostModal">
+                    <span class="payment-cost-label">Costo por persona</span>
+                    <span class="payment-cost-amount">$500<span class="payment-cost-currency">MXN</span></span>
+                </button>
 
-    <!-- ── Cost ────────────────────────────── -->
-    <section class="section">
-        <div class="cost-badge">
-            <span class="cost-label">Cooperación por persona</span>
-            <span class="cost-value">$500<span class="cost-currency">MXN</span></span>
+                <!-- Right: Payment Methods (2 Stacked Buttons) -->
+                <div class="payment-large-right">
+                    <a href="https://buy.stripe.com/test_fZucMY5Il0gt8uvcybaAw00" target="_blank" rel="noopener" class="payment-btn glass-btn">
+                        <span class="material-symbols-outlined">credit_card</span>
+                        Stripe
+                    </a>
+                    <button class="payment-btn glass-btn" id="openBankModal">
+                        <span class="material-symbols-outlined">account_balance</span>
+                        SPEI
+                    </button>
+                </div>
+
+            </div>
         </div>
     </section>
-
-    <!-- ── Two Payment Buttons ─────────────── -->
-    <section class="section">
-        <div class="dual-buttons">
-            <button class="dual-btn dual-btn--outline" id="openBankModal">
-                <span class="material-symbols-outlined">account_balance</span>
-                Datos bancarios
-            </button>
-            <a href="https://buy.stripe.com/test_fZucMY5Il0gt8uvcybaAw00" target="_blank" rel="noopener" class="dual-btn dual-btn--solid">
-                <span class="material-symbols-outlined">credit_card</span>
-                Pagar con Stripe
-            </a>
-        </div>
-    </section>
-
-
 
     <!-- ── Footer ──────────────────────────── -->
     <footer class="footer">
@@ -82,87 +94,90 @@
 
 </div>
 
-<!-- ── Bank Modal ──────────────────────────── -->
-<div class="modal-overlay" id="bankModalOverlay">
-    <div class="modal" id="bankModal">
-
-        <!-- Header -->
-        <div class="modal-header">
-            <h3 class="modal-title">Información de Pago</h3>
-            <button class="modal-close" id="closeBankModal">
+<!-- ── Bank Modal (Glassmorphism) ──────────────────────── -->
+<div class="bank-modal-overlay" id="bankModalOverlay">
+    <div class="bank-modal-container">
+        <div class="bank-modal-header">
+            <h3 class="bank-modal-title">Datos Bancarios</h3>
+            <button class="bank-modal-close" id="closeBankModal">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
 
-        <!-- Bank Fields -->
-        <div class="modal-body">
-            <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
-                <div class="bank-row-info">
-                    <span class="bank-field-label">Beneficiario</span>
-                    <span class="bank-field-value">Fernando Israel Rios Garcia</span>
+        <div class="bank-modal-body">
+            <!-- Bank Fields -->
+            <div class="bank-field-section">
+                <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Beneficiario</span>
+                        <span class="bank-field-value">Fernando Israel Rios Garcia</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                 </div>
-                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+
+                <div class="bank-row" data-copy="BBVA" data-field="bank">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Banco</span>
+                        <span class="bank-field-value">BBVA</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <div class="bank-row" data-copy="012680015013907881" data-field="account">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Número de cuenta</span>
+                        <span class="bank-field-value">0126 8001 5013 907881</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <div class="bank-row" data-copy="1614864" data-field="reference">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Referencia</span>
+                        <span class="bank-field-value">1614864</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
             </div>
 
-            <div class="bank-row" data-copy="BBVA" data-field="bank">
-                <div class="bank-row-info">
-                    <span class="bank-field-label">Banco</span>
-                    <span class="bank-field-value">BBVA</span>
-                </div>
-                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
-            </div>
-
-            <div class="bank-row" data-copy="012680015013907881" data-field="account">
-                <div class="bank-row-info">
-                    <span class="bank-field-label">Número de cuenta</span>
-                    <span class="bank-field-value">0126 8001 5013 907881</span>
-                </div>
-                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
-            </div>
-
-            <div class="bank-row" data-copy="1614864" data-field="reference">
-                <div class="bank-row-info">
-                    <span class="bank-field-label">Referencia</span>
-                    <span class="bank-field-value">1614864</span>
-                </div>
-                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
-            </div>
-
-            <!-- Concepto de Pago — editable -->
-            <div class="concept-section" id="conceptSection">
-                <div class="concept-closed" id="conceptClosed">
-                    <div class="bank-row" id="conceptToggleRow">
+            <!-- Fare Editor Section -->
+            <div class="fare-section" id="fareSection">
+                <div class="fare-closed" id="fareClosed">
+                    <div class="bank-row" id="fareToggleRow">
                         <div class="bank-row-info">
-                            <span class="bank-field-label">Concepto de pago</span>
-                            <span class="bank-field-value" id="conceptDisplay">Personalizar y copiar</span>
+                            <span class="bank-field-label">Concepto (Fare)</span>
+                            <span class="bank-field-value" id="fareDisplay">Personalizar y copiar</span>
                         </div>
                         <span class="material-symbols-outlined bank-row-icon">edit</span>
                     </div>
                 </div>
-                <div class="concept-open" id="conceptOpen">
-                    <div class="concept-edit-header">
-                        <span class="bank-field-label">Tu nombre para el concepto</span>
-                        <button class="concept-close-btn" id="conceptCloseBtn">
+                <div class="fare-open" id="fareOpen">
+                    <div class="fare-edit-header">
+                        <span class="bank-field-label">Información de transferencia</span>
+                        <button class="fare-close-btn" id="fareCloseBtn">
                             <span class="material-symbols-outlined" style="font-size:16px">close</span>
                         </button>
                     </div>
-                    <div class="concept-input-row">
-                        <span class="concept-prefix">BOLETO</span>
-                        <input
-                            type="text"
-                            id="conceptInput"
-                            placeholder="JUAN PEREZ"
-                            maxlength="33"
-                            autocomplete="off"
-                            autocorrect="off"
-                            autocapitalize="characters"
-                            spellcheck="false"
-                            enterkeyhint="done"
-                        >
+                    <div class="fare-input-group">
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">Nombre</label>
+                            <input type="text" id="fareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                        </div>
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">Apellido</label>
+                            <input type="text" id="fareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                        </div>
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">¿Cuántos fares? (1-17)</label>
+                            <input type="number" id="fareCount" placeholder="1" min="1" max="17" inputmode="numeric" enterkeyhint="done">
+                        </div>
                     </div>
-                    <div class="concept-footer">
-                        <span class="concept-counter" id="conceptCounter">7/40 caracteres (límite SPEI)</span>
-                        <button class="concept-copy-btn" id="conceptCopyBtn" disabled>Copiar</button>
+                    <div class="fare-preview">
+                        <span class="fare-preview-label">Concepto generado:</span>
+                        <span class="fare-preview-text" id="farePreviewText">JUAN PEREZ</span>
+                    </div>
+                    <div class="fare-footer">
+                        <button class="fare-copy-btn" id="fareCopyBtn" disabled>Copiar Concepto</button>
                     </div>
                 </div>
             </div>
@@ -172,6 +187,222 @@
 
 <!-- Copy Toast -->
 <div class="copy-toast" id="copyToast">¡Copiado!</div>
+
+<!-- ── Itinerary Modal (Glassmorphism) ──────────────────────── -->
+<div class="itinerary-modal-overlay" id="itineraryModalOverlay">
+    <div class="itinerary-modal-container">
+        <div class="itinerary-modal-header">
+            <h3 class="itinerary-modal-title">Itinerario del Evento</h3>
+            <button class="itinerary-modal-close" id="closeItineraryModal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="itinerary-modal-body">
+            <div class="itinerary-item">
+                <span class="itinerary-time">13:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Llegada y montaje</span>
+                    <span class="itinerary-detail">Insumos base, mesas, equipo técnico</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">14:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Llegada de invitados</span>
+                    <span class="itinerary-detail">Bienvenida y ubicación</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">15:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Recolección de carne asada</span>
+                    <span class="itinerary-detail">Pago a La Roja - Comida lista</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">15:00 - 16:30</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Comida</span>
+                    <span class="itinerary-detail">Presentación de fotos y trivia</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">17:00 - 18:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Pastel y charla</span>
+                    <span class="itinerary-detail">Mañanitas y convivencia</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">18:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Limpieza de mesas</span>
+                    <span class="itinerary-detail">Preparación para actividades</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">18:00 - 22:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Casino y juegos</span>
+                    <span class="itinerary-detail">Baraja, juegos de mesa, apuestas</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">22:00</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Fin de reunión general</span>
+                    <span class="itinerary-detail">Traslado de amigos a casa de Ricardo</span>
+                </div>
+            </div>
+
+            <div class="itinerary-item">
+                <span class="itinerary-time">22:00+</span>
+                <div class="itinerary-content">
+                    <span class="itinerary-activity">Alojamiento</span>
+                    <span class="itinerary-detail">Algunos amigos se quedan a dormir</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Cost Breakdown Modal (Glassmorphism) ──────────────────────── -->
+<div class="cost-modal-overlay" id="costModalOverlay">
+    <div class="cost-modal-container">
+        <div class="cost-modal-header">
+            <h3 class="cost-modal-title">Desglose de Costos</h3>
+            <button class="cost-modal-close" id="closeCostModal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="cost-modal-body">
+            <!-- VENUE -->
+            <div class="cost-category">
+                <h4 class="cost-category-title">Venue</h4>
+                <div class="cost-category-items">
+                    <div class="cost-item">
+                        <span class="cost-item-name">Lugar + Mesas, Sillas y Limpieza</span>
+                        <span class="cost-item-value">$1,500</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMIDA -->
+            <div class="cost-category">
+                <h4 class="cost-category-title">Comida</h4>
+                <div class="cost-category-items">
+                    <div class="cost-item">
+                        <div class="cost-item-info">
+                            <span class="cost-item-name">Carne Asada (6 kg)</span>
+                            <div class="cost-item-details">
+                                <span class="detail-line">• Diezmillo (1 kg)</span>
+                                <span class="detail-line">• Arrachera marinada (3 kg)</span>
+                                <span class="detail-line">• Selecta (2 kg)</span>
+                                <span class="detail-line">• Chistorra + Chorizo español</span>
+                                <span class="detail-line">• Complementos (cebollitas, nopales, chiles)</span>
+                            </div>
+                        </div>
+                        <span class="cost-item-value">$3,155</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Propina Asador</span>
+                        <span class="cost-item-value">$200</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Tortillas</span>
+                        <span class="cost-item-value">$71</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Papas tipo Lays</span>
+                        <span class="cost-item-value">$400</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BEBIDAS -->
+            <div class="cost-category">
+                <h4 class="cost-category-title">Bebidas</h4>
+                <div class="cost-category-items">
+                    <div class="cost-item">
+                        <span class="cost-item-name">Agua fresca</span>
+                        <span class="cost-item-value">$0</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Refrescos</span>
+                        <span class="cost-item-value">$430</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Agua simple (garrafón)</span>
+                        <span class="cost-item-value">$60</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Hielo</span>
+                        <span class="cost-item-value">$120</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POSTRE -->
+            <div class="cost-category">
+                <h4 class="cost-category-title">Postre</h4>
+                <div class="cost-category-items">
+                    <div class="cost-item">
+                        <span class="cost-item-name">Pastel (Selva Negra)</span>
+                        <span class="cost-item-value">$600</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXTRAS -->
+            <div class="cost-category">
+                <h4 class="cost-category-title">Extras</h4>
+                <div class="cost-category-items">
+                    <div class="cost-item">
+                        <span class="cost-item-name">Platos desechables</span>
+                        <span class="cost-item-value">$150</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Cubiertos</span>
+                        <span class="cost-item-value">$150</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Servilletas</span>
+                        <span class="cost-item-value">$60</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Bolsas para basura</span>
+                        <span class="cost-item-value">$45</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Tacos extra para Ricardo</span>
+                        <span class="cost-item-value">$30</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOTAL -->
+            <div class="cost-total-section">
+                <div class="cost-total-row">
+                    <span class="cost-total-label">Total</span>
+                    <span class="cost-total-value">$6,771</span>
+                </div>
+                <div class="cost-per-person">
+                    <span class="cost-per-person-label">Por persona (÷17)</span>
+                    <span class="cost-per-person-value">$398</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 (function() {
@@ -238,13 +469,14 @@
         });
     }
 
-    // ── Bank Modal ──
-    var overlay = document.getElementById('bankModalOverlay');
-    var openBtn = document.getElementById('openBankModal');
-    var closeBtn = document.getElementById('closeBankModal');
+    // ── Bank Modal (Glassmorphism) ──
+    var bankOverlay = document.getElementById('bankModalOverlay');
+    var openBankBtn = document.getElementById('openBankModal');
+    var openBankBtn2 = document.getElementById('openBankModal2');
+    var closeBankBtn = document.getElementById('closeBankModal');
     var scrollYBefore = 0;
 
-    function openModal() {
+    function openBankModal() {
         scrollYBefore = window.scrollY;
         document.body.style.position = 'fixed';
         document.body.style.top = '-' + scrollYBefore + 'px';
@@ -252,16 +484,19 @@
         document.body.style.right = '0';
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
-        overlay.classList.add('open');
+        bankOverlay.classList.add('open');
+        window.location.hash = 'transferencia';
     }
 
-    function closeModal() {
-        overlay.classList.remove('open');
-        // Reset concept section
-        conceptOpen.style.display = 'none';
-        conceptClosed.style.display = '';
-        conceptInput.value = '';
-        updateCounter();
+    function closeBankModal() {
+        bankOverlay.classList.remove('open');
+        // Reset fare section
+        fareOpen.style.display = 'none';
+        fareClosed.style.display = '';
+        document.getElementById('fareFirstName').value = '';
+        document.getElementById('fareLastName').value = '';
+        document.getElementById('fareCount').value = '';
+        updateFarePreview();
         // Unlock body
         var savedY = parseInt(document.body.style.top || '0', 10) * -1;
         document.body.style.position = '';
@@ -271,22 +506,37 @@
         document.body.style.width = '';
         document.body.style.overflowY = '';
         window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (window.location.hash === '#transferencia') {
+            history.replaceState(null, null, ' ');
+        }
     }
 
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', function() {
+    openBankBtn.addEventListener('click', function() {
         triggerHaptic();
-        closeModal();
+        openBankModal();
     });
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
+
+    if (openBankBtn2) {
+        openBankBtn2.addEventListener('click', function() {
             triggerHaptic();
-            closeModal();
+            openBankModal();
+        });
+    }
+
+    closeBankBtn.addEventListener('click', function() {
+        triggerHaptic();
+        closeBankModal();
+    });
+
+    bankOverlay.addEventListener('click', function(e) {
+        if (e.target === bankOverlay) {
+            triggerHaptic();
+            closeBankModal();
         }
     });
 
     // ── Bank Row Click Handlers ──
-    var bankRows = document.querySelectorAll('.bank-row:not(#conceptToggleRow)');
+    var bankRows = document.querySelectorAll('.bank-row:not(#fareToggleRow)');
 
     bankRows.forEach(function(row) {
         row.addEventListener('click', function() {
@@ -311,87 +561,93 @@
         });
     });
 
-    // ── Concept / Concepto de Pago ──
-    var conceptClosed = document.getElementById('conceptClosed');
-    var conceptOpen = document.getElementById('conceptOpen');
-    var conceptToggleRow = document.getElementById('conceptToggleRow');
-    var conceptCloseBtn = document.getElementById('conceptCloseBtn');
-    var conceptInput = document.getElementById('conceptInput');
-    var conceptCounter = document.getElementById('conceptCounter');
-    var conceptCopyBtn = document.getElementById('conceptCopyBtn');
-    var conceptDisplay = document.getElementById('conceptDisplay');
+    // ── Fare Editor Logic ──
+    var fareClosed = document.getElementById('fareClosed');
+    var fareOpen = document.getElementById('fareOpen');
+    var fareToggleRow = document.getElementById('fareToggleRow');
+    var fareCloseBtn = document.getElementById('fareCloseBtn');
+    var fareFirstName = document.getElementById('fareFirstName');
+    var fareLastName = document.getElementById('fareLastName');
+    var fareCount = document.getElementById('fareCount');
+    var fareCopyBtn = document.getElementById('fareCopyBtn');
+    var fareDisplay = document.getElementById('fareDisplay');
+    var farePreviewText = document.getElementById('farePreviewText');
 
-    function getConceptFull() {
-        return ('BOLETO ' + conceptInput.value).trim();
-    }
-
-    function updateCounter() {
-        var len = getConceptFull().length;
-        conceptCounter.textContent = len + '/40 caracteres (límite SPEI)';
-        if (len >= 40) {
-            conceptCounter.classList.add('at-limit');
-        } else {
-            conceptCounter.classList.remove('at-limit');
+    function generateFareConcept() {
+        var firstName = fareFirstName.value.trim().toUpperCase();
+        var lastName = fareLastName.value.trim().toUpperCase();
+        var count = parseInt(fareCount.value || '1', 10);
+        
+        if (!firstName || !lastName) return '';
+        
+        var concept = 'FARE ' + firstName + ' ' + lastName;
+        if (count > 1) {
+            concept += ' ' + count + '+';
         }
-        conceptCopyBtn.disabled = !conceptInput.value.trim();
+        return concept;
     }
 
-    conceptToggleRow.addEventListener('click', function() {
+    function updateFarePreview() {
+        var concept = generateFareConcept();
+        farePreviewText.textContent = concept || '(incompleto)';
+        fareCopyBtn.disabled = !concept;
+    }
+
+    fareToggleRow.addEventListener('click', function() {
         triggerHaptic();
-        conceptClosed.style.display = 'none';
-        conceptOpen.style.display = '';
-        updateCounter();
+        fareClosed.style.display = 'none';
+        fareOpen.style.display = '';
+        updateFarePreview();
         setTimeout(function() {
-            conceptInput.focus();
+            fareFirstName.focus();
         }, 100);
     });
 
-    conceptCloseBtn.addEventListener('click', function() {
+    fareCloseBtn.addEventListener('click', function() {
         triggerHaptic();
-        conceptOpen.style.display = 'none';
-        conceptClosed.style.display = '';
-        conceptInput.value = '';
-        updateCounter();
+        fareOpen.style.display = 'none';
+        fareClosed.style.display = '';
+        fareFirstName.value = '';
+        fareLastName.value = '';
+        fareCount.value = '';
+        updateFarePreview();
     });
 
-    conceptInput.addEventListener('input', function() {
+    fareFirstName.addEventListener('input', function() {
         this.value = this.value.toUpperCase();
-        updateCounter();
+        updateFarePreview();
     });
 
-    conceptInput.addEventListener('focus', function() {
-        setTimeout(function() {
-            document.documentElement.scrollLeft = 0;
-            document.body.scrollLeft = 0;
-        }, 300);
+    fareLastName.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+        updateFarePreview();
     });
 
-    conceptInput.addEventListener('blur', function() {
-        setTimeout(function() {
-            document.documentElement.scrollLeft = 0;
-            document.body.scrollLeft = 0;
-        }, 100);
+    fareCount.addEventListener('input', function() {
+        updateFarePreview();
     });
 
-    conceptCopyBtn.addEventListener('click', function() {
-        var fullConcept = getConceptFull();
+    fareCopyBtn.addEventListener('click', function() {
+        var concept = generateFareConcept();
+        if (!concept) return;
+
         triggerHaptic();
-        copyText(fullConcept).then(function() {
-            conceptDisplay.textContent = '¡COPIADO!';
-            conceptDisplay.classList.add('copied');
-            showToast('Concepto copiado: ' + fullConcept);
+        copyText(concept).then(function() {
+            fareDisplay.textContent = '¡COPIADO!';
+            fareDisplay.classList.add('copied');
+            showToast('Concepto copiado: ' + concept);
 
             // Close editor
-            conceptOpen.style.display = 'none';
-            conceptClosed.style.display = '';
-            conceptInput.value = '';
-            updateCounter();
+            fareOpen.style.display = 'none';
+            fareClosed.style.display = '';
+            fareFirstName.value = '';
+            fareLastName.value = '';
+            fareCount.value = '';
+            updateFarePreview();
 
             setTimeout(function() {
-                conceptDisplay.textContent = 'Personalizar y copiar';
-                conceptDisplay.classList.remove('copied');
-                document.documentElement.scrollLeft = 0;
-                document.body.scrollLeft = 0;
+                fareDisplay.textContent = 'Personalizar y copiar';
+                fareDisplay.classList.remove('copied');
             }, 2000);
         }).catch(function() {
             showToast('Error al copiar');
@@ -399,8 +655,106 @@
     });
 
     // Initialize
-    conceptOpen.style.display = 'none';
-    updateCounter();
+    fareOpen.style.display = 'none';
+    updateFarePreview();
+
+    // ── Itinerary Modal (Glassmorphism) ──
+    var itineraryOverlay = document.getElementById('itineraryModalOverlay');
+    var openItineraryBtn = document.getElementById('openItineraryModal');
+    var closeItineraryBtn = document.getElementById('closeItineraryModal');
+
+    function openItineraryModal() {
+        scrollYBefore = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + scrollYBefore + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflowY = 'scroll';
+        itineraryOverlay.classList.add('open');
+        window.location.hash = 'itinerario';
+    }
+
+    function closeItineraryModal() {
+        itineraryOverlay.classList.remove('open');
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (window.location.hash === '#itinerario') {
+            history.replaceState(null, null, ' ');
+        }
+    }
+
+    openItineraryBtn.addEventListener('click', function() {
+        triggerHaptic();
+        openItineraryModal();
+    });
+
+    closeItineraryBtn.addEventListener('click', function() {
+        triggerHaptic();
+        closeItineraryModal();
+    });
+
+    itineraryOverlay.addEventListener('click', function(e) {
+        if (e.target === itineraryOverlay) {
+            triggerHaptic();
+            closeItineraryModal();
+        }
+    });
+
+    // ── Cost Modal (Glassmorphism) ──
+    var costOverlay = document.getElementById('costModalOverlay');
+    var openCostBtn = document.getElementById('openCostModal');
+    var closeCostBtn = document.getElementById('closeCostModal');
+
+    function openCostModal() {
+        scrollYBefore = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + scrollYBefore + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflowY = 'scroll';
+        costOverlay.classList.add('open');
+        window.location.hash = 'costos';
+    }
+
+    function closeCostModal() {
+        costOverlay.classList.remove('open');
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (window.location.hash === '#costos') {
+            history.replaceState(null, null, ' ');
+        }
+    }
+
+    openCostBtn.addEventListener('click', function() {
+        triggerHaptic();
+        openCostModal();
+    });
+
+    closeCostBtn.addEventListener('click', function() {
+        triggerHaptic();
+        closeCostModal();
+    });
+
+    costOverlay.addEventListener('click', function(e) {
+        if (e.target === costOverlay) {
+            triggerHaptic();
+            closeCostModal();
+        }
+    });
 
     // ── Intersection Observer for fade-in ──
     if ('IntersectionObserver' in window) {
@@ -418,6 +772,38 @@
             observer.observe(section);
         });
     }
+
+    // ── Auto-open modals from URL hash ──
+    function checkHashAndOpenModal() {
+        var hash = window.location.hash.substring(1); // Remove the #
+        if (hash === 'itinerario') {
+            openItineraryModal();
+        } else if (hash === 'costos') {
+            openCostModal();
+        } else if (hash === 'transferencia') {
+            openBankModal();
+        }
+    }
+
+    // Check on page load
+    checkHashAndOpenModal();
+
+    // Check when hash changes (browser back/forward)
+    window.addEventListener('hashchange', function() {
+        var hash = window.location.hash.substring(1);
+        if (hash === 'itinerario') {
+            openItineraryModal();
+        } else if (hash === 'costos') {
+            openCostModal();
+        } else if (hash === 'transferencia') {
+            openBankModal();
+        } else {
+            // Close all modals if no hash
+            if (itineraryOverlay.classList.contains('open')) closeItineraryModal();
+            if (costOverlay.classList.contains('open')) closeCostModal();
+            if (bankOverlay.classList.contains('open')) closeBankModal();
+        }
+    });
 })();
 </script>
 

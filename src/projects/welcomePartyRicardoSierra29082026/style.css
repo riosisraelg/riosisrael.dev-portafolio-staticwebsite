@@ -209,6 +209,30 @@ body {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    cursor: pointer;
+    transition: all var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: var(--font);
+    color: var(--fg);
+    background: none;
+    border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .hero-date {
+        background: none;
+        border: none;
+    }
+}
+
+.hero-date:hover {
+    opacity: 0.7;
+    transform: translateY(-2px);
+}
+
+.hero-date:active {
+    transform: scale(0.98);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -225,6 +249,9 @@ body {
     margin-top: 4px;
     display: inline-block;
 }
+
+/* ── Hero Itinerary Hint ──────────────── */
+/* Deprecated - moved to hero-date button */
 
 /* ── Section Titles ───────────────────── */
 .section {
@@ -455,37 +482,187 @@ body {
 }
 
 /* ── Cost Badge ───────────────────────── */
-.cost-badge {
+/* Deprecated - removed in favor of payment-large-card */
+
+/* ── Section Cards (Glassmorphism - More Opaque) ─────────────── */
+.section-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+@media (prefers-color-scheme: dark) {
+    .section-card {
+        background: rgba(20, 20, 20, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* ── Attendance Section ───────────────── */
+.attendance-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.attendance-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    border: 1px solid var(--border);
-    margin-top: 12px;
 }
 
-.cost-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--gray-500);
+.attendance-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.attendance-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--success);
     letter-spacing: 0.1em;
 }
 
-.cost-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+.attendance-description {
+    font-size: 0.8rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
 }
 
-.cost-currency {
-    font-size: 0.75rem;
+.attendance-btn {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    /* Inherits all styles from .glass-btn */
+}
+
+.confirmation-btn .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* ── Payment Section (Large Card) ─────── */
+.payment-large-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+@media (max-width: 480px) {
+    .payment-large-card {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .section-card {
+        padding: 20px 16px;
+    }
+    
+    .payment-cost-amount {
+        font-size: 1.8rem;
+    }
+    
+    .payment-large-left {
+        padding: 16px 12px;
+    }
+    
+    .payment-btn {
+        padding: 12px 16px;
+        font-size: 0.75rem;
+    }
+}
+
+.payment-large-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    padding: 20px 24px;
+    cursor: pointer;
+    font-family: var(--font);
+    color: var(--fg);
+    transition: all var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+@media (prefers-color-scheme: dark) {
+    .payment-large-left {
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+}
+
+.payment-large-left:hover {
+    opacity: 0.7;
+    transform: translateY(-2px);
+}
+
+.payment-large-left:active {
+    transform: scale(0.98);
+}
+
+.payment-cost-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.payment-cost-amount {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.payment-cost-currency {
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--gray-500);
     margin-left: 4px;
 }
 
-/* ── Primary CTA — Invitation Button ──── */
+.payment-large-right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    font-size: 0.85rem;
+    width: 100%;
+    /* Inherits all styles from .glass-btn */
+}
+
+.payment-btn .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* ── Payment Cards (OLD - Deprecated) ── */
 .primary-cta {
     padding-top: 32px;
 }
@@ -587,6 +764,56 @@ body {
 
 .dual-btn .material-symbols-outlined {
     font-size: 20px;
+}
+
+/* ── Glass Button (Base) — Same style as hero-date ──────────────── */
+.glass-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    line-height: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+    .glass-btn {
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+}
+
+.glass-btn:hover {
+    opacity: 0.7;
+    transform: translateY(-2px);
+}
+
+.glass-btn:active {
+    transform: scale(0.98);
+}
+
+.glass-btn .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ── Modal ────────────────────────────── */
@@ -778,6 +1005,762 @@ body {
     height: 1px;
     background: var(--border);
     margin: 40px 0 0;
+}
+
+/* ── Itinerary Modal (Glassmorphism) ──── */
+.itinerary-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+.itinerary-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.itinerary-modal-container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transform: translateY(100%);
+    transition: transform var(--transition);
+}
+
+.itinerary-modal-overlay.open .itinerary-modal-container {
+    transform: translateY(0);
+}
+
+@media (prefers-color-scheme: dark) {
+    .itinerary-modal-container {
+        background: rgba(20, 20, 20, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+}
+
+.itinerary-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .itinerary-modal-header {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.itinerary-modal-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.itinerary-modal-close {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.itinerary-modal-close:hover {
+    color: var(--fg);
+}
+
+.itinerary-modal-close .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.itinerary-modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    padding: 0;
+}
+
+/* ── Itinerary Items ──────────────────── */
+.itinerary-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    align-items: start;
+}
+
+@media (prefers-color-scheme: dark) {
+    .itinerary-item {
+        border-bottom-color: rgba(255, 255, 255, 0.03);
+    }
+}
+
+.itinerary-item:last-child {
+    border-bottom: none;
+}
+
+.itinerary-time {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    text-align: left;
+}
+
+.itinerary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itinerary-activity {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.itinerary-detail {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    line-height: 1.4;
+}
+
+/* ── Bank Modal (Glassmorphism) ────────── */
+.bank-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+.bank-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bank-modal-container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transform: translateY(100%);
+    transition: transform var(--transition);
+}
+
+.bank-modal-overlay.open .bank-modal-container {
+    transform: translateY(0);
+}
+
+@media (prefers-color-scheme: dark) {
+    .bank-modal-container {
+        background: rgba(20, 20, 20, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+}
+
+.bank-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .bank-modal-header {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.bank-modal-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.bank-modal-close {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.bank-modal-close:hover {
+    color: var(--fg);
+}
+
+.bank-modal-close .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.bank-modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    padding: 0;
+}
+
+/* ── Bank Field Section ───────────────── */
+.bank-field-section {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .bank-field-section {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* ── Bank Rows ────────────────────────── */
+.bank-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    transition: background-color var(--transition);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+@media (prefers-color-scheme: dark) {
+    .bank-row {
+        border-bottom-color: rgba(255, 255, 255, 0.03);
+    }
+}
+
+.bank-row:last-child {
+    border-bottom: none;
+}
+
+.bank-row:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+@media (prefers-color-scheme: dark) {
+    .bank-row:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+}
+
+.bank-row:active {
+    transform: scale(0.98);
+}
+
+.bank-row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.bank-field-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.bank-field-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: color var(--transition);
+}
+
+.bank-field-value.copied {
+    color: var(--success);
+}
+
+.bank-row-icon {
+    flex-shrink: 0;
+    margin-left: 12px;
+    color: var(--gray-400);
+    font-size: 18px;
+    transition: color var(--transition);
+}
+
+.bank-row:hover .bank-row-icon {
+    color: var(--fg);
+}
+
+/* ── Fare Section ─────────────────────── */
+.fare-section {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .fare-section {
+        border-top-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.fare-closed {
+}
+
+.fare-open {
+    padding: 16px 24px;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+@media (prefers-color-scheme: dark) {
+    .fare-open {
+        background: rgba(255, 255, 255, 0.02);
+    }
+}
+
+.fare-edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.fare-close-btn {
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: color var(--transition);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.fare-close-btn:hover {
+    color: var(--fg);
+}
+
+.fare-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.fare-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fare-input-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.fare-input-row input {
+    background: var(--bg);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 12px;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fg);
+    border-radius: 8px;
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .fare-input-row input {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.fare-input-row input:focus {
+    border-color: var(--fg);
+}
+
+.fare-input-row input::placeholder {
+    color: var(--gray-400);
+}
+
+.fare-preview {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .fare-preview {
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.fare-preview-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.fare-preview-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--fg);
+    word-break: break-all;
+}
+
+.fare-footer {
+    display: flex;
+    gap: 12px;
+}
+
+.fare-copy-btn {
+    flex: 1;
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    padding: 10px 16px;
+    font-family: var(--font);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: opacity var(--transition);
+}
+
+.fare-copy-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.fare-copy-btn:not(:disabled):hover {
+    opacity: 0.88;
+}
+
+/* ── Cost Modal (Glassmorphism) ────────── */
+.cost-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+.cost-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cost-modal-container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transform: translateY(100%);
+    transition: transform var(--transition);
+}
+
+.cost-modal-overlay.open .cost-modal-container {
+    transform: translateY(0);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-modal-container {
+        background: rgba(20, 20, 20, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+}
+
+.cost-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-modal-header {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.cost-modal-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.cost-modal-close {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.cost-modal-close:hover {
+    color: var(--fg);
+}
+
+.cost-modal-close .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.cost-modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    padding: 0;
+}
+
+/* ── Cost Categories ──────────────────── */
+.cost-category {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-category {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.cost-category:last-child {
+    border-bottom: none;
+}
+
+.cost-category-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    padding: 16px 24px 12px;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-category-title {
+        background: rgba(255, 255, 255, 0.02);
+    }
+}
+
+.cost-category-items {
+    padding: 0;
+}
+
+/* ── Cost Items ───────────────────────── */
+.cost-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    gap: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-item {
+        border-bottom-color: rgba(255, 255, 255, 0.03);
+    }
+}
+
+.cost-item:last-child {
+    border-bottom: none;
+}
+
+.cost-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.cost-item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.cost-item-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--fg);
+    white-space: nowrap;
+    text-align: right;
+}
+
+.cost-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.detail-line {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    line-height: 1.3;
+}
+
+/* ── Total Section ────────────────────── */
+.cost-total-section {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 20px 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-total-section {
+        background: rgba(255, 255, 255, 0.03);
+        border-top-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.cost-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.cost-total-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+}
+
+.cost-total-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+}
+
+.cost-per-person {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cost-per-person {
+        border-top-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.cost-per-person-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+}
+
+.cost-per-person-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--fg);
 }
 
 /* ── Footer ───────────────────────────── */
