@@ -235,20 +235,35 @@
 
         <div class="codi-modal-body">
             <div class="codi-instructions">
-                Escanea el código QR desde la app de tu banco, o asocia el siguiente número telefónico.
+                Escanea el código QR desde la app de tu banco, o asocia los siguientes datos de referencia.
             </div>
 
             <!-- QR Code -->
             <div class="codi-qr-container">
-                <img src="codi-qr.png" alt="Código QR CODI" class="codi-qr-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'><rect width=\'200\' height=\'200\' fill=\'%23f0f0f0\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'14\' fill=\'%23a0a0a0\' text-anchor=\'middle\' dy=\'.3em\'>QR CODI</text></svg>'">
+                <img src="codi-qr.jpeg" alt="Código QR CODI" class="codi-qr-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'><rect width=\'200\' height=\'200\' fill=\'%23f0f0f0\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'14\' fill=\'%23a0a0a0\' text-anchor=\'middle\' dy=\'.3em\'>QR CODI</text></svg>'">
             </div>
 
-            <!-- Phone Number -->
+            <!-- CODI Data -->
             <div class="bank-field-section" style="margin-top: 24px;">
-                <div class="bank-row" data-copy="4421604049" data-field="phone">
+                <div class="bank-row">
                     <div class="bank-row-info">
-                        <span class="bank-field-label">Teléfono (CODI)</span>
-                        <span class="bank-field-value">442 160 4049</span>
+                        <span class="bank-field-label">Banco</span>
+                        <span class="bank-field-value">BBVA</span>
+                    </div>
+                </div>
+
+                <div class="bank-row" data-copy="1614864" data-field="reference">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Referencia</span>
+                        <span class="bank-field-value">1614864</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+                
+                <div class="bank-row" data-copy="Fare" data-field="concept">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Concepto / Motivo</span>
+                        <span class="bank-field-value">Fare</span>
                     </div>
                     <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                 </div>
