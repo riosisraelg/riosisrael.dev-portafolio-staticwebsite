@@ -22,15 +22,15 @@
 
 <div class="page-container">
 
+    <!-- Floating Orbs Background (Bleeding) -->
+    <div class="hero-orbs" id="heroOrbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
     <!-- ── Hero ────────────────────────────── -->
     <section class="hero" id="heroSection">
-        <!-- Floating Orbs Background -->
-        <div class="hero-orbs" id="heroOrbs">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-        </div>
-
         <!-- Glassmorphism Card -->
         <div class="hero-glass-card" id="heroGlassCard">
             <div class="hero-flag">🇩🇪 🇲🇽</div>
@@ -43,20 +43,44 @@
         </div>
     </section>
 
-    <!-- ── Attendance Card ────────────────────── -->
+    <!-- ── Attendance Section (Two Columns) ────────── -->
     <section class="section attendance-section">
-        <div class="section-card glass-card">
-            <div class="attendance-card">
+        <div class="section-card glass-card attendance-grid">
+            
+            <!-- Left Column: Instructions & Docs -->
+            <div class="attendance-info">
                 <div class="attendance-header">
                     <span class="attendance-label">Confirmación de Asistencia</span>
-                    <span class="attendance-badge">✓ Obligatoria</span>
                 </div>
-                <p class="attendance-description">Confirma tu asistencia en Apple Invites o con tu correo.</p>
-                <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="attendance-btn glass-btn">
+                <p class="attendance-description">
+                    Tu confirmación es esencial para que podamos contemplar los costos finales, asegurar los lugares y planear las dinámicas de la fiesta.
+                </p>
+                <div class="attendance-docs">
+                    <a href="https://support.apple.com/es-mx/guide/iphone/iph7b4c6e447/ios" target="_blank" rel="noopener" class="doc-card">
+                        <span class="material-symbols-outlined doc-icon">phone_iphone</span>
+                        <div class="doc-text">
+                            <span class="doc-title">Usuarios Apple</span>
+                            <span class="doc-subtitle">Cómo usar Apple Invites</span>
+                        </div>
+                    </a>
+                    <a href="https://support.apple.com/es-mx/105151" target="_blank" rel="noopener" class="doc-card">
+                        <span class="material-symbols-outlined doc-icon">android</span>
+                        <div class="doc-text">
+                            <span class="doc-title">Usuarios Android</span>
+                            <span class="doc-subtitle">Unirse vía Correo Electrónico</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Big CTA -->
+            <div class="attendance-action">
+                <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="attendance-btn glass-btn pulse-btn">
                     <span class="material-symbols-outlined">person_add</span>
-                    Confirmar
+                    Confirmar Ahora
                 </a>
             </div>
+
         </div>
     </section>
 
@@ -71,16 +95,27 @@
                     <span class="payment-cost-amount">$500<span class="payment-cost-currency">MXN</span></span>
                 </button>
 
-                <!-- Right: Payment Methods (2 Stacked Buttons) -->
+                <!-- Right: Payment Methods -->
                 <div class="payment-large-right">
-                    <a href="https://buy.stripe.com/test_fZucMY5Il0gt8uvcybaAw00" target="_blank" rel="noopener" class="payment-btn glass-btn">
+                    
+                    <!-- Tarjeta (Stripe) -->
+                    <a href="https://buy.stripe.com/test_fZucMY5Il0gt8uvcybaAw00" target="_blank" rel="noopener" class="payment-btn glass-btn stripe-btn">
                         <span class="material-symbols-outlined">credit_card</span>
-                        Stripe
+                        Tarjeta
                     </a>
-                    <button class="payment-btn glass-btn" id="openBankModal">
-                        <span class="material-symbols-outlined">account_balance</span>
-                        SPEI
-                    </button>
+
+                    <!-- Efectivo (Dynamic SPEI / CODI) -->
+                    <div class="efectivo-container">
+                        <button class="efectivo-btn glass-btn" id="openBankModal" data-type="spei">
+                            <span class="material-symbols-outlined">account_balance</span>
+                            <span class="efectivo-label">SPEI</span>
+                        </button>
+                        <button class="efectivo-btn glass-btn" id="openCodiModal" data-type="codi">
+                            <span class="material-symbols-outlined">qr_code_scanner</span>
+                            <span class="efectivo-label">CODI</span>
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
@@ -179,6 +214,40 @@
                     <div class="fare-footer">
                         <button class="fare-copy-btn" id="fareCopyBtn" disabled>Copiar Concepto</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── CODI Modal (Glassmorphism) ──────────────────────── -->
+<div class="codi-modal-overlay" id="codiModalOverlay">
+    <div class="codi-modal-container">
+        <div class="codi-modal-header">
+            <h3 class="codi-modal-title">Pago con CODI</h3>
+            <button class="codi-modal-close" id="closeCodiModal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="codi-modal-body">
+            <div class="codi-instructions">
+                Escanea el código QR desde la app de tu banco, o asocia el siguiente número telefónico.
+            </div>
+
+            <!-- QR Code -->
+            <div class="codi-qr-container">
+                <img src="codi-qr.png" alt="Código QR CODI" class="codi-qr-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'><rect width=\'200\' height=\'200\' fill=\'%23f0f0f0\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'14\' fill=\'%23a0a0a0\' text-anchor=\'middle\' dy=\'.3em\'>QR CODI</text></svg>'">
+            </div>
+
+            <!-- Phone Number -->
+            <div class="bank-field-section" style="margin-top: 24px;">
+                <div class="bank-row" data-copy="4421604049" data-field="phone">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Teléfono (CODI)</span>
+                        <span class="bank-field-value">442 160 4049</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                 </div>
             </div>
         </div>
@@ -444,30 +513,46 @@
         return Promise.resolve();
     }
 
-    // ── Parallax Hero ──
+    // ── Parallax Mouse & Scroll ──
     var heroSection = document.getElementById('heroSection');
     var heroOrbs = document.getElementById('heroOrbs');
     var heroGlassCard = document.getElementById('heroGlassCard');
 
-    if (heroSection && heroOrbs && heroGlassCard) {
+    var currentX = 0, currentY = 0;
+    var scrollY = window.scrollY;
+    
+    function renderParallax() {
+        if (heroOrbs) {
+            heroOrbs.style.transform = 'translate3d(' + (currentX * -15) + 'px, ' + ((currentY * -15) + (scrollY * 0.4)) + 'px, 0)';
+        }
+        if (heroGlassCard) {
+            heroGlassCard.style.transform = 'translate3d(' + (currentX * 10) + 'px, ' + (currentY * 10) + 'px, 0) scale(1.02)';
+        }
+    }
+
+    if (heroSection) {
         heroSection.addEventListener('mousemove', function(e) {
             var rect = heroSection.getBoundingClientRect();
-            // Calculate mouse position relative to the center of the hero section (-1 to 1)
-            var x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-            var y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-            
-            // Move orbs slightly opposite to the mouse
-            heroOrbs.style.transform = 'translate3d(' + (x * -15) + 'px, ' + (y * -15) + 'px, 0)';
-            
-            // Move glass card slightly towards the mouse to create depth
-            heroGlassCard.style.transform = 'translate3d(' + (x * 10) + 'px, ' + (y * 10) + 'px, 0) scale(1.02)';
+            currentX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+            currentY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+            renderParallax();
         });
 
         heroSection.addEventListener('mouseleave', function() {
-            heroOrbs.style.transform = 'translate3d(0, 0, 0)';
-            heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
+            currentX = 0;
+            currentY = 0;
+            renderParallax();
+            if (heroGlassCard) heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
         });
     }
+
+    window.addEventListener('scroll', function() {
+        scrollY = window.scrollY;
+        // Optimization: only render if we are near the top
+        if (scrollY < window.innerHeight) {
+            window.requestAnimationFrame(renderParallax);
+        }
+    });
 
     // ── Bank Modal (Glassmorphism) ──
     var bankOverlay = document.getElementById('bankModalOverlay');
@@ -520,6 +605,74 @@
         openBankBtn2.addEventListener('click', function() {
             triggerHaptic();
             openBankModal();
+        });
+    }
+
+    // Dynamic Efectivo Buttons (SPEI / CODI) Focus Effect
+    var efectivoBtns = document.querySelectorAll('.efectivo-btn');
+    efectivoBtns.forEach(function(btn) {
+        btn.addEventListener('mouseenter', function() {
+            efectivoBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+        btn.addEventListener('click', function() {
+            efectivoBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // ── CODI Modal ──
+    var codiOverlay = document.getElementById('codiModalOverlay');
+    var openCodiBtn = document.getElementById('openCodiModal');
+    var closeCodiBtn = document.getElementById('closeCodiModal');
+
+    function openCodiModal() {
+        scrollYBefore = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + scrollYBefore + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflowY = 'scroll';
+        codiOverlay.classList.add('open');
+        window.location.hash = 'codi';
+    }
+
+    function closeCodiModal() {
+        codiOverlay.classList.remove('open');
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (window.location.hash === '#codi') {
+            history.replaceState(null, null, ' ');
+        }
+    }
+
+    if (openCodiBtn) {
+        openCodiBtn.addEventListener('click', function() {
+            triggerHaptic();
+            openCodiModal();
+        });
+    }
+
+    if (closeCodiBtn) {
+        closeCodiBtn.addEventListener('click', function() {
+            triggerHaptic();
+            closeCodiModal();
+        });
+    }
+
+    if (codiOverlay) {
+        codiOverlay.addEventListener('click', function(e) {
+            if (e.target === codiOverlay) {
+                triggerHaptic();
+                closeCodiModal();
+            }
         });
     }
 
