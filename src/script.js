@@ -332,6 +332,9 @@ if (cmdInput) {
             } else if (cmd === 'candle') {
                 outputHtml += `<br>Navigating to /projects/candle...`;
                 setTimeout(() => window.location.href = '/projects/candle/', 500);
+            } else if (cmd === 'wpf') {
+                outputHtml += `<br>Navigating to /projects/welcomePartyRicardoSierra29082026...`;
+                setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
             } else {
                 outputHtml += `bash: ${cmd}: command not found`;
             }
