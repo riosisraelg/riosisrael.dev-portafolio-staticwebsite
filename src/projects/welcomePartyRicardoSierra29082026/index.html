@@ -935,6 +935,8 @@
             openCostModal();
         } else if (hash === 'transferencia') {
             openBankModal();
+        } else if (hash === 'codi') {
+            openCodiModal();
         }
     }
 
@@ -950,11 +952,14 @@
             openCostModal();
         } else if (hash === 'transferencia') {
             openBankModal();
+        } else if (hash === 'codi') {
+            openCodiModal();
         } else {
             // Close all modals if no hash
             if (itineraryOverlay.classList.contains('open')) closeItineraryModal();
             if (costOverlay.classList.contains('open')) closeCostModal();
             if (bankOverlay.classList.contains('open')) closeBankModal();
+            if (codiOverlay.classList.contains('open')) closeCodiModal();
         }
     });
 })();
