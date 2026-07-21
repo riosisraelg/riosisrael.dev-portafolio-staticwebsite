@@ -22,13 +22,23 @@
 <div class="page-container">
 
     <!-- ── Hero ────────────────────────────── -->
-    <section class="hero">
-        <div class="hero-flag">🇩🇪 🇲🇽</div>
-        <h1 class="hero-title">Willkommen zurück,<br>Ricardo</h1>
-        <p class="hero-subtitle">Fiesta de bienvenida</p>
-        <div class="hero-date">
-            Sábado 29 de Agosto de 2026<br>
-            <span style="font-size: 0.9em; opacity: 0.9; margin-top: 4px; display: inline-block;">15:00 — 22:00 hrs CST (GMT-6)</span>
+    <section class="hero" id="heroSection">
+        <!-- Floating Orbs Background -->
+        <div class="hero-orbs" id="heroOrbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+
+        <!-- Glassmorphism Card -->
+        <div class="hero-glass-card" id="heroGlassCard">
+            <div class="hero-flag">🇩🇪 🇲🇽</div>
+            <h1 class="hero-title">Willkommen zurück,<br>Ricardo</h1>
+            <p class="hero-subtitle">Fiesta de bienvenida</p>
+            <div class="hero-date">
+                Sábado 29 de Agosto de 2026<br>
+                <span class="hero-time">15:00 — 22:00 hrs CST (GMT-6)</span>
+            </div>
         </div>
     </section>
 
@@ -201,6 +211,31 @@
         document.execCommand('copy');
         document.body.removeChild(ta);
         return Promise.resolve();
+    }
+
+    // ── Parallax Hero ──
+    var heroSection = document.getElementById('heroSection');
+    var heroOrbs = document.getElementById('heroOrbs');
+    var heroGlassCard = document.getElementById('heroGlassCard');
+
+    if (heroSection && heroOrbs && heroGlassCard) {
+        heroSection.addEventListener('mousemove', function(e) {
+            var rect = heroSection.getBoundingClientRect();
+            // Calculate mouse position relative to the center of the hero section (-1 to 1)
+            var x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+            var y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+            
+            // Move orbs slightly opposite to the mouse
+            heroOrbs.style.transform = 'translate3d(' + (x * -15) + 'px, ' + (y * -15) + 'px, 0)';
+            
+            // Move glass card slightly towards the mouse to create depth
+            heroGlassCard.style.transform = 'translate3d(' + (x * 10) + 'px, ' + (y * 10) + 'px, 0) scale(1.02)';
+        });
+
+        heroSection.addEventListener('mouseleave', function() {
+            heroOrbs.style.transform = 'translate3d(0, 0, 0)';
+            heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        });
     }
 
     // ── Bank Modal ──
