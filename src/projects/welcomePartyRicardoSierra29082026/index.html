@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Willkommen zurück, Ricardo! — 29 Ago 2026</title>
+    <meta name="description" content="Fiesta de bienvenida para Ricardo Sierra. Sábado 29 de agosto de 2026, 15:00–22:00. Mondlicht Jardín de Eventos, El Pueblito, Qro.">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- ── Hero ────────────────────────────── -->
+    <section class="hero">
+        <div class="hero-flag">🇩🇪 🇲🇽</div>
+        <h1 class="hero-title">Willkommen zurück,<br>Ricardo</h1>
+        <p class="hero-subtitle">Fiesta de bienvenida</p>
+        <div class="hero-date">Sábado 29 · Agosto · 2026</div>
+    </section>
+
+    <!-- ── Primary CTA — Invitation ────────── -->
+    <section class="section primary-cta">
+        <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="invitation-btn" id="invitationBtn">
+            <span class="material-symbols-outlined">calendar_month</span>
+            Confirmar asistencia
+        </a>
+        <p class="cta-note"><strong>⚠️ Confirmación obligatoria.</strong><br>Abre la invitación en Apple Calendar para registrar tu asistencia (incluye fecha, hora y ubicación).</p>
+    </section>
+
+    <!-- ── Cost ────────────────────────────── -->
+    <section class="section">
+        <div class="cost-badge">
+            <span class="cost-label">Cooperación por persona</span>
+            <span class="cost-value">$500<span class="cost-currency">MXN</span></span>
+        </div>
+    </section>
+
+    <!-- ── Two Payment Buttons ─────────────── -->
+    <section class="section">
+        <div class="dual-buttons">
+            <button class="dual-btn dual-btn--outline" id="openBankModal">
+                <span class="material-symbols-outlined">account_balance</span>
+                Datos bancarios
+            </button>
+            <a href="https://buy.stripe.com/test_fZucMY5Il0gt8uvcybaAw00" target="_blank" rel="noopener" class="dual-btn dual-btn--solid">
+                <span class="material-symbols-outlined">credit_card</span>
+                Pagar con Stripe
+            </a>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── Event Details ───────────────────── -->
+    <section class="section">
+        <div class="section-label">Detalles del evento</div>
+        <div class="event-details">
+            <div class="detail-row">
+                <span class="detail-label">Hora</span>
+                <span class="detail-value">15:00 — 22:00 hrs</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Menú</span>
+                <span class="detail-value" style="font-weight: 500; text-align: left; max-width: 250px;">Carnita asada, tortillas, refrescos, agüita. 🤤<br><strong>¡TODOS LLEVEN SUS TERMOS!</strong></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Lugar</span>
+                <span class="detail-value">Mondlicht Jardín de Eventos</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Ubicación</span>
+                <span class="detail-value" style="font-weight: 500; text-align: left; max-width: 250px;">Ignacio Allende 22, El Pueblito.<br><em>(Por el almacén de Helados Holanda). ¡Ojo, sí hay estacionamiento! 🚗</em></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Maps</span>
+                <span class="detail-value"><a href="https://maps.app.goo.gl/bknWkJ7n6dFpWoXaA" target="_blank" rel="noopener">Abrir en Google Maps ↗</a></span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── Footer ──────────────────────────── -->
+    <footer class="footer">
+        <p class="footer-text">Hecho con <span class="footer-heart">♥</span> para Ricardo</p>
+    </footer>
+
+</div>
+
+<!-- ── Bank Modal ──────────────────────────── -->
+<div class="modal-overlay" id="bankModalOverlay">
+    <div class="modal" id="bankModal">
+
+        <!-- Header -->
+        <div class="modal-header">
+            <h3 class="modal-title">Información de Pago</h3>
+            <button class="modal-close" id="closeBankModal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Bank Fields -->
+        <div class="modal-body">
+            <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
+                <div class="bank-row-info">
+                    <span class="bank-field-label">Beneficiario</span>
+                    <span class="bank-field-value">Fernando Israel Rios Garcia</span>
+                </div>
+                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+            </div>
+
+            <div class="bank-row" data-copy="BBVA" data-field="bank">
+                <div class="bank-row-info">
+                    <span class="bank-field-label">Banco</span>
+                    <span class="bank-field-value">BBVA</span>
+                </div>
+                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+            </div>
+
+            <div class="bank-row" data-copy="012680015013907881" data-field="account">
+                <div class="bank-row-info">
+                    <span class="bank-field-label">Número de cuenta</span>
+                    <span class="bank-field-value">0126 8001 5013 907881</span>
+                </div>
+                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+            </div>
+
+            <div class="bank-row" data-copy="1614864" data-field="reference">
+                <div class="bank-row-info">
+                    <span class="bank-field-label">Referencia</span>
+                    <span class="bank-field-value">1614864</span>
+                </div>
+                <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+            </div>
+
+            <!-- Concepto de Pago — editable -->
+            <div class="concept-section" id="conceptSection">
+                <div class="concept-closed" id="conceptClosed">
+                    <div class="bank-row" id="conceptToggleRow">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Concepto de pago</span>
+                            <span class="bank-field-value" id="conceptDisplay">Personalizar y copiar</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">edit</span>
+                    </div>
+                </div>
+                <div class="concept-open" id="conceptOpen">
+                    <div class="concept-edit-header">
+                        <span class="bank-field-label">Tu nombre para el concepto</span>
+                        <button class="concept-close-btn" id="conceptCloseBtn">
+                            <span class="material-symbols-outlined" style="font-size:16px">close</span>
+                        </button>
+                    </div>
+                    <div class="concept-input-row">
+                        <span class="concept-prefix">BOLETO</span>
+                        <input
+                            type="text"
+                            id="conceptInput"
+                            placeholder="JUAN PEREZ"
+                            maxlength="33"
+                            autocomplete="off"
+                            autocorrect="off"
+                            autocapitalize="characters"
+                            spellcheck="false"
+                            enterkeyhint="done"
+                        >
+                    </div>
+                    <div class="concept-footer">
+                        <span class="concept-counter" id="conceptCounter">7/40 caracteres (límite SPEI)</span>
+                        <button class="concept-copy-btn" id="conceptCopyBtn" disabled>Copiar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Copy Toast -->
+<div class="copy-toast" id="copyToast">¡Copiado!</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // ── Haptic Feedback ──
+    function triggerHaptic() {
+        try {
+            if (navigator.vibrate) navigator.vibrate(50);
+        } catch (e) { /* silent */ }
+    }
+
+    // ── Copy Toast ──
+    var toast = document.getElementById('copyToast');
+    var toastTimer = null;
+
+    function showToast(message) {
+        toast.textContent = message || '¡Copiado!';
+        toast.classList.add('visible');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() {
+            toast.classList.remove('visible');
+        }, 1800);
+    }
+
+    // ── Copy to Clipboard ──
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+        }
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        return Promise.resolve();
+    }
+
+    // ── Bank Modal ──
+    var overlay = document.getElementById('bankModalOverlay');
+    var openBtn = document.getElementById('openBankModal');
+    var closeBtn = document.getElementById('closeBankModal');
+    var scrollYBefore = 0;
+
+    function openModal() {
+        scrollYBefore = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + scrollYBefore + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflowY = 'scroll';
+        overlay.classList.add('open');
+    }
+
+    function closeModal() {
+        overlay.classList.remove('open');
+        // Reset concept section
+        conceptOpen.style.display = 'none';
+        conceptClosed.style.display = '';
+        conceptInput.value = '';
+        updateCounter();
+        // Unlock body
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', function() {
+        triggerHaptic();
+        closeModal();
+    });
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            triggerHaptic();
+            closeModal();
+        }
+    });
+
+    // ── Bank Row Click Handlers ──
+    var bankRows = document.querySelectorAll('.bank-row:not(#conceptToggleRow)');
+
+    bankRows.forEach(function(row) {
+        row.addEventListener('click', function() {
+            var textToCopy = this.getAttribute('data-copy');
+            var valueEl = this.querySelector('.bank-field-value');
+            var originalText = valueEl.textContent;
+
+            triggerHaptic();
+
+            copyText(textToCopy).then(function() {
+                valueEl.textContent = '¡COPIADO!';
+                valueEl.classList.add('copied');
+                showToast('¡Copiado al portapapeles!');
+
+                setTimeout(function() {
+                    valueEl.textContent = originalText;
+                    valueEl.classList.remove('copied');
+                }, 2000);
+            }).catch(function() {
+                showToast('Error al copiar');
+            });
+        });
+    });
+
+    // ── Concept / Concepto de Pago ──
+    var conceptClosed = document.getElementById('conceptClosed');
+    var conceptOpen = document.getElementById('conceptOpen');
+    var conceptToggleRow = document.getElementById('conceptToggleRow');
+    var conceptCloseBtn = document.getElementById('conceptCloseBtn');
+    var conceptInput = document.getElementById('conceptInput');
+    var conceptCounter = document.getElementById('conceptCounter');
+    var conceptCopyBtn = document.getElementById('conceptCopyBtn');
+    var conceptDisplay = document.getElementById('conceptDisplay');
+
+    function getConceptFull() {
+        return ('BOLETO ' + conceptInput.value).trim();
+    }
+
+    function updateCounter() {
+        var len = getConceptFull().length;
+        conceptCounter.textContent = len + '/40 caracteres (límite SPEI)';
+        if (len >= 40) {
+            conceptCounter.classList.add('at-limit');
+        } else {
+            conceptCounter.classList.remove('at-limit');
+        }
+        conceptCopyBtn.disabled = !conceptInput.value.trim();
+    }
+
+    conceptToggleRow.addEventListener('click', function() {
+        triggerHaptic();
+        conceptClosed.style.display = 'none';
+        conceptOpen.style.display = '';
+        updateCounter();
+        setTimeout(function() {
+            conceptInput.focus();
+        }, 100);
+    });
+
+    conceptCloseBtn.addEventListener('click', function() {
+        triggerHaptic();
+        conceptOpen.style.display = 'none';
+        conceptClosed.style.display = '';
+        conceptInput.value = '';
+        updateCounter();
+    });
+
+    conceptInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+        updateCounter();
+    });
+
+    conceptInput.addEventListener('focus', function() {
+        setTimeout(function() {
+            document.documentElement.scrollLeft = 0;
+            document.body.scrollLeft = 0;
+        }, 300);
+    });
+
+    conceptInput.addEventListener('blur', function() {
+        setTimeout(function() {
+            document.documentElement.scrollLeft = 0;
+            document.body.scrollLeft = 0;
+        }, 100);
+    });
+
+    conceptCopyBtn.addEventListener('click', function() {
+        var fullConcept = getConceptFull();
+        triggerHaptic();
+        copyText(fullConcept).then(function() {
+            conceptDisplay.textContent = '¡COPIADO!';
+            conceptDisplay.classList.add('copied');
+            showToast('Concepto copiado: ' + fullConcept);
+
+            // Close editor
+            conceptOpen.style.display = 'none';
+            conceptClosed.style.display = '';
+            conceptInput.value = '';
+            updateCounter();
+
+            setTimeout(function() {
+                conceptDisplay.textContent = 'Personalizar y copiar';
+                conceptDisplay.classList.remove('copied');
+                document.documentElement.scrollLeft = 0;
+                document.body.scrollLeft = 0;
+            }, 2000);
+        }).catch(function() {
+            showToast('Error al copiar');
+        });
+    });
+
+    // Initialize
+    conceptOpen.style.display = 'none';
+    updateCounter();
+
+    // ── Intersection Observer for fade-in ──
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(function(section) {
+            section.style.animationPlayState = 'paused';
+            observer.observe(section);
+        });
+    }
+})();
+</script>
+
+</body>
+</html>

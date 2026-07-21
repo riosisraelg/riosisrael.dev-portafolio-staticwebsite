@@ -104,8 +104,9 @@ const vfs = {
     '/home': ['rivers/'],
     '/home/rivers': ['portfolio/', 'projects/'],
     '/home/rivers/portfolio': ['index.html', 'script.js', 'style.css', 'status.txt', 'links.txt', 'notify-me.sh'],
-    '/home/rivers/projects': ['candle/'],
-    '/home/rivers/projects/candle': []
+    '/home/rivers/projects': ['candle/', 'welcomePartyRicardoSierra29082026/'],
+    '/home/rivers/projects/candle': [],
+    '/home/rivers/projects/welcomePartyRicardoSierra29082026': []
 };
 let currentDir = '/home/rivers/portfolio';
 
@@ -211,6 +212,10 @@ if (cmdInput) {
                         if (currentDir === '/home/rivers/projects/candle') {
                             outputHtml += `<br>Navigating to /projects/candle...`;
                             setTimeout(() => window.location.href = '/projects/candle/', 500);
+                        }
+                        if (currentDir === '/home/rivers/projects/welcomePartyRicardoSierra29082026') {
+                            outputHtml += `<br>Navigating to /projects/welcomePartyRicardoSierra29082026...`;
+                            setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
                         }
                     } else if (isFile) {
                         outputHtml += `bash: cd: ${target}: Not a directory`;
@@ -332,6 +337,9 @@ if (cmdInput) {
             } else if (cmd === 'candle') {
                 outputHtml += `<br>Navigating to /projects/candle...`;
                 setTimeout(() => window.location.href = '/projects/candle/', 500);
+            } else if (cmd === 'wpf') {
+                outputHtml += `<br>Navigating to /projects/welcomePartyRicardoSierra29082026...`;
+                setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
             } else {
                 outputHtml += `bash: ${cmd}: command not found`;
             }
