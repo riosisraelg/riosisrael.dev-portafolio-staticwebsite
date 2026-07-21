@@ -617,9 +617,9 @@ body {
 }
 
 .efectivo-btn.active, .efectivo-btn:hover {
-    flex: 1.5;
     background: var(--fg);
     color: var(--bg);
+    transform: translateY(-2px);
 }
 
 .efectivo-btn .material-symbols-outlined {
@@ -1043,10 +1043,8 @@ body {
 }
 
 .modal,
-.bank-modal-container,
 .cost-modal-container,
-.itinerary-modal-container,
-.codi-modal-container {
+.itinerary-modal-container {
     background: var(--bg);
     width: 100%;
     max-width: 440px;
@@ -1062,10 +1060,8 @@ body {
 }
 
 .modal-overlay.open .modal,
-.bank-modal-overlay.open .bank-modal-container,
 .cost-modal-overlay.open .cost-modal-container,
-.itinerary-modal-overlay.open .itinerary-modal-container,
-.codi-modal-overlay.open .codi-modal-container {
+.itinerary-modal-overlay.open .itinerary-modal-container {
     transform: translateY(0);
 }
 
@@ -1446,8 +1442,8 @@ body {
     line-height: 1.4;
 }
 
-/* ── Bank Modal (Glassmorphism) ────────── */
-.bank-modal-overlay {
+/* ── Bank & CODI Modals (Glassmorphism) ────────── */
+.bank-modal-overlay, .codi-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1466,12 +1462,12 @@ body {
     transition: opacity var(--transition);
 }
 
-.bank-modal-overlay.open {
+.bank-modal-overlay.open, .codi-modal-overlay.open {
     opacity: 1;
     pointer-events: auto;
 }
 
-.bank-modal-container {
+.bank-modal-container, .codi-modal-container {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
@@ -1488,7 +1484,8 @@ body {
     transition: transform var(--transition);
 }
 
-.bank-modal-overlay.open .bank-modal-container {
+.bank-modal-overlay.open .bank-modal-container,
+.codi-modal-overlay.open .codi-modal-container {
     transform: translateY(0);
 }
 
