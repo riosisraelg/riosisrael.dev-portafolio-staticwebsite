@@ -690,6 +690,11 @@
             efectivoBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
         });
+        btn.addEventListener('mouseleave', function() {
+            if (!bankOverlay.classList.contains('open') && !document.getElementById('codiModalOverlay').classList.contains('open')) {
+                this.classList.remove('active');
+            }
+        });
         btn.addEventListener('click', function() {
             efectivoBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
@@ -932,6 +937,11 @@
 
     function closeItineraryModal() {
         itineraryOverlay.classList.remove('open');
+        
+        setTimeout(() => {
+            if (openItineraryBtn) openItineraryBtn.classList.remove('active');
+        }, 300);
+
         var savedY = parseInt(document.body.style.top || '0', 10) * -1;
         document.body.style.position = '';
         document.body.style.top = '';
@@ -945,10 +955,21 @@
         }
     }
 
-    openItineraryBtn.addEventListener('click', function() {
-        triggerHaptic();
-        openItineraryModal();
-    });
+    if (openItineraryBtn) {
+        openItineraryBtn.addEventListener('mouseenter', function() {
+            this.classList.add('active');
+        });
+        openItineraryBtn.addEventListener('mouseleave', function() {
+            if (!itineraryOverlay.classList.contains('open')) {
+                this.classList.remove('active');
+            }
+        });
+        openItineraryBtn.addEventListener('click', function() {
+            this.classList.add('active');
+            triggerHaptic();
+            openItineraryModal();
+        });
+    }
 
     closeItineraryBtn.addEventListener('click', function() {
         triggerHaptic();

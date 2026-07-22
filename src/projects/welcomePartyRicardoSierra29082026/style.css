@@ -227,9 +227,11 @@ body {
     }
 }
 
-.hero-date:hover {
-    opacity: 0.7;
+.hero-date.active, .hero-date:hover {
+    background: var(--fg);
+    color: var(--bg);
     transform: translateY(-2px);
+    opacity: 1;
 }
 
 .hero-date:active {
