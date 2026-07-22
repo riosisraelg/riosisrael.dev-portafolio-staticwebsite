@@ -391,8 +391,19 @@ body {
 }
 
 .pulse-btn.obligatory-btn {
+    position: relative;
     background: linear-gradient(135deg, var(--fg) 0%, #d9534f 100%);
     color: var(--bg);
+}
+
+.pulse-btn.obligatory-btn::after {
+    content: '*';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 800;
 }
 
 .pulse-btn .material-symbols-outlined {
