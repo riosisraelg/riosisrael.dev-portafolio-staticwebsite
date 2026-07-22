@@ -213,11 +213,11 @@
                     <div class="fare-input-group">
                         <div class="fare-input-row">
                             <label class="fare-input-label">Nombre</label>
-                            <input type="text" id="speiFareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="speiFareFirstName" placeholder="JUAN" maxlength="15" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">Apellido</label>
-                            <input type="text" id="speiFareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="speiFareLastName" placeholder="PEREZ" maxlength="15" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">¿Cuántos fares? (1-17)</label>
@@ -303,11 +303,11 @@
                     <div class="fare-input-group">
                         <div class="fare-input-row">
                             <label class="fare-input-label">Nombre</label>
-                            <input type="text" id="codiFareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="codiFareFirstName" placeholder="JUAN" maxlength="15" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">Apellido</label>
-                            <input type="text" id="codiFareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="codiFareLastName" placeholder="PEREZ" maxlength="15" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">¿Cuántos fares? (1-17)</label>
@@ -828,7 +828,8 @@
             if (count > 1) {
                 concept += ' ' + count + '+';
             }
-            return concept;
+            // Strict length limit for bank systems
+            return concept.substring(0, 40);
         }
 
         function updateFarePreview() {
@@ -868,6 +869,8 @@
         });
 
         fareCount.addEventListener('input', function() {
+            if (this.value.length > 2) this.value = this.value.slice(0, 2);
+            if (parseInt(this.value, 10) > 17) this.value = '17';
             updateFarePreview();
         });
 
