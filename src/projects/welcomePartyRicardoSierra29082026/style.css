@@ -286,8 +286,8 @@ body {
 
 @media (max-width: 480px) {
     .attendance-grid {
-        grid-template-columns: 55% 45%;
-        gap: 8px;
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 }
 
@@ -788,8 +788,8 @@ body {
 
 @media (max-width: 480px) {
     .payment-large-card {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .section-card {
