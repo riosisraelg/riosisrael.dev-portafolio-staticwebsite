@@ -286,9 +286,13 @@ body {
 
 @media (max-width: 480px) {
     .attendance-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 55% 45%;
+        gap: 8px;
     }
+}
+
+.attendance-grid > * {
+    min-width: 0;
 }
 
 .attendance-info {
@@ -788,9 +792,13 @@ body {
 
 @media (max-width: 480px) {
     .payment-large-card {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
     }
+
+.payment-large-card > * {
+    min-width: 0;
+}
 
     .section-card {
         padding: 16px 12px;
@@ -820,6 +828,7 @@ body {
 
     .efectivo-container {
         gap: 6px;
+        flex-wrap: wrap;
     }
 
     .efectivo-btn {
@@ -895,6 +904,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+.payment-large-right > * {
+    min-width: 0;
 }
 
 .payment-btn {
