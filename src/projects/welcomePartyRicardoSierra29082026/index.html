@@ -193,43 +193,43 @@
             </div>
 
             <!-- Fare Editor Section -->
-            <div class="fare-section" id="fareSection">
-                <div class="fare-closed" id="fareClosed">
-                    <div class="bank-row" id="fareToggleRow">
+            <div class="fare-section" id="speiFareSection">
+                <div class="fare-closed" id="speiFareClosed">
+                    <div class="bank-row" id="speiFareToggleRow">
                         <div class="bank-row-info">
                             <span class="bank-field-label">Concepto (Fare)</span>
-                            <span class="bank-field-value" id="fareDisplay">Personalizar y copiar</span>
+                            <span class="bank-field-value" id="speiFareDisplay">Personalizar y copiar</span>
                         </div>
                         <span class="material-symbols-outlined bank-row-icon">edit</span>
                     </div>
                 </div>
-                <div class="fare-open" id="fareOpen">
+                <div class="fare-open" id="speiFareOpen">
                     <div class="fare-edit-header">
                         <span class="bank-field-label">Información de transferencia</span>
-                        <button class="fare-close-btn" id="fareCloseBtn">
+                        <button class="fare-close-btn" id="speiFareCloseBtn">
                             <span class="material-symbols-outlined" style="font-size:16px">close</span>
                         </button>
                     </div>
                     <div class="fare-input-group">
                         <div class="fare-input-row">
                             <label class="fare-input-label">Nombre</label>
-                            <input type="text" id="fareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="speiFareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">Apellido</label>
-                            <input type="text" id="fareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            <input type="text" id="speiFareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
                         </div>
                         <div class="fare-input-row">
                             <label class="fare-input-label">¿Cuántos fares? (1-17)</label>
-                            <input type="number" id="fareCount" placeholder="1" min="1" max="17" inputmode="numeric" enterkeyhint="done">
+                            <input type="number" id="speiFareCount" placeholder="1" min="1" max="17" inputmode="numeric" enterkeyhint="done">
                         </div>
                     </div>
                     <div class="fare-preview">
                         <span class="fare-preview-label">Concepto generado:</span>
-                        <span class="fare-preview-text" id="farePreviewText">JUAN PEREZ</span>
+                        <span class="fare-preview-text" id="speiFarePreviewText">JUAN PEREZ</span>
                     </div>
                     <div class="fare-footer">
-                        <button class="fare-copy-btn" id="fareCopyBtn" disabled>Copiar Concepto</button>
+                        <button class="fare-copy-btn" id="speiFareCopyBtn" disabled>Copiar Concepto</button>
                     </div>
                 </div>
             </div>
@@ -259,6 +259,14 @@
 
             <!-- CODI Data -->
             <div class="bank-field-section" style="margin-top: 24px;">
+                <div class="bank-row" data-copy="4421604049" data-field="phone">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Teléfono (CODI)</span>
+                        <span class="bank-field-value">442 160 4049</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
                 <div class="bank-row">
                     <div class="bank-row-info">
                         <span class="bank-field-label">Banco</span>
@@ -274,13 +282,47 @@
                     <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                 </div>
                 
-                <div class="bank-row" data-copy="Fare" data-field="concept">
-                    <div class="bank-row-info">
-                        <span class="bank-field-label">Concepto / Motivo</span>
-                        <span class="bank-field-value">Fare</span>
+            <!-- Fare Editor Section for CODI -->
+            <div class="fare-section" id="codiFareSection">
+                <div class="fare-closed" id="codiFareClosed">
+                    <div class="bank-row" id="codiFareToggleRow">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Concepto (Fare)</span>
+                            <span class="bank-field-value" id="codiFareDisplay">Personalizar y copiar</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">edit</span>
                     </div>
-                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                 </div>
+                <div class="fare-open" id="codiFareOpen">
+                    <div class="fare-edit-header">
+                        <span class="bank-field-label">Información de transferencia</span>
+                        <button class="fare-close-btn" id="codiFareCloseBtn">
+                            <span class="material-symbols-outlined" style="font-size:16px">close</span>
+                        </button>
+                    </div>
+                    <div class="fare-input-group">
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">Nombre</label>
+                            <input type="text" id="codiFareFirstName" placeholder="JUAN" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                        </div>
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">Apellido</label>
+                            <input type="text" id="codiFareLastName" placeholder="PEREZ" maxlength="20" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                        </div>
+                        <div class="fare-input-row">
+                            <label class="fare-input-label">¿Cuántos fares? (1-17)</label>
+                            <input type="number" id="codiFareCount" placeholder="1" min="1" max="17" inputmode="numeric" enterkeyhint="done">
+                        </div>
+                    </div>
+                    <div class="fare-preview">
+                        <span class="fare-preview-label">Concepto generado:</span>
+                        <span class="fare-preview-text" id="codiFarePreviewText">JUAN PEREZ</span>
+                    </div>
+                    <div class="fare-footer">
+                        <button class="fare-copy-btn" id="codiFareCopyBtn" disabled>Copiar Concepto</button>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -614,12 +656,7 @@
         }, 300);
 
         // Reset fare section
-        fareOpen.style.display = 'none';
-        fareClosed.style.display = '';
-        document.getElementById('fareFirstName').value = '';
-        document.getElementById('fareLastName').value = '';
-        document.getElementById('fareCount').value = '';
-        updateFarePreview();
+        if (typeof speiEditor !== 'undefined') speiEditor.closeAndReset();
         // Unlock body
         var savedY = parseInt(document.body.style.top || '0', 10) * -1;
         document.body.style.position = '';
@@ -683,6 +720,8 @@
         setTimeout(() => {
             efectivoBtns.forEach(b => b.classList.remove('active'));
         }, 300);
+
+        if (typeof codiEditor !== 'undefined') codiEditor.closeAndReset();
 
         var savedY = parseInt(document.body.style.top || '0', 10) * -1;
         document.body.style.position = '';
@@ -759,101 +798,120 @@
     });
 
     // ── Fare Editor Logic ──
-    var fareClosed = document.getElementById('fareClosed');
-    var fareOpen = document.getElementById('fareOpen');
-    var fareToggleRow = document.getElementById('fareToggleRow');
-    var fareCloseBtn = document.getElementById('fareCloseBtn');
-    var fareFirstName = document.getElementById('fareFirstName');
-    var fareLastName = document.getElementById('fareLastName');
-    var fareCount = document.getElementById('fareCount');
-    var fareCopyBtn = document.getElementById('fareCopyBtn');
-    var fareDisplay = document.getElementById('fareDisplay');
-    var farePreviewText = document.getElementById('farePreviewText');
+    function initFareEditor(prefix) {
+        var fareClosed = document.getElementById(prefix + 'FareClosed');
+        var fareOpen = document.getElementById(prefix + 'FareOpen');
+        var fareToggleRow = document.getElementById(prefix + 'FareToggleRow');
+        var fareCloseBtn = document.getElementById(prefix + 'FareCloseBtn');
+        var fareFirstName = document.getElementById(prefix + 'FareFirstName');
+        var fareLastName = document.getElementById(prefix + 'FareLastName');
+        var fareCount = document.getElementById(prefix + 'FareCount');
+        var fareCopyBtn = document.getElementById(prefix + 'FareCopyBtn');
+        var fareDisplay = document.getElementById(prefix + 'FareDisplay');
+        var farePreviewText = document.getElementById(prefix + 'FarePreviewText');
 
-    function generateFareConcept() {
-        var firstName = fareFirstName.value.trim().toUpperCase();
-        var lastName = fareLastName.value.trim().toUpperCase();
-        var count = parseInt(fareCount.value || '1', 10);
-        
-        if (!firstName || !lastName) return '';
-        
-        var concept = 'FARE ' + firstName + ' ' + lastName;
-        if (count > 1) {
-            concept += ' ' + count + '+';
+        if (!fareClosed) return; // fail-safe if DOM is missing
+
+        function generateFareConcept() {
+            var firstName = fareFirstName.value.trim().toUpperCase();
+            var lastName = fareLastName.value.trim().toUpperCase();
+            var count = parseInt(fareCount.value || '1', 10);
+            
+            if (!firstName || !lastName) return '';
+            
+            var concept = 'FARE ' + firstName + ' ' + lastName;
+            if (count > 1) {
+                concept += ' ' + count + '+';
+            }
+            return concept;
         }
-        return concept;
-    }
 
-    function updateFarePreview() {
-        var concept = generateFareConcept();
-        farePreviewText.textContent = concept || '(incompleto)';
-        fareCopyBtn.disabled = !concept;
-    }
+        function updateFarePreview() {
+            var concept = generateFareConcept();
+            farePreviewText.textContent = concept || '(incompleto)';
+            fareCopyBtn.disabled = !concept;
+        }
 
-    fareToggleRow.addEventListener('click', function() {
-        triggerHaptic();
-        fareClosed.style.display = 'none';
-        fareOpen.style.display = '';
-        updateFarePreview();
-        setTimeout(function() {
-            fareFirstName.focus();
-        }, 100);
-    });
+        fareToggleRow.addEventListener('click', function() {
+            triggerHaptic();
+            fareClosed.style.display = 'none';
+            fareOpen.style.display = '';
+            updateFarePreview();
+            setTimeout(function() {
+                fareFirstName.focus();
+            }, 100);
+        });
 
-    fareCloseBtn.addEventListener('click', function() {
-        triggerHaptic();
-        fareOpen.style.display = 'none';
-        fareClosed.style.display = '';
-        fareFirstName.value = '';
-        fareLastName.value = '';
-        fareCount.value = '';
-        updateFarePreview();
-    });
-
-    fareFirstName.addEventListener('input', function() {
-        this.value = this.value.toUpperCase();
-        updateFarePreview();
-    });
-
-    fareLastName.addEventListener('input', function() {
-        this.value = this.value.toUpperCase();
-        updateFarePreview();
-    });
-
-    fareCount.addEventListener('input', function() {
-        updateFarePreview();
-    });
-
-    fareCopyBtn.addEventListener('click', function() {
-        var concept = generateFareConcept();
-        if (!concept) return;
-
-        triggerHaptic();
-        copyText(concept).then(function() {
-            fareDisplay.textContent = '¡COPIADO!';
-            fareDisplay.classList.add('copied');
-            showToast('Concepto copiado: ' + concept);
-
-            // Close editor
+        fareCloseBtn.addEventListener('click', function() {
+            triggerHaptic();
             fareOpen.style.display = 'none';
             fareClosed.style.display = '';
             fareFirstName.value = '';
             fareLastName.value = '';
             fareCount.value = '';
             updateFarePreview();
-
-            setTimeout(function() {
-                fareDisplay.textContent = 'Personalizar y copiar';
-                fareDisplay.classList.remove('copied');
-            }, 2000);
-        }).catch(function() {
-            showToast('Error al copiar');
         });
-    });
 
-    // Initialize
-    fareOpen.style.display = 'none';
-    updateFarePreview();
+        fareFirstName.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+            updateFarePreview();
+        });
+
+        fareLastName.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+            updateFarePreview();
+        });
+
+        fareCount.addEventListener('input', function() {
+            updateFarePreview();
+        });
+
+        fareCopyBtn.addEventListener('click', function() {
+            var concept = generateFareConcept();
+            if (!concept) return;
+
+            triggerHaptic();
+            copyText(concept).then(function() {
+                fareDisplay.textContent = '¡COPIADO!';
+                fareDisplay.classList.add('copied');
+                showToast('Concepto copiado: ' + concept);
+
+                // Close editor
+                fareOpen.style.display = 'none';
+                fareClosed.style.display = '';
+                fareFirstName.value = '';
+                fareLastName.value = '';
+                fareCount.value = '';
+                updateFarePreview();
+
+                setTimeout(function() {
+                    fareDisplay.textContent = 'Personalizar y copiar';
+                    fareDisplay.classList.remove('copied');
+                }, 2000);
+            }).catch(function() {
+                showToast('Error al copiar');
+            });
+        });
+
+        // Initialize
+        fareOpen.style.display = 'none';
+        updateFarePreview();
+        
+        // Export an object if we ever need to reset externally
+        return {
+            closeAndReset: function() {
+                fareOpen.style.display = 'none';
+                fareClosed.style.display = '';
+                fareFirstName.value = '';
+                fareLastName.value = '';
+                fareCount.value = '';
+                updateFarePreview();
+            }
+        };
+    }
+
+    var speiEditor = initFareEditor('spei');
+    var codiEditor = initFareEditor('codi');
 
     // ── Itinerary Modal (Glassmorphism) ──
     var itineraryOverlay = document.getElementById('itineraryModalOverlay');
