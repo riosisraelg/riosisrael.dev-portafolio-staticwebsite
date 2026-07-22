@@ -284,8 +284,8 @@ body {
 
 @media (max-width: 480px) {
     .attendance-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        grid-template-columns: 55% 45%;
+        gap: 8px;
     }
 }
 
@@ -402,6 +402,29 @@ body {
 .pulse-btn:hover {
     transform: scale(1.05);
     opacity: 0.95;
+}
+
+@media (max-width: 480px) {
+    .step-card-btn {
+        padding: 8px;
+        gap: 4px;
+    }
+    .step-card-header {
+        font-size: 0.75rem;
+    }
+    .step-card-header .material-symbols-outlined {
+        font-size: 16px;
+    }
+    .step-card-body {
+        font-size: 0.65rem;
+    }
+    .step-card-video {
+        font-size: 0.65rem;
+    }
+    .pulse-btn {
+        padding: 12px 8px;
+        font-size: 0.75rem;
+    }
 }
 
 @keyframes pulseGlow {
