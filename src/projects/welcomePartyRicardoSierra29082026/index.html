@@ -107,11 +107,11 @@
         <div class="section-card glass-card">
             <div class="payment-large-card">
                 
-                <!-- Left: Cost Breakdown (Clickeable) -->
-                <button class="payment-large-left" id="openCostModal">
+                <!-- Left: Cost Breakdown (Non-clickable) -->
+                <div class="payment-large-left">
                     <span class="payment-cost-label">Costo por persona</span>
                     <span class="payment-cost-amount">$500<span class="payment-cost-currency">MXN</span></span>
-                </button>
+                </div>
 
                 <!-- Right: Payment Methods -->
                 <div class="payment-large-right">
@@ -1019,10 +1019,12 @@
         }
     }
 
-    openCostBtn.addEventListener('click', function() {
-        triggerHaptic();
-        openCostModal();
-    });
+    if (openCostBtn) {
+        openCostBtn.addEventListener('click', function() {
+            triggerHaptic();
+            openCostModal();
+        });
+    }
 
     closeCostBtn.addEventListener('click', function() {
         triggerHaptic();
