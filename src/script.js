@@ -104,8 +104,9 @@ const vfs = {
     '/home': ['rivers/'],
     '/home/rivers': ['portfolio/', 'projects/'],
     '/home/rivers/portfolio': ['index.html', 'script.js', 'style.css', 'status.txt', 'links.txt', 'notify-me.sh'],
-    '/home/rivers/projects': ['candle/'],
-    '/home/rivers/projects/candle': []
+    '/home/rivers/projects': ['candle/', 'wpr/'],
+    '/home/rivers/projects/candle': [],
+    '/home/rivers/projects/wpr': ['index.html', 'style.css', 'run-wpr.sh']
 };
 let currentDir = '/home/rivers/portfolio';
 
@@ -319,6 +320,12 @@ if (cmdInput) {
                 } else if (targetPath === '/home/rivers/projects/candle') {
                     outputHtml += `<br>Navigating to /projects/candle...`;
                     setTimeout(() => window.location.href = '/projects/candle/', 500);
+                } else if (targetPath === '/home/rivers/projects/wpr') {
+                    outputHtml += `<br>Navigating to wpr project directory...`;
+                    setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
+                } else if (targetPath === '/home/rivers/projects/wpr/run-wpr.sh') {
+                    outputHtml += `<br>Starting wpr server...<br>Redirecting to wpr app...`;
+                    setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 800);
                 } else {
                     let isFile = false;
                     const parentDir = targetPath.substring(0, targetPath.lastIndexOf('/')) || '/';
@@ -332,7 +339,7 @@ if (cmdInput) {
             } else if (cmd === 'candle') {
                 outputHtml += `<br>Navigating to /projects/candle...`;
                 setTimeout(() => window.location.href = '/projects/candle/', 500);
-            } else if (cmd === 'wpf') {
+            } else if (cmd === 'wpr') {
                 outputHtml += `<br>Navigating to /projects/welcomePartyRicardoSierra29082026...`;
                 setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
             } else {
