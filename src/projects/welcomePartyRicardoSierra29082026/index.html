@@ -107,11 +107,11 @@
         <div class="section-card glass-card">
             <div class="payment-large-card">
                 
-                <!-- Left: Cost Breakdown (Non-clickable) -->
-                <div class="payment-large-left">
+                <!-- Left: Cost Breakdown (Clickeable) -->
+                <button class="payment-large-left" id="openCostModal">
                     <span class="payment-cost-label">Costo por persona</span>
                     <span class="payment-cost-amount">$500<span class="payment-cost-currency">MXN</span></span>
-                </div>
+                </button>
 
                 <!-- Right: Payment Methods -->
                 <div class="payment-large-right">
@@ -434,8 +434,12 @@
                 <h4 class="cost-category-title">Venue</h4>
                 <div class="cost-category-items">
                     <div class="cost-item">
-                        <span class="cost-item-name">Lugar + Mesas, Sillas y Limpieza</span>
-                        <span class="cost-item-value">$1,500</span>
+                        <span class="cost-item-name">Lugar (Mondlicht)</span>
+                        <span class="cost-item-value">$1,000</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Limpieza</span>
+                        <span class="cost-item-value">$500</span>
                     </div>
                 </div>
             </div>
@@ -446,28 +450,23 @@
                 <div class="cost-category-items">
                     <div class="cost-item">
                         <div class="cost-item-info">
-                            <span class="cost-item-name">Carne Asada (6 kg)</span>
+                            <span class="cost-item-name">Carne Asada (La Roja)</span>
                             <div class="cost-item-details">
-                                <span class="detail-line">• Diezmillo (1 kg)</span>
-                                <span class="detail-line">• Arrachera marinada (3 kg)</span>
-                                <span class="detail-line">• Selecta (2 kg)</span>
+                                <span class="detail-line">• Diezmillo (1 kg), Arrachera (3 kg), Selecta (2 kg)</span>
                                 <span class="detail-line">• Chistorra + Chorizo español</span>
-                                <span class="detail-line">• Complementos (cebollitas, nopales, chiles)</span>
+                                <span class="detail-line">• Complementos y asado</span>
+                                <span class="detail-line">• Propina del asador incluida</span>
                             </div>
                         </div>
                         <span class="cost-item-value">$3,155</span>
                     </div>
                     <div class="cost-item">
-                        <span class="cost-item-name">Propina Asador</span>
-                        <span class="cost-item-value">$200</span>
-                    </div>
-                    <div class="cost-item">
                         <span class="cost-item-name">Tortillas</span>
-                        <span class="cost-item-value">$71</span>
+                        <span class="cost-item-value">$70</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Papas tipo Lays</span>
-                        <span class="cost-item-value">$400</span>
+                        <span class="cost-item-value">$450</span>
                     </div>
                 </div>
             </div>
@@ -477,16 +476,8 @@
                 <h4 class="cost-category-title">Bebidas</h4>
                 <div class="cost-category-items">
                     <div class="cost-item">
-                        <span class="cost-item-name">Agua fresca</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Refrescos</span>
-                        <span class="cost-item-value">$430</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Agua simple (garrafón)</span>
-                        <span class="cost-item-value">$60</span>
+                        <span class="cost-item-name">Refrescos (Coca y Squirt)</span>
+                        <span class="cost-item-value">$523</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Hielo</span>
@@ -511,20 +502,12 @@
                 <h4 class="cost-category-title">Extras</h4>
                 <div class="cost-category-items">
                     <div class="cost-item">
-                        <span class="cost-item-name">Platos desechables</span>
-                        <span class="cost-item-value">$150</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Cubiertos</span>
-                        <span class="cost-item-value">$150</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Servilletas</span>
-                        <span class="cost-item-value">$60</span>
+                        <span class="cost-item-name">Platos, cubiertos y servilletas</span>
+                        <span class="cost-item-value">$480</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Bolsas para basura</span>
-                        <span class="cost-item-value">$45</span>
+                        <span class="cost-item-value">$15</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Tacos extra para Ricardo</span>
@@ -536,13 +519,14 @@
             <!-- TOTAL -->
             <div class="cost-total-section">
                 <div class="cost-total-row">
-                    <span class="cost-total-label">Total</span>
-                    <span class="cost-total-value">$6,771</span>
+                    <span class="cost-total-label">Costo Total</span>
+                    <span class="cost-total-value">$5,030.60</span>
                 </div>
-                <div class="cost-per-person">
-                    <span class="cost-per-person-label">Por persona (÷17)</span>
-                    <span class="cost-per-person-value">$398</span>
+                <div class="cost-total-row cost-per-person">
+                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)</span>
+                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">$296.51</span>
                 </div>
+                <p style="font-size: 0.75rem; color: var(--gray-500); text-align: center; margin-top: 12px; font-weight: 500;">(La cuota es de $500 MXN para tener margen en imprevistos y bebidas extra)</p>
             </div>
         </div>
     </div>
