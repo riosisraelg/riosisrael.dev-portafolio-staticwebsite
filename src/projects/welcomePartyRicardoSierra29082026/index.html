@@ -53,7 +53,7 @@
         <div class="section-card glass-card" style="padding: 24px; text-align: center; border: 2px solid var(--primary); background: rgba(37, 99, 235, 0.05);">
             <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">Fase 1: ¡Ayúdanos a armar el menú!</h3>
             <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Vota por tu carne favorita y dinos qué puedes aportar para que no falte nada. (Obligatorio para avanzar)</p>
-            <a href="encuesta/index.html" class="typeform-btn primary phase-1-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; background: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; transition: 0.2s;">
+            <a href="encuesta/index.html" target="_blank" class="typeform-btn primary phase-1-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; background: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; transition: 0.2s;">
                 Ir a la encuesta <span class="material-symbols-outlined" style="font-size: 18px;">assignment</span>
             </a>
         </div>
@@ -1553,6 +1553,15 @@
                 var btn = phase1Encuesta.querySelector('.typeform-btn');
                 if (btn) btn.innerHTML = 'Volver a ver respuestas <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>';
             }
+
+            // Show success modal for Phase 1 if not shown before
+            var phase1ModalShown = localStorage.getItem('wp_phase1_modal_shown') === 'true';
+            if (!phase1ModalShown && successModal) {
+                successModal.querySelector('h2').innerText = '¡Fase 1 Completada!';
+                successModal.querySelector('p').innerText = 'Has respondido la encuesta. Ahora la Fase 2 está desbloqueada para que puedas confirmar tu asistencia final.';
+                successModal.classList.add('active');
+                localStorage.setItem('wp_phase1_modal_shown', 'true');
+            }
         } else if (encuestaDone && asistenciaDone) {
             // Both phases done! Unlock everything.
             unlockSection(phase2Asistencia);
@@ -1581,7 +1590,10 @@
 
             // Show success modal if not shown before
             if (!welcomeModalShown && successModal) {
+                successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
+                successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 3.';
                 successModal.classList.add('active');
+                localStorage.setItem('wp_welcome_modal_shown', 'true');
             }
         }
 
@@ -1590,8 +1602,13 @@
             confirmBtn.addEventListener('click', function(e) {
                 if (encuestaDone) {
                     localStorage.setItem('wp_asistencia_done', 'true');
-                    // We don't prevent default, so the iCloud link opens.
-                    // Upon returning, the visibilitychange event will trigger unlocking.
+                    if (successModal) {
+                        successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
+                        successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 3.';
+                        successModal.classList.add('active');
+                        localStorage.setItem('wp_welcome_modal_shown', 'true');
+                    }
+                    setTimeout(initProgressiveDisclosure, 500);
                 }
             });
         }
@@ -1603,6 +1620,11 @@
                 btn.addEventListener('click', function() {
                     if (encuestaDone && asistenciaDone) {
                         localStorage.setItem('wp_pago_done', 'true');
+                        if (successModal) {
+                            successModal.querySelector('h2').innerText = '¡Aportación Registrada!';
+                            successModal.querySelector('p').innerText = 'Gracias por tu aportación. Todo el proceso de registro ha sido completado con éxito. ¡Nos vemos en la fiesta!';
+                            successModal.classList.add('active');
+                        }
                         initProgressiveDisclosure(); // Instantly update UI
                     }
                 });
