@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Encuesta - Welcome Party</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  
+  <!-- Background Orbs from main site for aesthetic -->
+  <div class="hero-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+  </div>
+
+  <div class="container" id="formContainer">
+    
+    <!-- Screen 1: Identidad -->
+    <div class="screen active" id="screen-identity" data-step="1">
+      <div class="screen-content">
+        <h2 class="question-title">1. ¿Cómo te llamas?</h2>
+        <input type="text" id="input-name" class="typeform-input" placeholder="Tu nombre completo" autocomplete="name" autofocus oninput="checkIdentity()">
+        
+        <h2 class="question-title" style="margin-top: 40px;">2. Tu número telefónico</h2>
+        <input type="tel" id="input-phone" class="typeform-input" placeholder="Ej. 442 123 4567" autocomplete="tel" oninput="checkIdentity()">
+        
+        <button class="typeform-btn primary" id="btn-identity" onclick="nextScreen('screen-eat')" disabled>
+          Continuar <span class="material-symbols-outlined">arrow_downward</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Decisión de comida -->
+    <div class="screen" id="screen-eat" data-step="2">
+      <div class="screen-content">
+        <h2 class="question-title">3. ¿Vas a querer comer la parrillada?</h2>
+        <p class="question-desc">Considera que la cuota mínima (sin comida) es de ~$113 MXN para cubrir gastos básicos. La cuota con comida es desde ~$300 MXN en total.</p>
+        
+        <div class="options-grid">
+          <div class="option-card" onclick="selectEatOption(true)">
+            <div class="option-key">A</div>
+            <div class="option-text">Sí, quiero comer (Cuota con comida)</div>
+          </div>
+          <div class="option-card" onclick="selectEatOption(false)">
+            <div class="option-key">B</div>
+            <div class="option-text">No, solo cuota básica (No comeré)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Carne (Condicional) -->
+    <div class="screen" id="screen-meat" data-step="3">
+      <div class="screen-content">
+        <h2 class="question-title">4. ¿Qué propuesta de carne prefieres?</h2>
+        <p class="question-desc">Selecciona la que más se te antoje para la parrillada.</p>
+        
+        <div class="options-grid">
+          <div class="option-card" onclick="selectMeat('P1: La Clásica ($300)')">
+            <div class="option-key">A</div>
+            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
+              <strong>P1: La Clásica (~$300/persona)</strong>
+              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Arrachera Marinada ($539/kg)<br>2 kg Diezmillo ($359/kg)</span>
+            </div>
+          </div>
+          <div class="option-card" onclick="selectMeat('P2: Premium ($330)')">
+            <div class="option-key">B</div>
+            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
+              <strong>P2: Premium (~$330/persona)</strong>
+              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Rib Eye ($580/kg)<br>2 kg Picaña Sterling ($590/kg)</span>
+            </div>
+          </div>
+          <div class="option-card" onclick="selectMeat('P3: Norteña ($315)')">
+            <div class="option-key">C</div>
+            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
+              <strong>P3: Norteña (~$315/persona)</strong>
+              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Costilla Norteña ($529/kg)<br>2 kg Short Rib ($519/kg)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Donaciones -->
+    <div class="screen" id="screen-donations" data-step="4">
+      <div class="screen-content">
+        <h2 class="question-title">5. ¿Con qué te gustaría cooperar / donar?</h2>
+        <p class="question-desc">Es importante que se cubran todos. Considera cooperar con alguno de estos y no esperes a que otra persona lo haga. Que se haga una olla sencilla basta.</p>
+        
+        <div class="options-list multi-select" id="donations-list">
+          <div class="option-card multi" data-value="Arroz con verduras (1 olla sencilla)">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Arroz con verduras (1 olla sencilla)</div>
+          </div>
+          <div class="option-card multi" data-value="Pasta guisada con aceite de oliva y queso parmesano">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Pasta guisada con aceite de oliva y queso parmesano</div>
+          </div>
+          <div class="option-card multi" data-value="Chicharrón (Carnicería o mercado)">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Chicharrón (Carnicería o mercado)</div>
+          </div>
+          <div class="option-card multi" data-value="Guacamole (1 kg) con totopos y pico de gallo">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Guacamole (1 kg) con totopos y pico de gallo</div>
+          </div>
+          <div class="option-card multi" data-value="Salsa roja (0.5 L)">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Salsa roja (0.5 L)</div>
+          </div>
+          <div class="option-card multi" data-value="Salsa verde (0.5 L)">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Salsa verde (0.5 L)</div>
+          </div>
+          <div class="option-card multi none-option" data-value="Nada">
+            <div class="checkbox-indicator"></div>
+            <div class="option-text">Solo pagaré mi cuota, no podré llevar extra</div>
+          </div>
+        </div>
+
+        <div class="commitment-alert hidden" id="commitment-alert">
+          <label class="commitment-label">
+            <input type="checkbox" id="commitment-checkbox" onchange="checkDonations()">
+            <span><strong>Aviso de Compromiso:</strong> Si eliges estas opciones, Israel Ríos asume que serás el responsable y confía con total certeza en que lo traerás. ¿Confirmas tu compromiso?</span>
+          </label>
+        </div>
+
+        <button class="typeform-btn primary" id="btn-next-donations" onclick="nextScreen('screen-submit')" disabled>
+          Continuar <span class="material-symbols-outlined">arrow_downward</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 5: Sugerencias y Envio -->
+    <div class="screen" id="screen-submit" data-step="5">
+      <div class="screen-content">
+        <h2 class="question-title">6. ¿Alguna sugerencia adicional?</h2>
+        <textarea id="input-suggestions" class="typeform-input textarea" placeholder="Escribe aquí si tienes otra idea de qué aportar, un juego, etc."></textarea>
+        
+        <button class="typeform-btn success" onclick="submitPoll()" style="margin-top: 30px;">
+          Finalizar y Generar <span class="material-symbols-outlined">check_circle</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 6: JSON Result -->
+    <div class="screen" id="screen-result" data-step="6">
+      <div class="screen-content result-content">
+        <span class="material-symbols-outlined result-icon">task_alt</span>
+        <h2 class="question-title">¡Gracias por participar!</h2>
+        
+        <div class="commitment-alert" style="display: block; margin-bottom: 24px; text-align: left;">
+          <p style="font-size: 0.9rem; font-weight: 600;">⚠️ Importante (¡No te asustes!)</p>
+          <p style="font-size: 0.85rem; margin-top: 8px;">Para procesar tu respuesta de forma automática, generamos el siguiente código de texto (JSON) con tu información. Solo presiona el botón de abajo y envíalo tal cual a Israel por WhatsApp.</p>
+        </div>
+        
+        <pre class="json-output" id="json-output"></pre>
+        
+        <div class="action-buttons">
+            <a href="#" class="typeform-btn success" id="whatsapp-btn" target="_blank" style="width: 100%; justify-content: center;"><span class="material-symbols-outlined">send</span> Enviar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevScreen()" id="btn-prev" disabled><span class="material-symbols-outlined">expand_less</span></button>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="copy-toast" id="copyToast">¡Copiado!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
