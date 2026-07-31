@@ -119,17 +119,25 @@
 
     <!-- ── Payment Section (Large Card) ──── -->
     <section class="section payment-section" id="phase-3-pagos">
-        <div class="payment-large-card">
+        <div class="section-card glass-card" style="padding: 24px; border-radius: 24px; display: flex; flex-direction: column; gap: 16px;">
             
-            <!-- Left: Cost Breakdown (Clickeable) -->
-            <div class="section-card glass-card payment-large-left" style="display: flex; flex-direction: column; gap: 12px; border-right: none; margin: 0;">
-                
+            <div style="text-align: center;">
                 <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                    <span class="attendance-label">Fase 3: Aportación Final</span>
+                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 3: Aportación Final</span>
                 </div>
-                <p class="attendance-explanation" style="text-align: center; margin-bottom: 12px; color: var(--gray-600);">
+                <p class="attendance-explanation" style="margin-bottom: 0; color: var(--gray-600); max-width: 400px; margin-left: auto; margin-right: auto;">
                     Revisa los costos y elige el método que te sea más cómodo para liquidar tu parte.
                 </p>
+            </div>
+
+            <div class="payment-large-card">
+                
+                <!-- Left: Cost Breakdown (Clickeable) -->
+                <div class="payment-large-left" style="display: flex; flex-direction: column; gap: 12px; margin: 0;">
+                    
+                    <div class="attendance-header" style="margin-bottom: 4px; justify-content: flex-start;">
+                        <span class="attendance-label">Costos</span>
+                    </div>
 
                 <!-- Boton 1: Cuota Completa -->
                 <button id="openCostModal" class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: var(--surface); flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px;">
@@ -193,6 +201,7 @@
 
             </div>
 
+            </div>
         </div>
     </section>
 
@@ -650,43 +659,7 @@
             </button>
         </div>
 
-        <!-- Tabs Nav -->
-        <div class="cost-tabs" style="display: flex; border-bottom: 1px solid var(--border); background: var(--surface);">
-            <button class="cost-tab-btn active" id="tab-btn-1" style="flex: 1; padding: 14px; background: none; border: none; border-bottom: 2px solid var(--fg); color: var(--fg); font-family: var(--font); font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onclick="switchCostTab(1)">Opción 1 ($300/pp) ⭐ Preferida</button>
-            <button class="cost-tab-btn" id="tab-btn-2" style="flex: 1; padding: 14px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--gray-500); font-family: var(--font); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s;" onclick="switchCostTab(2)">Opción 2 ($209/pp)</button>
-        </div>
-
-        <script>
-            function switchCostTab(tab) {
-                var btn1 = document.getElementById('tab-btn-1');
-                var btn2 = document.getElementById('tab-btn-2');
-                var body1 = document.getElementById('body-opcion1');
-                var body2 = document.getElementById('body-opcion2');
-                if (tab === 1) {
-                    btn1.style.borderBottomColor = 'var(--fg)';
-                    btn1.style.color = 'var(--fg)';
-                    btn1.style.fontWeight = '700';
-                    btn2.style.borderBottomColor = 'transparent';
-                    btn2.style.color = 'var(--gray-500)';
-                    btn2.style.fontWeight = '600';
-                    body1.style.display = 'block';
-                    body2.style.display = 'none';
-                    history.replaceState(null, null, '#costos-opcion1');
-                } else {
-                    btn2.style.borderBottomColor = 'var(--fg)';
-                    btn2.style.color = 'var(--fg)';
-                    btn2.style.fontWeight = '700';
-                    btn1.style.borderBottomColor = 'transparent';
-                    btn1.style.color = 'var(--gray-500)';
-                    btn1.style.fontWeight = '600';
-                    body2.style.display = 'block';
-                    body1.style.display = 'none';
-                    history.replaceState(null, null, '#costos-opcion2');
-                }
-            }
-        </script>
-
-        <!-- Opción 1 Body -->
+        <!-- Opción 1 Body (Ahora única) -->
         <div class="cost-modal-body" id="body-opcion1">
             <!-- VENUE -->
             <div class="cost-category">
@@ -865,169 +838,7 @@
             </div>
         </div>
 
-        <!-- Opción 2 Body -->
-        <div class="cost-modal-body" id="body-opcion2" style="display: none;">
-            <!-- VENUE -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Venue</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Lugar (Mondlicht)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Limpieza</span>
-                        <span class="cost-item-value">$500</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Mobiliario (20 sillas y 2 mesas rectangulares)</span>
-                        <span class="cost-item-value">$400</span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- COMIDA -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Comida</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="font-weight: 600; color: var(--fg); font-size: 1rem; margin-bottom: 4px;">Propuesta Especial: Taquiza Colaborativa</div>
-                        <!-- Propuesta 4 (Guisos) -->
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>P4: Taquiza Colaborativa ($250/pp)</span>
-                                <span>$589</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <span class="detail-line" style="margin-bottom: 6px; color: var(--gray-500);">*Jóvenes de 18-27 años comen aprox. 6-7 tacos. Con 1kg de carne y 4 guisos cubrimos a todos perfectamente.</span>
-                                <span class="detail-line">• 1 kg Arrachera Marinada (Para asar) = $539</span>
-                                <span class="detail-line">• Aumento de tortillas (+50 MXN integrados) = $50</span>
-                                <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);">
-                                    <span class="detail-line" style="font-weight: 600; margin-bottom: 6px; color: var(--fg);">Dinámica de Guisos (Costo $0)</span>
-                                    <p style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 8px; line-height: 1.4;">
-                                        Ollas chicas (aprox. 1 a 1.5 kg por guiso).
-                                    </p>
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;"><span>1. Guiso de Chicharrón en salsa roja</span><span style="color: var(--gray-500); font-weight:600;">Fernando (Tú)</span></div>
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;"><span>2. Guiso de Papas con chorizo</span><span style="color: var(--gray-500); font-weight:600;">Pendiente</span></div>
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;"><span>3. Guiso de Rajas con crema</span><span style="color: var(--gray-500); font-weight:600;">Pendiente</span></div>
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;"><span>4. Guiso de Frijoles puercos</span><span style="color: var(--gray-500); font-weight:600;">Pendiente</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Tortillas (Aumento)</span>
-                        <span class="cost-item-value">$120</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Chicharrón (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Guacamole (1 kg) con totopos (500 g) y pico de gallo (500 g) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Salsa roja (0.5 L) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Salsa verde (0.5 L) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Papas tipo Lays</span>
-                        <span class="cost-item-value">$400</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BEBIDAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Bebidas</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Refrescos (Paq. Coca/Squirt + Colchón extra)</span>
-                        <span class="cost-item-value">$523</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Agua simple</span>
-                        <span class="cost-item-value">$60</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Hielo</span>
-                        <span class="cost-item-value">$120</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- POSTRE -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Postre</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Pastel (Selva Negra)</span>
-                        <span class="cost-item-value">$600</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- EXTRAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Extras</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                        <div style="display: flex; justify-content: space-between; width: 100%;">
-                            <span class="cost-item-name">Desechables (¡Plan Ecológico!)</span>
-                            <span class="cost-item-value" style="color: var(--primary);">$0</span>
-                        </div>
-                        <div style="font-size: 0.8rem; color: var(--gray-500); line-height: 1.4;">
-                            Trae tus cubiertos (tenedor, cuchillo, cuchara) y un <strong>tupper con tapa</strong> para que te lleves sobrantes sin que se derramen. ¡Te invitamos a traer <strong>servilletas de tela</strong>!
-                        </div>
-                        <div style="font-size: 0.75rem; color: var(--success, #28a745); margin-top: 4px; font-weight: 600;">
-                            Ahorro total de ~$400 (aprox. $23.50 por persona)
-                        </div>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Bolsas para basura</span>
-                        <span class="cost-item-value">$45</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Rollo servilletas de cocina</span>
-                        <span class="cost-item-value">$40</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Tacos extra para Ricardo</span>
-                        <span class="cost-item-value">$150</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- OTROS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Otros</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">2 Extensiones y 1 Multicontacto</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOTAL -->
-            <div class="cost-total-section">
-                <div class="cost-total-row">
-                    <span class="cost-total-label">Costo Total (Taquiza)</span>
-                    <span class="cost-total-value">$3,547.00</span>
-                </div>
-                <div class="cost-total-row cost-per-person">
-                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)*</span>
-                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">($209 aprox. por persona)</span>
-                </div>
-                <p style="font-size: 0.75rem; color: var(--gray-500); text-align: center; margin-top: 12px; font-weight: 500;">(El pago máximo de recolección es de $250 MXN por ser la opción económica)</p>
-                <p style="font-size: 0.7rem; color: var(--gray-500); text-align: center; margin-top: 6px;">*Número estimado ya sondeado; falta reconfirmar con la última lista de asistencia.</p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -1126,7 +937,7 @@
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
         basicCostOverlay.classList.add('open');
-        window.location.hash = 'costobasico';
+        history.pushState(null, null, '#costobasico');
     }
 
     function closeBasicCostModal() {
@@ -1185,7 +996,7 @@
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
         bankOverlay.classList.add('open');
-        window.location.hash = 'transferencia';
+        history.pushState(null, null, '#transferencia');
     }
 
     function closeBankModal() {
@@ -1256,7 +1067,7 @@
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
         codiOverlay.classList.add('open');
-        window.location.hash = 'codi';
+        history.pushState(null, null, '#codi');
     }
 
     function closeCodiModal() {
@@ -1490,7 +1301,7 @@
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
         itineraryOverlay.classList.add('open');
-        window.location.hash = 'itinerario';
+        history.pushState(null, null, '#itinerario');
     }
 
     function closeItineraryModal() {
@@ -1555,8 +1366,7 @@
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
         costOverlay.classList.add('open');
-        var isTab2 = document.getElementById('body-opcion2').style.display === 'block';
-        window.location.hash = isTab2 ? 'costos-opcion2' : 'costos-opcion1';
+        history.pushState(null, null, '#costos');
     }
 
     function closeCostModal() {
@@ -1774,13 +1584,20 @@
                 if (encuestaDone) {
                     localStorage.setItem('wp_asistencia_done', 'true');
                     // We don't prevent default, so the iCloud link opens.
-                    // Upon returning, the site will reload or can be refreshed by user to see Phase 3.
+                    // Upon returning, the visibilitychange event will trigger unlocking.
                 }
             });
         }
     }
 
-    // Initialize progressive disclosure
+    // Dynamic UI unlock when returning to tab
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            initProgressiveDisclosure();
+        }
+    });
+
+    // Initialize progressive disclosure on load
     initProgressiveDisclosure();
 
 })();
