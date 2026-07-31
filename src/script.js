@@ -145,6 +145,10 @@ const terminalHistory = document.getElementById('terminal-history');
 if (cmdInput) {
     const inputPromptSpan = document.querySelector('.input-line .prompt'); 
     
+    // Command history
+    const commandHistory = [];
+    let historyIndex = 0; // Starts empty
+    
     document.querySelector('.terminal-body').addEventListener('click', () => {
         cmdInput.focus();
     });
@@ -154,13 +158,34 @@ if (cmdInput) {
     });
 
     cmdInput.addEventListener('keydown', async function(e) {
-        if (e.key === 'Enter') {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (historyIndex > 0) {
+                historyIndex--;
+                this.value = commandHistory[historyIndex];
+                cmdText.textContent = this.value;
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIndex < commandHistory.length - 1) {
+                historyIndex++;
+                this.value = commandHistory[historyIndex];
+                cmdText.textContent = this.value;
+            } else if (historyIndex === commandHistory.length - 1) {
+                historyIndex = commandHistory.length;
+                this.value = '';
+                cmdText.textContent = '';
+            }
+        } else if (e.key === 'Enter') {
             const rawCommand = this.value;
             const command = rawCommand.trim();
             this.value = '';
             cmdText.textContent = '';
             
             if (command === '') return;
+
+            commandHistory.push(command);
+            historyIndex = commandHistory.length;
 
             const args = command.split(' ').filter(Boolean);
             const cmd = args[0].toLowerCase();
