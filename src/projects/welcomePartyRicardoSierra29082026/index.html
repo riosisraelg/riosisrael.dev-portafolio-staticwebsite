@@ -1481,6 +1481,7 @@
         // Retrieve states
         var encuestaDone = localStorage.getItem('wp_encuesta_done') === 'true';
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var pagoDone = localStorage.getItem('wp_pago_done') === 'true';
         var welcomeModalShown = localStorage.getItem('wp_welcome_modal_shown') === 'true';
 
         // Block clicks on locked sections using capturing phase
@@ -1572,6 +1573,12 @@
                 }
             }
 
+            // Mark phase 3 as done visually if payment method was clicked
+            if (pagoDone && phase3Pagos) {
+                var title3 = phase3Pagos.querySelector('.attendance-label');
+                if (title3) title3.innerHTML = '✅ Fase 3: Aportación Final Completada';
+            }
+
             // Show success modal if not shown before
             if (!welcomeModalShown && successModal) {
                 successModal.classList.add('active');
@@ -1586,6 +1593,19 @@
                     // We don't prevent default, so the iCloud link opens.
                     // Upon returning, the visibilitychange event will trigger unlocking.
                 }
+            });
+        }
+
+        // Hook Payment buttons to mark Phase 3 as completed
+        if (phase3Pagos) {
+            var paymentBtns = phase3Pagos.querySelectorAll('.payment-btn, .efectivo-btn');
+            paymentBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    if (encuestaDone && asistenciaDone) {
+                        localStorage.setItem('wp_pago_done', 'true');
+                        initProgressiveDisclosure(); // Instantly update UI
+                    }
+                });
             });
         }
     }
