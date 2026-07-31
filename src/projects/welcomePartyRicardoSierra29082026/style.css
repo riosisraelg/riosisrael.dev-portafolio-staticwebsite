@@ -2235,8 +2235,11 @@ body {
 /* ── Progressive Disclosure / Locks ─── */
 .locked-section {
     position: relative;
-    pointer-events: none;
-    user-select: none;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+.locked-section * {
+    pointer-events: none !important;
 }
 .locked-section > * {
     opacity: 0.4;

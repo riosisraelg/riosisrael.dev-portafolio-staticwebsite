@@ -1670,10 +1670,33 @@
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var welcomeModalShown = localStorage.getItem('wp_welcome_modal_shown') === 'true';
 
+        // Block clicks on locked sections using capturing phase
+        document.addEventListener('click', function(e) {
+            var target = e.target;
+            while (target && target !== document) {
+                if (target.classList && target.classList.contains('locked-section')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                target = target.parentNode;
+            }
+        }, true);
+
         // Helper to lock a section
         function lockSection(sectionElement) {
             if (!sectionElement) return;
             sectionElement.classList.add('locked-section');
+            
+            // Remove hrefs to prevent tabbing and enter
+            var links = sectionElement.querySelectorAll('a');
+            links.forEach(function(link) {
+                if (link.hasAttribute('href')) {
+                    link.setAttribute('data-href', link.getAttribute('href'));
+                    link.removeAttribute('href');
+                }
+            });
+
             if (!sectionElement.querySelector('.locked-overlay')) {
                 var overlay = document.createElement('div');
                 overlay.className = 'locked-overlay';
@@ -1685,6 +1708,16 @@
         function unlockSection(sectionElement) {
             if (!sectionElement) return;
             sectionElement.classList.remove('locked-section');
+            
+            // Restore hrefs
+            var links = sectionElement.querySelectorAll('a');
+            links.forEach(function(link) {
+                if (link.hasAttribute('data-href')) {
+                    link.setAttribute('href', link.getAttribute('data-href'));
+                    link.removeAttribute('data-href');
+                }
+            });
+
             var overlay = sectionElement.querySelector('.locked-overlay');
             if (overlay) overlay.remove();
         }
