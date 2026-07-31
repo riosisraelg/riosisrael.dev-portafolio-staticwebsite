@@ -808,9 +808,7 @@ body {
     }
     .payment-large-left {
         border-right: none;
-        border-bottom: 1px solid var(--border);
         padding-right: 0;
-        padding-bottom: 24px;
     }
 }
 
