@@ -794,11 +794,10 @@ body {
 }
 
 .payment-large-left {
-    border-right: 1px solid var(--border);
-    padding-right: 32px;
+    /* Removed border and padding for uniformity */
 }
 .payment-large-right {
-    padding-left: 0;
+    /* Removed padding for uniformity */
 }
 
 @media (max-width: 600px) {
