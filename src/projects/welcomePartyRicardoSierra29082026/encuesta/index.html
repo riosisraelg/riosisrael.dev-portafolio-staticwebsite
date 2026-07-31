@@ -39,6 +39,7 @@
     <!-- Screen 2: Decisión de comida -->
     <div class="screen" id="screen-eat" data-step="2">
       <div class="screen-content">
+        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
         <h2 class="question-title">3. ¿Vas a querer comer la parrillada?</h2>
         <p class="question-desc">Considera que la cuota mínima (sin comida) es de ~$113 MXN para cubrir gastos básicos. La cuota con comida es desde ~$300 MXN en total.</p>
         
@@ -58,6 +59,7 @@
     <!-- Screen 3: Carne (Condicional) -->
     <div class="screen" id="screen-meat" data-step="3">
       <div class="screen-content">
+        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
         <h2 class="question-title">4. ¿Qué propuesta de carne prefieres?</h2>
         <p class="question-desc">Selecciona la que más se te antoje para la parrillada.</p>
         
@@ -69,15 +71,8 @@
               <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Arrachera Marinada ($539/kg)<br>2 kg Diezmillo ($359/kg)</span>
             </div>
           </div>
-          <div class="option-card" onclick="selectMeat('P2: Premium ($330)')">
-            <div class="option-key">B</div>
-            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
-              <strong>P2: Premium (~$330/persona)</strong>
-              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Rib Eye ($580/kg)<br>2 kg Picaña Sterling ($590/kg)</span>
-            </div>
-          </div>
           <div class="option-card" onclick="selectMeat('P3: Norteña ($315)')">
-            <div class="option-key">C</div>
+            <div class="option-key">B</div>
             <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
               <strong>P3: Norteña (~$315/persona)</strong>
               <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Costilla Norteña ($529/kg)<br>2 kg Short Rib ($519/kg)</span>
@@ -90,6 +85,7 @@
     <!-- Screen 4: Donaciones -->
     <div class="screen" id="screen-donations" data-step="4">
       <div class="screen-content">
+        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
         <h2 class="question-title">5. ¿Con qué te gustaría cooperar / donar?</h2>
         <p class="question-desc">Es importante que se cubran todos. Considera cooperar con alguno de estos y no esperes a que otra persona lo haga. Que se haga una olla sencilla basta.</p>
         
@@ -97,14 +93,6 @@
           <div class="option-card multi" data-value="Arroz con verduras (1 olla sencilla)">
             <div class="checkbox-indicator"></div>
             <div class="option-text">Arroz con verduras (1 olla sencilla)</div>
-          </div>
-          <div class="option-card multi" data-value="Pasta guisada con aceite de oliva y queso parmesano">
-            <div class="checkbox-indicator"></div>
-            <div class="option-text">Pasta guisada con aceite de oliva y queso parmesano</div>
-          </div>
-          <div class="option-card multi" data-value="Chicharrón (Carnicería o mercado)">
-            <div class="checkbox-indicator"></div>
-            <div class="option-text">Chicharrón (Carnicería o mercado)</div>
           </div>
           <div class="option-card multi" data-value="Guacamole (1 kg) con totopos y pico de gallo">
             <div class="checkbox-indicator"></div>
@@ -124,6 +112,15 @@
           </div>
         </div>
 
+        <div style="margin-top: 24px; padding: 16px; background: rgba(0, 0, 0, 0.03); border-radius: 12px; border: 1px solid var(--border);">
+            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--fg);">✅ Ya cubierto por otros invitados:</h4>
+            <ul style="font-size: 0.85rem; color: var(--gray-500); list-style-type: none; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                <li>🍋 <strong>Limones (1 kg):</strong> Invitados por Karen Villegas (Sin costo)</li>
+                <li>🥓 <strong>Guiso de Chicharrón (1.5 kg):</strong> Traído por Karen Villegas</li>
+                <li>🥔 <strong>Guiso de Papas (1.5 kg):</strong> Hecho por Eduardo Raya</li>
+            </ul>
+        </div>
+
         <div class="commitment-alert hidden" id="commitment-alert">
           <label class="commitment-label">
             <input type="checkbox" id="commitment-checkbox" onchange="checkDonations()">
@@ -140,17 +137,35 @@
     <!-- Screen 5: Sugerencias y Envio -->
     <div class="screen" id="screen-submit" data-step="5">
       <div class="screen-content">
+        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
         <h2 class="question-title">6. ¿Alguna sugerencia adicional?</h2>
         <textarea id="input-suggestions" class="typeform-input textarea" placeholder="Escribe aquí si tienes otra idea de qué aportar, un juego, etc."></textarea>
         
-        <button class="typeform-btn success" onclick="submitPoll()" style="margin-top: 30px;">
-          Finalizar y Generar <span class="material-symbols-outlined">check_circle</span>
+        <button class="typeform-btn primary" onclick="submitPoll()" style="margin-top: 30px;">
+          Ver Resumen <span class="material-symbols-outlined">visibility</span>
         </button>
       </div>
     </div>
 
-    <!-- Screen 6: JSON Result -->
-    <div class="screen" id="screen-result" data-step="6">
+    <!-- Screen 6: Brief / Resumen -->
+    <div class="screen" id="screen-brief" data-step="6">
+      <div class="screen-content">
+        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
+        <h2 class="question-title">Resumen de tu registro</h2>
+        <p class="question-desc" style="margin-bottom: 24px;">Revisa que todo esté correcto antes de generar el código.</p>
+        
+        <div class="brief-card" id="brief-content">
+            <!-- Llenado por JS -->
+        </div>
+
+        <button class="typeform-btn success" onclick="generateJSONAndSubmit()" style="margin-top: 10px;">
+          Confirmar y Generar <span class="material-symbols-outlined">check_circle</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 7: JSON Result -->
+    <div class="screen" id="screen-result" data-step="7">
       <div class="screen-content result-content">
         <span class="material-symbols-outlined result-icon">task_alt</span>
         <h2 class="question-title">¡Gracias por participar!</h2>

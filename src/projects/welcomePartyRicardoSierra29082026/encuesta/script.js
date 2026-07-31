@@ -13,6 +13,7 @@ const screens = [
     'screen-meat',
     'screen-donations',
     'screen-submit',
+    'screen-brief',
     'screen-result'
 ];
 
@@ -183,10 +184,42 @@ function checkDonations() {
 }
 
 // Submit Poll
+// Generate Brief Summary
 function submitPoll() {
     state.suggestions = document.getElementById('input-suggestions').value.trim();
     
-    // Build Output Data
+    const briefContent = document.getElementById('brief-content');
+    
+    const html = `
+        <div class="brief-item">
+            <span class="brief-label">Nombre y Teléfono</span>
+            <span class="brief-value">${state.name} (${state.phone})</span>
+        </div>
+        <div class="brief-item">
+            <span class="brief-label">Comida</span>
+            <span class="brief-value">${state.wantsToEat ? "Sí (Cuota con comida)" : "No (Solo cuota básica)"}</span>
+        </div>
+        ${state.wantsToEat ? `
+        <div class="brief-item">
+            <span class="brief-label">Propuesta de Carne</span>
+            <span class="brief-value">${state.meatOption || "No especificado"}</span>
+        </div>` : ''}
+        <div class="brief-item">
+            <span class="brief-label">Aportaciones / Donaciones</span>
+            <span class="brief-value">${state.donations.length > 0 ? state.donations.join(', ') : "Ninguna"}</span>
+        </div>
+        <div class="brief-item">
+            <span class="brief-label">Sugerencias Adicionales</span>
+            <span class="brief-value" style="font-style: italic;">${state.suggestions || "Ninguna"}</span>
+        </div>
+    `;
+    
+    briefContent.innerHTML = html;
+    nextScreen('screen-brief');
+}
+
+// Generate JSON and Finalize
+function generateJSONAndSubmit() {
     const resultObj = {
         Nombre: state.name,
         Telefono: state.phone,
@@ -196,16 +229,15 @@ function submitPoll() {
         Sugerencias: state.suggestions || "Ninguna"
     };
 
-    // Format for WhatsApp - User explicitly wants to send the raw JSON
+    // Format for WhatsApp
     const textMessage = JSON.stringify(resultObj, null, 2);
 
-    // Display JSON visually for validation
     document.getElementById('json-output').textContent = textMessage;
     
-    // Prepare WhatsApp Link
-    // Send it to the organizer (Israel). 
     const waLink = `https://wa.me/524427487589?text=${encodeURIComponent(textMessage)}`;
     document.getElementById('whatsapp-btn').href = waLink;
     
+    localStorage.setItem('wp_encuesta_done', 'true');
+
     nextScreen('screen-result');
 }

@@ -48,14 +48,25 @@
         </div>
     </section>
 
-    <!-- ── Attendance Section (Two Columns) ────────── -->
-    <section class="section attendance-section">
+    <!-- ── Fase 1: Encuesta Banner CTA ─────────────── -->
+    <section class="section" id="phase-1-encuesta" style="padding-top: 20px;">
+        <div class="section-card glass-card" style="padding: 24px; text-align: center; border: 2px solid var(--primary); background: rgba(37, 99, 235, 0.05);">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">Fase 1: ¡Ayúdanos a armar el menú!</h3>
+            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Vota por tu carne favorita y dinos qué puedes aportar para que no falte nada. (Obligatorio para avanzar)</p>
+            <a href="encuesta/index.html" class="typeform-btn primary phase-1-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; background: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; transition: 0.2s;">
+                Ir a la encuesta <span class="material-symbols-outlined" style="font-size: 18px;">assignment</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ── Fase 2: Attendance Section (Two Columns) ────────── -->
+    <section class="section attendance-section" id="phase-2-asistencia">
         <div class="section-card glass-card attendance-grid">
             
             <!-- Left Column: Instructions & Steps -->
             <div class="attendance-info">
                 <div class="attendance-header">
-                    <span class="attendance-label">Confirmación de Asistencia</span>
+                    <span class="attendance-label">Fase 2: Confirmación de Asistencia</span>
                 </div>
                 <p class="attendance-explanation">
                     Tu confirmación es obligatoria para contemplar costos finales, lugares y dinámicas de la fiesta.
@@ -97,22 +108,12 @@
 
             <!-- Right Column: Big CTA -->
             <div class="attendance-action">
-                <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" class="attendance-btn glass-btn pulse-btn obligatory-btn">
+                <a href="https://www.icloud.com/invites/04fXXr-Ev0cDxngZv1z9jcxFg" target="_blank" rel="noopener" id="attendance-confirm-btn" class="attendance-btn glass-btn pulse-btn obligatory-btn">
                     <span class="material-symbols-outlined">person_add</span>
                     Confirmar
                 </a>
             </div>
 
-        </div>
-    </section>
-    <!-- ── Encuesta Banner CTA ─────────────── -->
-    <section class="section" style="padding-top: 20px;">
-        <div class="section-card glass-card" style="padding: 24px; text-align: center; border: 2px solid var(--primary); background: rgba(37, 99, 235, 0.05);">
-            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">¡Ayúdanos a armar el menú!</h3>
-            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Vota por tu carne favorita y dinos qué puedes aportar para que no falte nada.</p>
-            <a href="encuesta/index.html" class="typeform-btn primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; background: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; transition: 0.2s;">
-                Ir a la encuesta <span class="material-symbols-outlined" style="font-size: 18px;">assignment</span>
-            </a>
         </div>
     </section>
 
@@ -176,7 +177,7 @@
                 </a>
 
                 <!-- Efectivo (Dynamic SPEI / CODI) -->
-                <div class="efectivo-container" style="gap: 12px;">
+                <div class="efectivo-container" style="gap: 12px; flex-wrap: wrap;">
                     <button class="efectivo-btn glass-btn" id="openBankModal" data-type="spei" style="border-radius: 16px; padding: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);">
                         <span class="material-symbols-outlined" style="font-size: 1.5rem; margin-bottom: 4px;">account_balance</span>
                         <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">SPEI</span>
@@ -724,18 +725,7 @@
                             </div>
                         </div>
 
-                        <!-- Propuesta 2 -->
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>P2: Premium</span>
-                                <span>$2,729</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <span class="detail-line">• 2 kg Rib Eye ($580/kg) = $1,160</span>
-                                <span class="detail-line">• 2 kg Picaña Sterling ($590/kg) = $1,180</span>
-                                <span class="detail-line" style="margin-top: 6px; color: var(--gray-500); font-weight: 500;">+ Chistorra, Chorizo, Asado y Complementos ($389)</span>
-                            </div>
-                        </div>
+                        <!-- (P2 Premium ha sido retirada de las opciones) -->
 
                         <!-- Propuesta 3 -->
                         <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
@@ -1666,7 +1656,119 @@
             if (codiOverlay.classList.contains('open')) closeCodiModal();
         }
     });
+
+    // ── PROGRESSIVE DISCLOSURE LOGIC ──
+    function initProgressiveDisclosure() {
+        var phase1Encuesta = document.getElementById('phase-1-encuesta');
+        var phase2Asistencia = document.getElementById('phase-2-asistencia');
+        var phase3Pagos = document.getElementById('phase-3-pagos');
+        var confirmBtn = document.getElementById('attendance-confirm-btn');
+        var successModal = document.getElementById('success-modal');
+
+        // Retrieve states
+        var encuestaDone = localStorage.getItem('wp_encuesta_done') === 'true';
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var welcomeModalShown = localStorage.getItem('wp_welcome_modal_shown') === 'true';
+
+        // Helper to lock a section
+        function lockSection(sectionElement) {
+            if (!sectionElement) return;
+            sectionElement.classList.add('locked-section');
+            if (!sectionElement.querySelector('.locked-overlay')) {
+                var overlay = document.createElement('div');
+                overlay.className = 'locked-overlay';
+                overlay.innerHTML = '<span class="material-symbols-outlined">lock</span><strong style="font-size: 1.1rem; margin-bottom: 4px;">Sección Bloqueada</strong><span style="font-size: 0.85rem; opacity: 0.8;">Completa la fase anterior primero.</span>';
+                sectionElement.appendChild(overlay);
+            }
+        }
+
+        function unlockSection(sectionElement) {
+            if (!sectionElement) return;
+            sectionElement.classList.remove('locked-section');
+            var overlay = sectionElement.querySelector('.locked-overlay');
+            if (overlay) overlay.remove();
+        }
+
+        // Apply UI states based on progress
+        if (!encuestaDone) {
+            // Phase 1 is incomplete. Lock 2 and 3.
+            lockSection(phase2Asistencia);
+            lockSection(phase3Pagos);
+        } else if (encuestaDone && !asistenciaDone) {
+            // Phase 1 done, Phase 2 incomplete. Unlock 2, Lock 3.
+            unlockSection(phase2Asistencia);
+            lockSection(phase3Pagos);
+            
+            // Mark phase 1 as done visually
+            if (phase1Encuesta) {
+                var title = phase1Encuesta.querySelector('h3');
+                if (title) title.innerHTML = '✅ Fase 1: ¡Encuesta Completada!';
+                var btn = phase1Encuesta.querySelector('.typeform-btn');
+                if (btn) btn.innerHTML = 'Volver a ver respuestas <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>';
+            }
+        } else if (encuestaDone && asistenciaDone) {
+            // Both phases done! Unlock everything.
+            unlockSection(phase2Asistencia);
+            unlockSection(phase3Pagos);
+
+            // Mark phase 1 and 2 as done visually
+            if (phase1Encuesta) {
+                var title = phase1Encuesta.querySelector('h3');
+                if (title) title.innerHTML = '✅ Fase 1: ¡Encuesta Completada!';
+            }
+            if (phase2Asistencia) {
+                var title2 = phase2Asistencia.querySelector('.attendance-label');
+                if (title2) title2.innerHTML = '✅ Fase 2: Confirmación Completada';
+                var btn2 = document.getElementById('attendance-confirm-btn');
+                if (btn2) {
+                    btn2.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
+                    btn2.style.background = 'var(--success)';
+                }
+            }
+
+            // Show success modal if not shown before
+            if (!welcomeModalShown && successModal) {
+                successModal.classList.add('active');
+            }
+        }
+
+        // Hook iCloud confirm button
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function(e) {
+                if (encuestaDone) {
+                    localStorage.setItem('wp_asistencia_done', 'true');
+                    // We don't prevent default, so the iCloud link opens.
+                    // Upon returning, the site will reload or can be refreshed by user to see Phase 3.
+                }
+            });
+        }
+    }
+
+    // Initialize progressive disclosure
+    initProgressiveDisclosure();
+
 })();
+</script>
+
+<!-- Success Modal -->
+<div class="modal-overlay-success" id="success-modal">
+    <div class="success-modal-content">
+        <span class="material-symbols-outlined success-icon-large">verified</span>
+        <h2 style="font-size: 1.5rem; color: var(--fg); margin-bottom: 12px; font-weight: 700;">¡Felicidades!</h2>
+        <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
+            Has completado el proceso de registro exitosamente. Ya estás anotado en la lista final de invitados.
+        </p>
+        <button class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;" onclick="closeSuccessModal()">
+            Continuar <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </div>
+</div>
+<script>
+    function closeSuccessModal() {
+        document.getElementById('success-modal').classList.remove('active');
+        localStorage.setItem('wp_welcome_modal_shown', 'true');
+        // Reload to reveal phase 3 smoothly or it's already revealed by initProgressiveDisclosure
+    }
 </script>
 
 </body>

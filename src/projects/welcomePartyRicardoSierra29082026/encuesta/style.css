@@ -465,3 +465,73 @@ body {
         right: 12px;
     }
 }
+
+/* ── Back Button & Brief ── */
+.back-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: transparent;
+    border: none;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 100;
+    transition: 0.2s;
+    font-family: var(--font);
+}
+.back-btn:hover {
+    color: var(--primary);
+    transform: translateX(-4px);
+}
+.back-btn .material-symbols-outlined {
+    font-size: 20px;
+}
+@media (max-width: 600px) {
+    .back-btn {
+        top: 16px;
+        left: 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Brief Card Styles */
+.brief-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    text-align: left;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+.brief-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+.brief-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.brief-label {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.brief-value {
+    font-size: 1rem;
+    color: var(--fg);
+    font-weight: 500;
+}
