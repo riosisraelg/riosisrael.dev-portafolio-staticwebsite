@@ -10,7 +10,6 @@ let state = {
 const screens = [
     'screen-identity',
     'screen-eat',
-    'screen-meat',
     'screen-donations',
     'screen-submit',
     'screen-brief',
@@ -22,7 +21,7 @@ let currentScreenIndex = 0;
 // Update progress bar
 function updateProgress() {
     // Total screens for progress calculation (excluding result)
-    const totalSteps = 5;
+    const totalSteps = 4;
     const progress = ((currentScreenIndex) / totalSteps) * 100;
     document.getElementById('progressFill').style.width = `${progress}%`;
 }
@@ -120,29 +119,11 @@ function selectEatOption(wants) {
 
     // Wait a brief moment for visual feedback, then proceed
     setTimeout(() => {
-        if (wants) {
-            nextScreen('screen-meat');
-        } else {
-            state.meatOption = null;
-            nextScreen('screen-donations');
-        }
-    }, 300);
-}
-
-function selectMeat(option) {
-    state.meatOption = option;
-    
-    // Update UI
-    const options = document.getElementById('screen-meat').querySelectorAll('.option-card');
-    options.forEach(opt => opt.classList.remove('selected'));
-    
-    const index = option.includes('P1') ? 0 : option.includes('P2') ? 1 : 2;
-    options[index].classList.add('selected');
-
-    setTimeout(() => {
+        state.meatOption = wants ? "Única Opción" : null;
         nextScreen('screen-donations');
     }, 300);
 }
+
 
 // Multi-select for donations
 document.querySelectorAll('#donations-list .option-card').forEach(card => {
@@ -199,11 +180,7 @@ function submitPoll() {
             <span class="brief-label">Comida</span>
             <span class="brief-value">${state.wantsToEat ? "Sí (Cuota con comida)" : "No (Solo cuota básica)"}</span>
         </div>
-        ${state.wantsToEat ? `
-        <div class="brief-item">
-            <span class="brief-label">Propuesta de Carne</span>
-            <span class="brief-value">${state.meatOption || "No especificado"}</span>
-        </div>` : ''}
+
         <div class="brief-item">
             <span class="brief-label">Aportaciones / Donaciones</span>
             <span class="brief-value">${state.donations.length > 0 ? state.donations.join(', ') : "Ninguna"}</span>

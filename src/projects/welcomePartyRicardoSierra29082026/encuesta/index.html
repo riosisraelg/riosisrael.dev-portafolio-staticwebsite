@@ -56,37 +56,13 @@
       </div>
     </div>
 
-    <!-- Screen 3: Carne (Condicional) -->
-    <div class="screen" id="screen-meat" data-step="3">
-      <div class="screen-content">
-        <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
-        <h2 class="question-title">4. ¿Qué propuesta de carne prefieres?</h2>
-        <p class="question-desc">Selecciona la que más se te antoje para la parrillada.</p>
-        
-        <div class="options-grid">
-          <div class="option-card" onclick="selectMeat('P1: La Clásica ($300)')">
-            <div class="option-key">A</div>
-            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
-              <strong>P1: La Clásica (~$300/persona)</strong>
-              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Arrachera Marinada ($539/kg)<br>2 kg Diezmillo ($359/kg)</span>
-            </div>
-          </div>
-          <div class="option-card" onclick="selectMeat('P3: Norteña ($315)')">
-            <div class="option-key">B</div>
-            <div class="option-text" style="display: flex; flex-direction: column; gap: 4px;">
-              <strong>P3: Norteña (~$315/persona)</strong>
-              <span style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.3;">2 kg Costilla Norteña ($529/kg)<br>2 kg Short Rib ($519/kg)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Screen 4: Donaciones -->
-    <div class="screen" id="screen-donations" data-step="4">
+
+    <!-- Screen 3: Donaciones -->
+    <div class="screen" id="screen-donations" data-step="3">
       <div class="screen-content">
         <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
-        <h2 class="question-title">5. ¿Con qué te gustaría cooperar / donar?</h2>
+        <h2 class="question-title">4. ¿Con qué te gustaría cooperar / donar?</h2>
         <p class="question-desc">Es importante que se cubran todos. Considera cooperar con alguno de estos y no esperes a que otra persona lo haga. Que se haga una olla sencilla basta.</p>
         
         <div class="options-list multi-select" id="donations-list">
@@ -134,11 +110,11 @@
       </div>
     </div>
 
-    <!-- Screen 5: Sugerencias y Envio -->
-    <div class="screen" id="screen-submit" data-step="5">
+    <!-- Screen 4: Sugerencias y Envio -->
+    <div class="screen" id="screen-submit" data-step="4">
       <div class="screen-content">
         <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
-        <h2 class="question-title">6. ¿Alguna sugerencia adicional?</h2>
+        <h2 class="question-title">5. ¿Alguna sugerencia adicional?</h2>
         <textarea id="input-suggestions" class="typeform-input textarea" placeholder="Escribe aquí si tienes otra idea de qué aportar, un juego, etc."></textarea>
         
         <button class="typeform-btn primary" onclick="submitPoll()" style="margin-top: 30px;">
@@ -147,8 +123,8 @@
       </div>
     </div>
 
-    <!-- Screen 6: Brief / Resumen -->
-    <div class="screen" id="screen-brief" data-step="6">
+    <!-- Screen 5: Brief / Resumen -->
+    <div class="screen" id="screen-brief" data-step="5">
       <div class="screen-content">
         <button class="back-btn" onclick="prevScreen()"><span class="material-symbols-outlined">arrow_back</span> Atrás</button>
         <h2 class="question-title">Resumen de tu registro</h2>
@@ -164,8 +140,8 @@
       </div>
     </div>
 
-    <!-- Screen 7: JSON Result -->
-    <div class="screen" id="screen-result" data-step="7">
+    <!-- Screen 6: JSON Result -->
+    <div class="screen" id="screen-result" data-step="6">
       <div class="screen-content result-content">
         <span class="material-symbols-outlined result-icon">task_alt</span>
         <h2 class="question-title">¡Gracias por participar!</h2>
