@@ -231,10 +231,14 @@ body {
 }
 
 .hero-date.active, .hero-date:hover {
-    background: var(--fg);
-    color: var(--bg);
+    background: var(--fg) !important;
+    color: var(--bg) !important;
     transform: translateY(-2px);
     opacity: 1;
+}
+
+.hero-date.active *, .hero-date:hover * {
+    color: var(--bg) !important;
 }
 
 .hero-date:active {
