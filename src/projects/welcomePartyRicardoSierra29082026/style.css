@@ -106,7 +106,12 @@ body {
     z-index: 1;
     pointer-events: none;
     opacity: 0.8;
-    transition: background 0.1s;
+    transition: background 0.1s, opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero.is-dragging-card::after {
+    opacity: 1;
+    background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(var(--primary-rgb, 220, 38, 38), 0.25), transparent 70%);
 }
 
 /* Floating Orbs */
