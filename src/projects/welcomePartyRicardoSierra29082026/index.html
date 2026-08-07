@@ -208,6 +208,46 @@
         </div>
     </section>
 
+    <!-- ── Lista de Confirmados (Fase 3 - Revelada) ──────────────────────────── -->
+    <section class="section confirmed-section" id="phase-3-confirmed" style="display: none;">
+        <div class="content-section card-box" style="padding: 24px; margin-top: 24px;">
+            <div class="section-title" style="margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <span class="material-symbols-outlined" style="color: #22c55e;">verified</span>
+                Lista Oficial de Invitados
+            </div>
+            
+            <!-- Botones de Copiado -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;">
+                <button id="btn-copy-confirmed" class="glass-btn" style="padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; flex: 1 1 calc(50% - 4px); background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3);">
+                    Copiar Asistencia
+                </button>
+                <button id="btn-copy-paid" class="glass-btn" style="padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; flex: 1 1 calc(50% - 4px); background: rgba(59,130,246,0.1); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3);">
+                    Copiar Pagos
+                </button>
+                <button id="btn-copy-combined" class="glass-btn" style="padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; flex: 1 1 100%; background: var(--surface); color: var(--fg); border: 1px solid var(--border);">
+                    Copiar Estatus Combinado (WhatsApp)
+                </button>
+            </div>
+
+            <!-- Tabla -->
+            <div style="overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); background: var(--bg);">
+                <table style="width: 100%; min-width: 400px; border-collapse: collapse; font-size: 0.85rem;">
+                    <thead style="background: var(--surface); border-bottom: 1.5px solid var(--border);">
+                        <tr>
+                            <th style="padding: 12px 14px; text-align: center; color: var(--gray-500); font-weight: 600; width: 40px;">No.</th>
+                            <th style="padding: 12px 14px; text-align: left; color: var(--gray-500); font-weight: 600;">Nombre</th>
+                            <th style="padding: 12px 14px; text-align: center; color: var(--gray-500); font-weight: 600;">Asistencia</th>
+                            <th style="padding: 12px 14px; text-align: center; color: var(--gray-500); font-weight: 600;">Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody id="confirmed-table-body">
+                        <!-- JS renders rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <!-- ── Footer ──────────────────────────── -->
     <footer class="footer">
         <p class="footer-text">Hecho con <span class="footer-heart">♥</span> para Ricardo</p>
@@ -1542,7 +1582,143 @@
         }
         initProgressiveDisclosure();
         updateProgressSection();
+        if (typeof updateConfirmedSectionVisibility === 'function') {
+            updateConfirmedSectionVisibility();
+        }
     });
+
+    // ── 17 Invitados Confirmados y Estado (Fase 3) ──
+    var guestsData = [
+        { id: 1, name: "Ricardo Sierra", asistencia: true, pago: true },
+        { id: 2, name: "Israel Ríos", asistencia: true, pago: true },
+        { id: 3, name: "Kary", asistencia: true, pago: true },
+        { id: 4, name: "Eduardo Castañeda", asistencia: true, pago: false },
+        { id: 5, name: "Garrido", asistencia: true, pago: false },
+        { id: 6, name: "Pepe", asistencia: true, pago: false },
+        { id: 7, name: "Sebastián G", asistencia: true, pago: false },
+        { id: 8, name: "Invitado 8", asistencia: false, pago: false },
+        { id: 9, name: "Invitado 9", asistencia: false, pago: false },
+        { id: 10, name: "Invitado 10", asistencia: false, pago: false },
+        { id: 11, name: "Invitado 11", asistencia: false, pago: false },
+        { id: 12, name: "Invitado 12", asistencia: false, pago: false },
+        { id: 13, name: "Invitado 13", asistencia: false, pago: false },
+        { id: 14, name: "Invitado 14", asistencia: false, pago: false },
+        { id: 15, name: "Invitado 15", asistencia: false, pago: false },
+        { id: 16, name: "Invitado 16", asistencia: false, pago: false },
+        { id: 17, name: "Invitado 17", asistencia: false, pago: false }
+    ];
+
+    function renderConfirmedTable() {
+        var tbody = document.getElementById('confirmed-table-body');
+        if (!tbody) return;
+        var html = '';
+        guestsData.forEach(function(g) {
+            var asisBadge = g.asistencia 
+                ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">check_circle</span> Confirmado</span>'
+                : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">cancel</span> Pendiente</span>';
+            var pagoBadge = g.pago 
+                ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">task_alt</span> Pagado</span>'
+                : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">pending</span> Pendiente</span>';
+
+            html += '<tr style="border-bottom: 1px solid var(--border); transition: background 0.2s;">' +
+                    '<td style="padding: 10px 14px; text-align: center; color: var(--gray-500); font-weight: 600;">' + g.id + '</td>' +
+                    '<td style="padding: 10px 14px; font-weight: 600; color: var(--fg);">' + g.name + '</td>' +
+                    '<td style="padding: 10px 14px; text-align: center;">' + asisBadge + '</td>' +
+                    '<td style="padding: 10px 14px; text-align: center;">' + pagoBadge + '</td>' +
+                    '</tr>';
+        });
+        tbody.innerHTML = html;
+    }
+
+    function showToast(msg) {
+        var existing = document.getElementById('app-toast');
+        if (existing) existing.remove();
+
+        var t = document.createElement('div');
+        t.id = 'app-toast';
+        t.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--fg); color:var(--bg); padding:12px 20px; border-radius:12px; font-size:0.85rem; font-weight:600; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,0.25);';
+        t.innerHTML = msg;
+        document.body.appendChild(t);
+        setTimeout(function() {
+            t.style.opacity = '0';
+            t.style.transition = 'opacity 0.3s';
+            setTimeout(function() { t.remove(); }, 300);
+        }, 2500);
+    }
+
+    function copyToClipboard(text, msg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() { showToast(msg); });
+        } else {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast(msg);
+        }
+    }
+
+    function setupListCopyButtons() {
+        var btnConfirmed = document.getElementById('btn-copy-confirmed');
+        var btnPaid = document.getElementById('btn-copy-paid');
+        var btnCombined = document.getElementById('btn-copy-combined');
+
+        if (btnConfirmed && !btnConfirmed._hooked) {
+            btnConfirmed._hooked = true;
+            btnConfirmed.addEventListener('click', function() {
+                var confList = guestsData.filter(function(g) { return g.asistencia; });
+                var txt = "*📋 LISTA DE ASISTENCIA CONFIRMADA*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    confList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Confirmado*"; }).join("\n");
+                copyToClipboard(txt, "¡Lista de Asistencia copiada! 📋");
+            });
+        }
+        if (btnPaid && !btnPaid._hooked) {
+            btnPaid._hooked = true;
+            btnPaid.addEventListener('click', function() {
+                var paidList = guestsData.filter(function(g) { return g.pago; });
+                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN)*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Pago $350 Registrado*"; }).join("\n");
+                copyToClipboard(txt, "¡Lista de Pagos copiada! 📋");
+            });
+        }
+        if (btnCombined && !btnCombined._hooked) {
+            btnCombined._hooked = true;
+            btnCombined.addEventListener('click', function() {
+                var txt = "*📋 ESTATUS GENERAL DE INVITADOS (ASISTENCIA Y PAGO)*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    guestsData.map(function(g, i) {
+                        var asisTxt = g.asistencia ? "✅ *Asistencia: Confirmada*" : "⏳ *Asistencia: Pendiente*";
+                        var pagoTxt = g.pago ? "✅ *Pago: $350 Registrado*" : "⏳ *Pago: Pendiente*";
+                        return (i + 1) + ". " + g.name + " — " + asisTxt + " | " + pagoTxt;
+                    }).join("\n");
+                copyToClipboard(txt, "¡Estatus Combinado copiado! 📋");
+            });
+        }
+    }
+
+    window.updateConfirmedSectionVisibility = function() {
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
+        var phase3 = document.getElementById('phase-3-confirmed');
+        if (phase3) {
+            if (asistenciaDone && pagoDone) {
+                phase3.style.display = 'block';
+                renderConfirmedTable();
+                setupListCopyButtons();
+            } else {
+                phase3.style.display = 'none';
+            }
+        }
+    };
+
+    // Al arrancar, si por algo ya estaba todo, mostrarlo
+    if (typeof updateConfirmedSectionVisibility === 'function') {
+        updateConfirmedSectionVisibility();
+    }
 
 })();
 </script>
@@ -1719,6 +1895,10 @@
                     openConfirmModal(htmlPhase1Ask()); // Redirige a fase 1 si no está completa
                 }
             });
+        }
+
+        if (typeof updateConfirmedSectionVisibility === 'function') {
+            updateConfirmedSectionVisibility();
         }
     }
 
