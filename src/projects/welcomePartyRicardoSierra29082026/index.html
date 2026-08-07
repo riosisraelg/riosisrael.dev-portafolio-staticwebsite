@@ -1890,6 +1890,10 @@
 
     function closeConfirmModal() {
         document.getElementById('confirm-modal').classList.remove('active');
+        // Forzar actualización de UI al cerrar modal
+        if (typeof updateProgressSection === 'function') updateProgressSection();
+        if (typeof applyVisualStates === 'function') applyVisualStates();
+        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
     }
 
     // ── Contenido de modales ──
@@ -1956,6 +1960,9 @@
     function closeSuccessModal() {
         var sm = document.getElementById('success-modal');
         if (sm) { sm.classList.remove('active'); }
+        if (typeof updateProgressSection === 'function') updateProgressSection();
+        if (typeof applyVisualStates === 'function') applyVisualStates();
+        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
     }
 
     // ── Actualizar sección de progreso ──
