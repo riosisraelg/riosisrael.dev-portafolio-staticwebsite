@@ -1598,6 +1598,8 @@
 
             function triggerPayConfirm(delay) {
                 if (!localStorage.getItem('wp_asistencia_done')) return;
+                if (localStorage.getItem('wp_pago_asked') === 'true') return; // Solo preguntar automáticamente la primera vez
+
                 if (payDebouncing) {
                     // Ya hay un timer corriendo — resetear para que solo dispare una vez
                     clearTimeout(payDebounceTimer);
@@ -1606,6 +1608,7 @@
                 }
                 payDebounceTimer = setTimeout(function() {
                     payDebouncing = false;
+                    localStorage.setItem('wp_pago_asked', 'true'); // Marcar como preguntado
                     // Solo mostrar si ningún modal de datos está abierto
                     if (!isPayModalOpen()) {
                         openConfirmModal(htmlPhase2Ask());
@@ -1649,14 +1652,16 @@
         }
     }
 
-    // Al volver a la pestaña (regresa de iCloud) refrescar estado
+    // Al volver a la pestaña (regresa de iCloud o Bancos) refrescar estado
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
             var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
             var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+            var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
 
-            if (icloudClicked && !asistenciaDone) {
+            if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
                 localStorage.removeItem('wp_icloud_clicked');
+                localStorage.setItem('wp_asistencia_asked', 'true');
                 setTimeout(function() {
                     openConfirmModal(htmlPhase1Ask());
                 }, 600);
@@ -1664,6 +1669,20 @@
             
             initProgressiveDisclosure();
             updateProgressSection();
+            if (typeof updateConfirmedSectionVisibility === 'function') {
+                updateConfirmedSectionVisibility();
+            }
+        }
+    });
+
+    // Sincronización en tiempo real si abren otra pestaña
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'wp_asistencia_done' || e.key === 'wp_pago_done' || e.key === 'wp_icloud_clicked') {
+            initProgressiveDisclosure();
+            updateProgressSection();
+            if (typeof updateConfirmedSectionVisibility === 'function') {
+                updateConfirmedSectionVisibility();
+            }
         }
     });
 
@@ -1671,9 +1690,11 @@
     window.addEventListener('pageshow', function() {
         var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
 
-        if (icloudClicked && !asistenciaDone) {
+        if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
             localStorage.removeItem('wp_icloud_clicked');
+            localStorage.setItem('wp_asistencia_asked', 'true');
             setTimeout(function() {
                 openConfirmModal(htmlPhase1Ask());
             }, 600);
