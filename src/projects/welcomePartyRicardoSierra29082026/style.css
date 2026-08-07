@@ -413,6 +413,12 @@ body {
     font-size: 1.2rem;
     line-height: 1;
     font-weight: 800;
+    color: #ef4444;
+    transition: color 0.3s ease;
+}
+
+.attendance-btn-done::after {
+    color: #22c55e !important;
 }
 
 .pulse-btn .material-symbols-outlined {
@@ -860,37 +866,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    padding: 20px 24px;
-    cursor: pointer;
-    font-family: var(--font);
-    color: var(--fg);
-    transition: all var(--transition);
-    -webkit-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
-}
-
-@media (prefers-color-scheme: dark) {
-    .payment-large-left {
-        background: rgba(0,0,0,0.2);
-        border: 1px solid rgba(255,255,255,0.05);
-    }
-}
-
-.payment-large-left:hover {
-    opacity: 0.7;
-    transform: translateY(-2px);
-}
-
-.payment-large-left:active {
-    transform: scale(0.98);
+    border-radius: 16px;
+    border: 1.5px solid transparent;
+    padding: 12px;
+    transition: background 0.4s ease, border-color 0.4s ease;
 }
 
 .payment-cost-label {
@@ -2237,7 +2217,7 @@ span[x-apple-data-detectors],
 }
 /* Excepciones: botones y elementos que no deben ser púrpura */
 .attendance-btn, .payment-btn, .glass-btn, .efectivo-btn,
-.step-card-btn, .fare-copy-btn, .typeform-btn,
+.step-card-btn, .fare-copy-btn,
 .attendance-btn-pending, .attendance-btn-done,
 button a, a.glass-btn, a.payment-btn, a.attendance-btn,
 a.step-card-btn, .hero-date, .itinerary-modal-close,
@@ -2245,6 +2225,31 @@ a.step-card-btn, .hero-date, .itinerary-modal-close,
 .codi-modal-close, .fare-close-btn {
     color: inherit !important;
     text-decoration: none !important;
+}
+
+/* ── Welcome CTA Button contrast fix ── */
+.welcome-cta-btn {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 12px;
+    background: var(--fg) !important;
+    color: var(--bg) !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.welcome-cta-btn, .welcome-cta-btn * {
+    color: var(--bg) !important;
+}
+.welcome-cta-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 /* ── iOS Safari fixes ─────────────────── */
@@ -2352,10 +2357,27 @@ a.step-card-btn, .hero-date, .itinerary-modal-close,
 
 /* ── Payment Methods — solo el right container ── */
 #payment-methods-right {
+    position: relative;
     border-radius: 16px;
     border: 1.5px solid transparent;
     padding: 12px;
     transition: background 0.4s ease, border-color 0.4s ease;
+}
+#payment-methods-right::after {
+    content: '*';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 800;
+    color: #ef4444;
+    pointer-events: none;
+    z-index: 5;
+    transition: color 0.3s ease;
+}
+#payment-methods-right.methods-done::after {
+    color: #22c55e !important;
 }
 #payment-methods-right.methods-pending {
     border-color: rgba(220,38,38,0.45);
@@ -2370,30 +2392,104 @@ a.step-card-btn, .hero-date, .itinerary-modal-close,
         rgba(34,197,94,0.07) 100%);
 }
 
-/* Botón confirmación asistencia — estado rojo (pendiente) */
-.attendance-btn-pending {
-    background: linear-gradient(135deg, rgba(220,38,38,0.82) 0%, rgba(153,27,27,0.88) 100%) !important;
-    border: 1px solid rgba(220,38,38,0.4) !important;
-    color: #fff !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    animation: pulseRed 2s infinite !important;
+/* Banner de confirmación de pago con icono SVG y animación de revelar */
+.payment-confirmed-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px 12px;
+    gap: 6px;
+    cursor: pointer;
+    animation: fadeInBanner 0.4s ease;
+    color: var(--fg);
 }
-@keyframes pulseRed {
-    0%   { box-shadow: 0 0 0 0 rgba(220,38,38,0.35); }
-    70%  { box-shadow: 0 0 0 10px rgba(220,38,38,0); }
-    100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+.payment-confirmed-banner .confirmed-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--fg);
+}
+.payment-confirmed-banner .material-symbols-outlined {
+    color: #22c55e;
+}
+.payment-confirmed-banner .confirmed-hint {
+    font-size: 0.72rem;
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.payment-confirmed-banner .confirmed-hint .material-symbols-outlined {
+    color: var(--gray-500);
+}
+@keyframes fadeInBanner {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* Botón confirmación asistencia — estado verde (completado) */
+/* Transiciones suaves al alternar banner de pago y opciones */
+.payment-confirmed-banner, .payment-options-wrapper {
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-out-content {
+    opacity: 0 !important;
+    transform: scale(0.96) !important;
+    pointer-events: none !important;
+}
+
+.fade-in-content {
+    animation: fadeInContent 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes fadeInContent {
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Botón confirmación asistencia — estado rojo glassmorphism (pendiente) */
+.attendance-btn-pending {
+    background: linear-gradient(135deg, rgba(220,38,38,0.12) 0%, rgba(127,29,29,0.08) 100%) !important;
+    border: 1.5px solid rgba(220,38,38,0.45) !important;
+    color: #ef4444 !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 4px 20px rgba(220,38,38,0.15) !important;
+    animation: pulseRedGlass 2s infinite !important;
+}
+.attendance-btn-pending, .attendance-btn-pending * {
+    color: #ef4444 !important;
+}
+@keyframes pulseRedGlass {
+    0%   { box-shadow: 0 0 0 0 rgba(220,38,38,0.35), 0 4px 20px rgba(220,38,38,0.15); }
+    70%  { box-shadow: 0 0 0 10px rgba(220,38,38,0), 0 4px 20px rgba(220,38,38,0.15); }
+    100% { box-shadow: 0 0 0 0 rgba(220,38,38,0), 0 4px 20px rgba(220,38,38,0.15); }
+}
+
+/* Botón confirmación asistencia — estado verde glassmorphism (completado) */
 .attendance-btn-done {
-    background: linear-gradient(135deg, rgba(22,163,74,0.82) 0%, rgba(15,118,54,0.88) 100%) !important;
-    border: 1px solid rgba(34,197,94,0.4) !important;
-    color: #fff !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    background: linear-gradient(135deg, rgba(22,163,74,0.14) 0%, rgba(34,197,94,0.08) 100%) !important;
+    border: 1.5px solid rgba(34,197,94,0.5) !important;
+    color: var(--fg) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 4px 20px rgba(34,197,94,0.15) !important;
     animation: none !important;
-    box-shadow: none !important;
+}
+.attendance-btn-done {
+    color: var(--fg) !important;
+}
+.attendance-btn-done .material-symbols-outlined {
+    color: #22c55e !important;
 }
 
 /* ── Progress Section ── */
