@@ -91,9 +91,22 @@ body {
     text-align: center;
     border-bottom: 1px solid var(--border);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     perspective: 1000px;
+    min-height: 100vh;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(var(--primary-rgb, 220, 38, 38), 0.08), transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: background 0.1s;
 }
 
 /* Floating Orbs */
@@ -314,6 +327,7 @@ body {
     line-height: 1.4;
     color: var(--gray-600);
     margin: 0 0 4px 0;
+    text-align: justify;
 }
 
 .attendance-steps {
@@ -2599,3 +2613,17 @@ a.step-card-btn, .hero-date, .itinerary-modal-close,
     color: var(--gray-500);
     margin-top: 2px;
 }
+
+#openCostModal.active {
+    background: var(--fg) !important;
+    color: var(--bg) !important;
+}
+#openCostModal.active .step-card-header,
+#openCostModal.active .payment-cost-amount,
+#openCostModal.active .payment-cost-currency {
+    color: var(--bg) !important;
+}
+#openCostModal.active .material-symbols-outlined {
+    color: var(--bg) !important;
+}
+

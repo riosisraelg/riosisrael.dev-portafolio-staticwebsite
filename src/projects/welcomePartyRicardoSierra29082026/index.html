@@ -1296,6 +1296,9 @@
     var closeCostBtn = document.getElementById('closeCostModal');
 
     function openCostModal() {
+        if (!costOverlay) return;
+        var btn = document.getElementById('openCostModal');
+        if (btn) btn.classList.add('active');
         scrollYBefore = window.scrollY;
         document.body.style.position = 'fixed';
         document.body.style.top = '-' + scrollYBefore + 'px';
@@ -1308,6 +1311,8 @@
     }
 
     function closeCostModal() {
+        var btn = document.getElementById('openCostModal');
+        if (btn) btn.classList.remove('active');
         costOverlay.classList.remove('open');
         var savedY = parseInt(document.body.style.top || '0', 10) * -1;
         document.body.style.position = '';
@@ -1491,13 +1496,43 @@
                         setTimeout(function() { w.classList.remove('fade-in-content'); isAnimating = false; }, 350);
                     }, 300);
                 }
+            } // closing brace for revealPaymentOptions
+            
+            function hidePaymentOptions() {
+                var b = document.getElementById('payment-confirmed-banner');
+                var w = document.getElementById('payment-options-wrapper');
+                if (!b || !w || isAnimating) return;
+                
+                if (w.style.display !== 'none') {
+                    isAnimating = true;
+                    w.classList.add('fade-out-content');
+                    setTimeout(function() {
+                        w.style.display = 'none';
+                        w.classList.remove('fade-out-content');
+                        b.style.display = 'flex';
+                        b.classList.add('fade-in-content');
+                        setTimeout(function() { b.classList.remove('fade-in-content'); isAnimating = false; }, 350);
+                    }, 300);
+                }
             }
 
             methodsRight.addEventListener('mouseenter', revealPaymentOptions);
             methodsRight.addEventListener('click', function(e) {
                 var b = document.getElementById('payment-confirmed-banner');
-                if (b && b.style.display !== 'none' && !isAnimating) { revealPaymentOptions(); }
+                if (b && b.style.display !== 'none' && !isAnimating) { 
+                    revealPaymentOptions(); 
+                }
             });
+            
+            var wrapper = document.getElementById('payment-options-wrapper');
+            if (wrapper) {
+                wrapper.addEventListener('click', function(e) {
+                    // Si el click no fue en un link o botón
+                    if (localStorage.getItem('wp_pago_done') === 'true' && !e.target.closest('a') && !e.target.closest('button')) {
+                        hidePaymentOptions();
+                    }
+                });
+            }
         }
 
         // ── Label fase 2 si pagado ──
@@ -2023,6 +2058,29 @@
 
     // Inicializar sección de progreso al cargar
     updateProgressSection();
+
+    // ── Hero Interactive Gradient ──
+    var heroSection = document.querySelector('.hero');
+    if (heroSection) {
+        function updateHeroMouse(e) {
+            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            var rect = heroSection.getBoundingClientRect();
+            var x = clientX - rect.left;
+            var y = clientY - rect.top;
+            
+            heroSection.style.setProperty('--mouse-x', x + 'px');
+            heroSection.style.setProperty('--mouse-y', y + 'px');
+        }
+        heroSection.addEventListener('mousemove', updateHeroMouse);
+        heroSection.addEventListener('touchmove', updateHeroMouse, {passive: true});
+        
+        // Inicializar al centro
+        var initialRect = heroSection.getBoundingClientRect();
+        heroSection.style.setProperty('--mouse-x', (initialRect.width / 2) + 'px');
+        heroSection.style.setProperty('--mouse-y', (initialRect.height / 2) + 'px');
+    }
 </script>
 
 </body>
