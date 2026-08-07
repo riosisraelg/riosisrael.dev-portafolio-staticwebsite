@@ -78,17 +78,21 @@
 
     <!-- ── Fase 1: Attendance Section (Two Columns) ────────── -->
     <section class="section attendance-section" id="phase-1-asistencia">
-        <div class="section-card glass-card attendance-grid">
-            
-            <!-- Left Column: Instructions & Steps -->
-            <div class="attendance-info">
-                <div class="attendance-header">
-                    <span class="attendance-label">Fase 1: Confirmación de Asistencia</span>
+        <div class="section-card glass-card" style="padding: 24px; border-radius: 24px; display: flex; flex-direction: column; gap: 16px;">
+            <div style="text-align: center;">
+                <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
+                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 1: Confirmación de Asistencia</span>
                 </div>
-                <p class="attendance-explanation">
+                <p class="attendance-explanation" style="margin-bottom: 0; color: var(--gray-600); max-width: 400px; margin-left: auto; margin-right: auto;">
                     Tu confirmación es obligatoria para contemplar costos finales, lugares y dinámicas de la fiesta.
                 </p>
-                <div class="attendance-steps">
+            </div>
+            
+            <div class="attendance-grid">
+                
+                <!-- Left Column: Instructions & Steps -->
+                <div class="attendance-info">
+                    <div class="attendance-steps">
                     
                     <!-- Apple Button -->
                     <a href="https://youtu.be/vP8dGlX9R5c?si=rLtDVhMy5iZBcShw&t=276" target="_blank" rel="noopener" class="step-card-btn">
@@ -131,6 +135,7 @@
                 </a>
             </div>
 
+            </div>
         </div>
     </section>
 
@@ -175,14 +180,14 @@
             <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; min-height: 270px;">
                 
                 <!-- Confirmed Banner (se muestra cuando pagoDone es true) -->
-                <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none;">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg);">
-                        <span class="material-symbols-outlined" style="font-size: 1.2rem; color: #22c55e;">check_circle</span>
-                        APORTACIÓN CONFIRMADA
+                <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none; width: 100%;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg); padding-bottom: 12px; border-bottom: 1px dashed var(--border); width: 100%;">
+                        <span class="material-symbols-outlined" style="font-size: 1.5rem; color: #22c55e;">check_circle</span>
+                        Aportación Confirmada
                     </div>
-                    <div class="confirmed-hint" style="font-size: 0.72rem; color: var(--gray-500); font-weight: 500; margin-top: 4px; display: flex; align-items: center; gap: 4px;">
-                        <span class="material-symbols-outlined" style="font-size: 0.9rem; color: var(--gray-500);">touch_app</span>
-                        Tap o hover para ver opciones de pago
+                    <div class="confirmed-hint" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <span class="material-symbols-outlined" style="font-size: 1rem; color: var(--gray-500);" id="payment-banner-icon">touch_app</span>
+                        <span id="payment-banner-text">Tap o hover para ver opciones de pago</span>
                     </div>
                 </div>
 
@@ -217,12 +222,6 @@
                 </div>
             </div>
             
-            <!-- Back to Confirmation Note -->
-            <div id="payment-options-hide-btn" style="text-align: center; margin-top: 4px; padding: 8px; cursor: pointer; color: var(--gray-500); display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.75rem; font-weight: 500;">
-                <span class="material-symbols-outlined" style="font-size: 0.9rem;">visibility_off</span>
-                Ocultar opciones
-            </div>
-
             </div>
         </div>
     </section>
@@ -1465,6 +1464,19 @@
             methodsRight._bannerHooked = true;
             var isAnimating = false;
 
+            // Touch vs Click detection for hint text
+            var pbIcon = document.getElementById('payment-banner-icon');
+            var pbText = document.getElementById('payment-banner-text');
+            if (pbIcon && pbText) {
+                if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
+                    pbIcon.textContent = 'touch_app';
+                    pbText.textContent = 'Tap para ver opciones de pago';
+                } else {
+                    pbIcon.textContent = 'ads_click';
+                    pbText.textContent = 'Click o hover para opciones';
+                }
+            }
+
             function revealPaymentOptions() {
                 if (localStorage.getItem('wp_pago_done') !== 'true') return;
                 var b = document.getElementById('payment-confirmed-banner');
@@ -1484,35 +1496,11 @@
                 }
             }
 
-            function hidePaymentOptions(e) {
-                if (e) { e.preventDefault(); e.stopPropagation(); }
-                if (localStorage.getItem('wp_pago_done') !== 'true') return;
-                var b = document.getElementById('payment-confirmed-banner');
-                var w = document.getElementById('payment-options-wrapper');
-                if (!b || !w || isAnimating) return;
-                if (w.style.display !== 'none') {
-                    isAnimating = true;
-                    w.classList.add('fade-out-content');
-                    setTimeout(function() {
-                        w.style.display = 'none';
-                        w.classList.remove('fade-out-content');
-                        b.style.display = 'flex';
-                        b.classList.add('fade-in-content');
-                        setTimeout(function() { b.classList.remove('fade-in-content'); isAnimating = false; }, 350);
-                    }, 300);
-                }
-            }
-
             methodsRight.addEventListener('mouseenter', revealPaymentOptions);
             methodsRight.addEventListener('click', function(e) {
                 var b = document.getElementById('payment-confirmed-banner');
                 if (b && b.style.display !== 'none' && !isAnimating) { revealPaymentOptions(); }
             });
-            
-            var hideBtn = document.getElementById('payment-options-hide-btn');
-            if (hideBtn) {
-                hideBtn.addEventListener('click', hidePaymentOptions);
-            }
         }
 
         // ── Label fase 2 si pagado ──
