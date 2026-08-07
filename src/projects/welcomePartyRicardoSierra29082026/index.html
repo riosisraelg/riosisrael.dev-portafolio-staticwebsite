@@ -1487,13 +1487,18 @@
 
                 if (b.style.display !== 'none') {
                     isAnimating = true;
+                    w.style.pointerEvents = 'none'; // Bloquear clicks accidentales
                     b.classList.add('fade-out-content');
                     setTimeout(function() {
                         b.style.display = 'none';
                         b.classList.remove('fade-out-content');
                         w.style.display = 'flex';
                         w.classList.add('fade-in-content');
-                        setTimeout(function() { w.classList.remove('fade-in-content'); isAnimating = false; }, 350);
+                        setTimeout(function() { 
+                            w.classList.remove('fade-in-content'); 
+                            w.style.pointerEvents = ''; // Habilitar clicks de nuevo
+                            isAnimating = false; 
+                        }, 350);
                     }, 300);
                 }
             } // closing brace for revealPaymentOptions
@@ -1505,18 +1510,26 @@
                 
                 if (w.style.display !== 'none') {
                     isAnimating = true;
+                    b.style.pointerEvents = 'none'; // Bloquear clicks accidentales
                     w.classList.add('fade-out-content');
                     setTimeout(function() {
                         w.style.display = 'none';
                         w.classList.remove('fade-out-content');
                         b.style.display = 'flex';
                         b.classList.add('fade-in-content');
-                        setTimeout(function() { b.classList.remove('fade-in-content'); isAnimating = false; }, 350);
+                        setTimeout(function() { 
+                            b.classList.remove('fade-in-content'); 
+                            b.style.pointerEvents = ''; // Habilitar clicks de nuevo
+                            isAnimating = false; 
+                        }, 350);
                     }, 300);
                 }
             }
 
-            methodsRight.addEventListener('mouseenter', revealPaymentOptions);
+            var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (!isTouch) {
+                methodsRight.addEventListener('mouseenter', revealPaymentOptions);
+            }
             methodsRight.addEventListener('click', function(e) {
                 var b = document.getElementById('payment-confirmed-banner');
                 if (b && b.style.display !== 'none' && !isAnimating) { 
