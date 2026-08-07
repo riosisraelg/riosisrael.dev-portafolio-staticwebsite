@@ -50,6 +50,10 @@
 
     <!-- ── Sección de Progreso ────────────────────────────── -->
     <section class="progress-section" id="progress-section">
+        <div class="progress-section-header">
+            <div class="progress-section-title">Tu progreso</div>
+            <div class="progress-section-desc">Toca cada fase para verificar o actualizar tu estado.</div>
+        </div>
         <div class="progress-card">
             <!-- Paso 1: Asistencia -->
             <div class="progress-step step-pending" id="progress-step-1">
@@ -58,6 +62,7 @@
                     <div class="progress-step-title pending" id="progress-title-1">Fase 1: Confirmar Asistencia</div>
                     <div class="progress-step-sub" id="progress-sub-1">Pendiente — acepta la invitación de iCloud</div>
                 </div>
+                <span class="material-symbols-outlined progress-step-arrow">chevron_right</span>
             </div>
             <!-- Paso 2: Aportación -->
             <div class="progress-step step-pending" id="progress-step-2">
@@ -66,6 +71,7 @@
                     <div class="progress-step-title pending" id="progress-title-2">Fase 2: Aportación ($350 MXN)</div>
                     <div class="progress-step-sub" id="progress-sub-2">Bloqueada — completa la Fase 1 primero</div>
                 </div>
+                <span class="material-symbols-outlined progress-step-arrow">chevron_right</span>
             </div>
         </div>
     </section>
@@ -166,7 +172,7 @@
             </div>
 
             <!-- Right: Payment Methods -->
-            <div class="payment-large-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+            <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
                 
                 <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
                     <span class="attendance-label">Métodos de Pago</span>
@@ -1348,6 +1354,7 @@
         var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
         var confirmBtn     = document.getElementById('attendance-confirm-btn');
         var phase1Section  = document.getElementById('phase-1-asistencia');
+        var methodsRight   = document.getElementById('payment-methods-right');
 
         // ── Botón de asistencia: rojo si pendiente, verde si hecho ──
         if (confirmBtn) {
@@ -1364,17 +1371,21 @@
             }
         }
 
-        // ── Métodos de pago: sección verde si pagoDone, roja si asistencia done pero pago no ──
-        var phase2Pagos2 = document.getElementById('phase-2-pagos');
-        if (phase2Pagos2) {
-            phase2Pagos2.classList.remove('payment-methods-done', 'payment-methods-pending');
+        // ── Solo el right container de métodos de pago: rojo/verde ──
+        if (methodsRight) {
+            methodsRight.classList.remove('methods-pending', 'methods-done');
             if (pagoDone) {
-                phase2Pagos2.classList.add('payment-methods-done');
-                var lbl2 = phase2Pagos2.querySelector('.attendance-label');
-                if (lbl2) lbl2.innerHTML = '✅ Fase 2: Aportación Registrada';
+                methodsRight.classList.add('methods-done');
             } else if (asistenciaDone) {
-                phase2Pagos2.classList.add('payment-methods-pending');
+                methodsRight.classList.add('methods-pending');
             }
+        }
+
+        // ── Label fase 2 si pagado ──
+        var phase2Pagos2 = document.getElementById('phase-2-pagos');
+        if (phase2Pagos2 && pagoDone) {
+            var lbl2 = phase2Pagos2.querySelector('.attendance-label');
+            if (lbl2) lbl2.innerHTML = '✅ Fase 2: Aportación Registrada';
         }
     }
 
@@ -1435,51 +1446,75 @@
         if (confirmBtn && !confirmBtn._hooked) {
             confirmBtn._hooked = true;
             confirmBtn.addEventListener('click', function() {
-                // Guardar estado al volver de iCloud
                 localStorage.setItem('wp_asistencia_done', 'true');
             });
         }
 
-        // ── Hook: botones de pago ──
+        // ── Hook: botones de pago con debounce 2s ──
         if (phase2Pagos && !phase2Pagos._hooksAttached) {
             phase2Pagos._hooksAttached = true;
 
-            // Stripe — modal de confirmación inmediato
+            var payDebounceTimer = null;
+            var payDebouncing = false;
+
+            function isPayModalOpen() {
+                // No mostrar modal de confirmación si SPEI o CODI están abiertos
+                var bank = document.getElementById('bankModalOverlay');
+                var codi = document.getElementById('codiModalOverlay');
+                return (bank && bank.classList.contains('open')) ||
+                       (codi && codi.classList.contains('open'));
+            }
+
+            function triggerPayConfirm(delay) {
+                if (!localStorage.getItem('wp_asistencia_done')) return;
+                if (payDebouncing) {
+                    // Ya hay un timer corriendo — resetear para que solo dispare una vez
+                    clearTimeout(payDebounceTimer);
+                } else {
+                    payDebouncing = true;
+                }
+                payDebounceTimer = setTimeout(function() {
+                    payDebouncing = false;
+                    // Solo mostrar si ningún modal de datos está abierto
+                    if (!isPayModalOpen()) {
+                        openConfirmModal(htmlPhase2Ask());
+                    } else {
+                        // Esperar a que cierre el modal de datos y luego preguntar
+                        var pollClose = setInterval(function() {
+                            if (!isPayModalOpen()) {
+                                clearInterval(pollClose);
+                                openConfirmModal(htmlPhase2Ask());
+                            }
+                        }, 400);
+                    }
+                }, delay);
+            }
+
+            // Stripe — 1s delay (abre en nueva pestaña)
             var stripeBtn = phase2Pagos.querySelector('.stripe-btn');
             if (stripeBtn) {
                 stripeBtn.addEventListener('click', function() {
-                    if (!localStorage.getItem('wp_asistencia_done')) return;
-                    // Stripe abre en nueva pestaña (target=_blank ya puesto en el <a>)
-                    // Mostrar modal de confirmación después de 1s
-                    setTimeout(function() {
-                        document.getElementById('phase2-confirm-modal').classList.add('active');
-                    }, 1000);
+                    triggerPayConfirm(1000);
                 });
             }
 
-            // SPEI — modal de datos bancarios se abre normalmente, confirmación después de 3s
+            // SPEI — 3s delay
             var speiBtn = document.getElementById('openBankModal');
             if (speiBtn) {
                 speiBtn.addEventListener('click', function() {
-                    if (!localStorage.getItem('wp_asistencia_done')) return;
-                    setTimeout(function() {
-                        document.getElementById('phase2-confirm-modal').classList.add('active');
-                    }, 3000);
+                    triggerPayConfirm(3000);
                 });
             }
 
-            // CODI — igual que SPEI, 3s de delay
+            // CODI — 3s delay
             var codiBtn = document.getElementById('openCodiModal');
             if (codiBtn) {
                 codiBtn.addEventListener('click', function() {
-                    if (!localStorage.getItem('wp_asistencia_done')) return;
-                    setTimeout(function() {
-                        document.getElementById('phase2-confirm-modal').classList.add('active');
-                    }, 3000);
+                    triggerPayConfirm(3000);
                 });
             }
 
-            // El botón de COSTOS (openCostModal) NO dispara nada
+            // Costos — sin confirmación
         }
     }
 
@@ -1502,7 +1537,7 @@
         if (!fase1Shown) {
             localStorage.setItem('wp_fase1_modal_shown', 'true');
             setTimeout(function() {
-                document.getElementById('phase1-confirm-modal').classList.add('active');
+                openConfirmModal(htmlPhase1Ask());
             }, 600);
         }
         initProgressiveDisclosure();
@@ -1525,127 +1560,165 @@
         </button>
     </div>
 </div>
-<!-- ── Modal Confirmación Fase 1 (¿Te registraste en iCloud?) ── -->
-<div class="modal-overlay-success" id="phase1-confirm-modal">
-    <div class="success-modal-content">
-        <span class="material-symbols-outlined" style="font-size:52px; color: var(--primary); margin-bottom:12px;">event_available</span>
-        <h2 style="font-size:1.3rem; color:var(--fg); margin-bottom:10px; font-weight:700;">¿Confirmaste tu asistencia?</h2>
-        <p style="font-size:0.9rem; color:var(--gray-600); margin-bottom:24px; line-height:1.5;">
-            ¿Ya aceptaste la invitación en iCloud y quedaste en la lista de invitados?
-        </p>
-        <div style="display:flex; gap:12px;">
-            <button onclick="confirmPhase1(false)" style="flex:1; padding:13px; border-radius:12px; border:1.5px solid rgba(220,38,38,0.5); background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06)); color:#dc2626; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px);">
-                ✗ Aún no
-            </button>
-            <button onclick="confirmPhase1(true)" style="flex:1; padding:13px; border-radius:12px; border:1.5px solid rgba(34,197,94,0.5); background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08)); color:var(--success); font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px);">
-                ✓ ¡Sí, ya estoy!
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- ── Modal Confirmación Fase 2 (¿Realizaste el pago?) ── -->
-<div class="modal-overlay-success" id="phase2-confirm-modal">
-    <div class="success-modal-content">
-        <span class="material-symbols-outlined" style="font-size:52px; color: var(--primary); margin-bottom:12px;">payments</span>
-        <h2 style="font-size:1.3rem; color:var(--fg); margin-bottom:10px; font-weight:700;">¿Realizaste tu aportación?</h2>
-        <p style="font-size:0.9rem; color:var(--gray-600); margin-bottom:24px; line-height:1.5;">
-            ¿Completaste el pago de <strong>$350 MXN</strong> por Stripe, SPEI o CODI?
-        </p>
-        <div style="display:flex; gap:12px;">
-            <button onclick="confirmPhase2(false)" style="flex:1; padding:13px; border-radius:12px; border:1.5px solid rgba(220,38,38,0.5); background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06)); color:#dc2626; font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px);">
-                ✗ Todavía no
-            </button>
-            <button onclick="confirmPhase2(true)" style="flex:1; padding:13px; border-radius:12px; border:1.5px solid rgba(34,197,94,0.5); background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08)); color:var(--success); font-family:var(--font); font-size:0.9rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px);">
-                ✓ ¡Sí, ya pagué!
-            </button>
-        </div>
+<!-- ── Modal de Confirmación (único, reutilizable) ── -->
+<div class="modal-overlay-success" id="confirm-modal">
+    <div class="success-modal-content" id="confirm-modal-content">
+        <!-- El contenido se inyecta dinámicamente -->
     </div>
 </div>
 
 <script>
-    function closeSuccessModal() {
-        var sm = document.getElementById('success-modal');
-        sm.classList.remove('active');
-        if (sm._onClose) { sm._onClose(); sm._onClose = null; }
+    // ── Utilidad: swap de contenido con animación ──
+    function swapModalContent(newHTML, onDone) {
+        var content = document.getElementById('confirm-modal-content');
+        content.classList.add('modal-content-swap');
+        setTimeout(function() {
+            content.innerHTML = newHTML;
+            content.classList.remove('modal-content-swap');
+            content.classList.add('modal-content-in');
+            setTimeout(function() {
+                content.classList.remove('modal-content-in');
+                if (onDone) onDone();
+            }, 250);
+        }, 200);
     }
 
+    function openConfirmModal(html) {
+        var content = document.getElementById('confirm-modal-content');
+        content.innerHTML = html;
+        document.getElementById('confirm-modal').classList.add('active');
+    }
+
+    function closeConfirmModal() {
+        document.getElementById('confirm-modal').classList.remove('active');
+    }
+
+    // ── Contenido de modales ──
+    function htmlPhase1Ask() {
+        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">event_available</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Confirmaste tu asistencia?</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Ya aceptaste la invitación en iCloud y quedaste en la lista?</p>' +
+            '<div style="display:flex;gap:10px">' +
+            '<button onclick="confirmPhase1(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Aún no</button>' +
+            '<button onclick="confirmPhase1(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya estoy!</button>' +
+            '</div>';
+    }
+
+    function htmlPhase1Success() {
+        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 1 Completada! ✅</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">Ya estás en la lista de invitados. Ahora puedes realizar tu aportación en la Fase 2. ¡Gracias!</p>' +
+            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🎉</button>';
+    }
+
+    function htmlPhase2Ask() {
+        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">payments</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Realizaste tu aportación?</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Completaste el pago de <strong>$350 MXN</strong> por Stripe, SPEI o CODI?</p>' +
+            '<div style="display:flex;gap:10px">' +
+            '<button onclick="confirmPhase2(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Todavía no</button>' +
+            '<button onclick="confirmPhase2(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya pagué!</button>' +
+            '</div>';
+    }
+
+    function htmlPhase2Success() {
+        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 2 Completada! ✅</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¡Gracias! Tu aportación de $350 MXN está registrada. ¡Nos vemos el 29 de agosto! 🎉</p>' +
+            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🥩🍺</button>';
+    }
+
+    // ── Confirmaciones ──
     function confirmPhase1(done) {
-        document.getElementById('phase1-confirm-modal').classList.remove('active');
         if (done) {
             localStorage.setItem('wp_asistencia_done', 'true');
+            swapModalContent(htmlPhase1Success());
         } else {
             localStorage.removeItem('wp_asistencia_done');
+            closeConfirmModal();
         }
         updateProgressSection();
+        applyVisualStates();
         if (typeof initProgressiveDisclosure === 'function') initProgressiveDisclosure();
     }
 
     function confirmPhase2(done) {
-        document.getElementById('phase2-confirm-modal').classList.remove('active');
         if (done) {
             localStorage.setItem('wp_pago_done', 'true');
+            swapModalContent(htmlPhase2Success());
         } else {
             localStorage.removeItem('wp_pago_done');
+            closeConfirmModal();
         }
         updateProgressSection();
-        if (typeof applyVisualStates === 'function') applyVisualStates();
+        applyVisualStates();
     }
 
+    function closeSuccessModal() {
+        var sm = document.getElementById('success-modal');
+        if (sm) { sm.classList.remove('active'); }
+    }
+
+    // ── Actualizar sección de progreso ──
     function updateProgressSection() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
 
-        var step1     = document.getElementById('progress-step-1');
-        var icon1     = document.getElementById('progress-icon-1');
-        var title1    = document.getElementById('progress-title-1');
-        var sub1      = document.getElementById('progress-sub-1');
-        var step2     = document.getElementById('progress-step-2');
-        var icon2     = document.getElementById('progress-icon-2');
-        var title2    = document.getElementById('progress-title-2');
-        var sub2      = document.getElementById('progress-sub-2');
-
+        var step1  = document.getElementById('progress-step-1');
+        var icon1  = document.getElementById('progress-icon-1');
+        var title1 = document.getElementById('progress-title-1');
+        var sub1   = document.getElementById('progress-sub-1');
+        var step2  = document.getElementById('progress-step-2');
+        var icon2  = document.getElementById('progress-icon-2');
+        var title2 = document.getElementById('progress-title-2');
+        var sub2   = document.getElementById('progress-sub-2');
         if (!step1) return;
 
-        // Paso 1
         if (asistenciaDone) {
-            step1.className  = 'progress-step step-done';
-            icon1.className  = 'progress-step-icon done';
-            icon1.textContent = '✓';
-            title1.className = 'progress-step-title done';
-            title1.textContent = 'Fase 1: Asistencia Confirmada ✅';
-            sub1.textContent  = '¡Ya estás en la lista de invitados!';
+            step1.className = 'progress-step step-done';
+            icon1.className = 'progress-step-icon done'; icon1.textContent = '✓';
+            title1.className = 'progress-step-title done'; title1.textContent = 'Fase 1: Asistencia Confirmada ✅';
+            sub1.textContent = '¡Ya estás en la lista de invitados!';
         } else {
-            step1.className  = 'progress-step step-pending';
-            icon1.className  = 'progress-step-icon pending';
-            icon1.textContent = '✗';
-            title1.className = 'progress-step-title pending';
-            title1.textContent = 'Fase 1: Confirmar Asistencia';
-            sub1.textContent  = 'Pendiente — acepta la invitación de iCloud';
+            step1.className = 'progress-step step-pending';
+            icon1.className = 'progress-step-icon pending'; icon1.textContent = '✗';
+            title1.className = 'progress-step-title pending'; title1.textContent = 'Fase 1: Confirmar Asistencia';
+            sub1.textContent = 'Pendiente — acepta la invitación de iCloud';
         }
 
-        // Paso 2
         if (pagoDone) {
-            step2.className  = 'progress-step step-done';
-            icon2.className  = 'progress-step-icon done';
-            icon2.textContent = '✓';
-            title2.className = 'progress-step-title done';
-            title2.textContent = 'Fase 2: Aportación Registrada ✅';
-            sub2.textContent  = '¡Gracias! Tu aportación de $350 MXN está confirmada.';
+            step2.className = 'progress-step step-done';
+            icon2.className = 'progress-step-icon done'; icon2.textContent = '✓';
+            title2.className = 'progress-step-title done'; title2.textContent = 'Fase 2: Aportación Registrada ✅';
+            sub2.textContent = '¡Gracias! Aportación de $350 MXN confirmada.';
         } else if (asistenciaDone) {
-            step2.className  = 'progress-step step-pending';
-            icon2.className  = 'progress-step-icon pending';
-            icon2.textContent = '✗';
-            title2.className = 'progress-step-title pending';
-            title2.textContent = 'Fase 2: Aportación ($350 MXN)';
-            sub2.textContent  = 'Pendiente — elige un método de pago abajo';
+            step2.className = 'progress-step step-pending';
+            icon2.className = 'progress-step-icon pending'; icon2.textContent = '✗';
+            title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación ($350 MXN)';
+            sub2.textContent = 'Pendiente — elige un método de pago';
         } else {
-            step2.className  = 'progress-step step-pending';
-            icon2.className  = 'progress-step-icon pending';
-            icon2.textContent = '✗';
-            title2.className = 'progress-step-title pending';
-            title2.textContent = 'Fase 2: Aportación ($350 MXN)';
-            sub2.textContent  = 'Bloqueada — completa la Fase 1 primero';
+            step2.className = 'progress-step step-pending';
+            icon2.className = 'progress-step-icon pending'; icon2.textContent = '✗';
+            title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación ($350 MXN)';
+            sub2.textContent = 'Bloqueada — completa la Fase 1 primero';
+        }
+
+        // Taps en la sección de progreso abren el modal correspondiente
+        if (step1 && !step1._tapHooked) {
+            step1._tapHooked = true;
+            step1.addEventListener('click', function() {
+                openConfirmModal(htmlPhase1Ask());
+            });
+        }
+        if (step2 && !step2._tapHooked) {
+            step2._tapHooked = true;
+            step2.addEventListener('click', function() {
+                if (localStorage.getItem('wp_asistencia_done') === 'true') {
+                    openConfirmModal(htmlPhase2Ask());
+                } else {
+                    openConfirmModal(htmlPhase1Ask()); // Redirige a fase 1 si no está completa
+                }
+            });
         }
     }
 
