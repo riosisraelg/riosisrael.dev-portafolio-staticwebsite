@@ -828,7 +828,7 @@
         return Promise.resolve();
     }
 
-    // ── Parallax Mouse & Scroll ──
+    // ── Parallax & Liquid Glass Drag Physics ──
     var heroSection = document.getElementById('heroSection');
     var heroOrbs = document.getElementById('heroOrbs');
     var heroGlassCard = document.getElementById('heroGlassCard');
@@ -836,17 +836,95 @@
     var currentX = 0, currentY = 0;
     var scrollY = window.scrollY;
     
+    // Drag state
+    var isDragging = false;
+    var startX = 0, startY = 0;
+    var dragX = 0, dragY = 0;
+    var velocityX = 0, velocityY = 0;
+    var lastX = 0, lastY = 0;
+
     function renderParallax() {
         if (heroOrbs) {
             heroOrbs.style.transform = 'translate3d(' + (currentX * -15) + 'px, ' + ((currentY * -15) + (scrollY * 0.4)) + 'px, 0)';
         }
-        if (heroGlassCard) {
+        if (!isDragging && heroGlassCard && dragX === 0 && dragY === 0) {
             heroGlassCard.style.transform = 'translate3d(' + (currentX * 10) + 'px, ' + (currentY * 10) + 'px, 0) scale(1.02)';
         }
     }
 
+    if (heroGlassCard) {
+        // Prepare card for smooth snapping
+        heroGlassCard.style.cursor = 'grab';
+        
+        function onDragStart(e) {
+            if (e.target.closest('button') || e.target.closest('a')) return; // let buttons work
+            isDragging = true;
+            var clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            var clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            startX = clientX - dragX;
+            startY = clientY - dragY;
+            lastX = clientX;
+            lastY = clientY;
+            heroGlassCard.style.transition = 'none'; // Instant follow
+            heroGlassCard.style.cursor = 'grabbing';
+        }
+
+        function onDragMove(e) {
+            if (!isDragging) return;
+            e.preventDefault(); // Prevent scrolling on mobile
+            var clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            var clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            
+            // Calculate velocity for liquid glass effect
+            velocityX = clientX - lastX;
+            velocityY = clientY - lastY;
+            lastX = clientX;
+            lastY = clientY;
+
+            dragX = clientX - startX;
+            dragY = clientY - startY;
+
+            // Liquid glass squish & skew based on velocity and drag distance
+            var stretchX = 1 + Math.abs(velocityX) * 0.002;
+            var stretchY = 1 + Math.abs(velocityY) * 0.002;
+            var skewX = velocityX * 0.3;
+            var skewY = velocityY * 0.3;
+            
+            // Clamp values
+            skewX = Math.max(-15, Math.min(15, skewX));
+            skewY = Math.max(-15, Math.min(15, skewY));
+
+            heroGlassCard.style.transform = 'translate3d(' + dragX + 'px, ' + dragY + 'px, 0) scale(' + stretchX + ', ' + stretchY + ') skew(' + skewX + 'deg, ' + skewY + 'deg)';
+        }
+
+        function onDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            heroGlassCard.style.cursor = 'grab';
+            
+            // Spring back animation (liquid glass snap)
+            heroGlassCard.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            dragX = 0; dragY = 0;
+            heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1) skew(0deg, 0deg)';
+            
+            // Remove transition after it completes to allow parallax
+            setTimeout(function() {
+                if (!isDragging) heroGlassCard.style.transition = 'none';
+            }, 800);
+        }
+
+        heroGlassCard.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove, {passive: false});
+        window.addEventListener('mouseup', onDragEnd);
+        
+        heroGlassCard.addEventListener('touchstart', onDragStart, {passive: false});
+        window.addEventListener('touchmove', onDragMove, {passive: false});
+        window.addEventListener('touchend', onDragEnd);
+    }
+
     if (heroSection) {
         heroSection.addEventListener('mousemove', function(e) {
+            if (isDragging) return;
             var rect = heroSection.getBoundingClientRect();
             currentX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
             currentY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
@@ -854,16 +932,16 @@
         });
 
         heroSection.addEventListener('mouseleave', function() {
+            if (isDragging) return;
             currentX = 0;
             currentY = 0;
             renderParallax();
-            if (heroGlassCard) heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
+            if (heroGlassCard && dragX === 0 && dragY === 0) heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
         });
     }
 
     window.addEventListener('scroll', function() {
         scrollY = window.scrollY;
-        // Optimization: only render if we are near the top
         if (scrollY < window.innerHeight) {
             window.requestAnimationFrame(renderParallax);
         }
