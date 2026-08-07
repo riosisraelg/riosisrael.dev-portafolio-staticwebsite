@@ -1311,126 +1311,199 @@
     });
 
     // ── PROGRESSIVE DISCLOSURE LOGIC (2 fases) ──
-    function initProgressiveDisclosure() {
-        var phase1Asistencia = document.getElementById('phase-1-asistencia');
-        var phase2Pagos = document.getElementById('phase-2-pagos');
-        var confirmBtn = document.getElementById('attendance-confirm-btn');
-        var successModal = document.getElementById('success-modal');
+    function showPhaseModal(title, body, onClose) {
+        var sm = document.getElementById('success-modal');
+        if (!sm) return;
+        sm.querySelector('h2').innerText = title;
+        sm.querySelector('p').innerText = body;
+        sm.classList.add('active');
+        // store callback
+        sm._onClose = onClose || null;
+    }
 
-        // Retrieve states
+    function applyVisualStates() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
-        var pagoDone = localStorage.getItem('wp_pago_done') === 'true';
+        var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
+        var confirmBtn     = document.getElementById('attendance-confirm-btn');
+        var phase1Section  = document.getElementById('phase-1-asistencia');
 
-        // Block clicks on locked sections using capturing phase
-        document.addEventListener('click', function(e) {
-            var target = e.target;
-            while (target && target !== document) {
-                if (target.classList && target.classList.contains('locked-section')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-                target = target.parentNode;
-            }
-        }, true);
-
-        function lockSection(sectionElement) {
-            if (!sectionElement) return;
-            sectionElement.classList.add('locked-section');
-            var links = sectionElement.querySelectorAll('a');
-            links.forEach(function(link) {
-                if (link.hasAttribute('href')) {
-                    link.setAttribute('data-href', link.getAttribute('href'));
-                    link.removeAttribute('href');
-                }
-            });
-            if (!sectionElement.querySelector('.locked-overlay')) {
-                var overlay = document.createElement('div');
-                overlay.className = 'locked-overlay';
-                overlay.innerHTML = '<span class="material-symbols-outlined">lock</span><strong style="font-size: 1.1rem; margin-bottom: 4px;">Sección Bloqueada</strong><span style="font-size: 0.85rem; opacity: 0.8;">Completa la fase anterior primero.</span>';
-                sectionElement.appendChild(overlay);
-            }
-        }
-
-        function unlockSection(sectionElement) {
-            if (!sectionElement) return;
-            sectionElement.classList.remove('locked-section');
-            var links = sectionElement.querySelectorAll('a');
-            links.forEach(function(link) {
-                if (link.hasAttribute('data-href')) {
-                    link.setAttribute('href', link.getAttribute('data-href'));
-                    link.removeAttribute('data-href');
-                }
-            });
-            var overlay = sectionElement.querySelector('.locked-overlay');
-            if (overlay) overlay.remove();
-        }
-
-        // Apply UI states based on progress
-        if (!asistenciaDone) {
-            // Fase 1 incompleta → bloquear Fase 2
-            lockSection(phase2Pagos);
-        } else {
-            // Fase 1 completada → desbloquear Fase 2
-            unlockSection(phase2Pagos);
-
-            if (phase1Asistencia) {
-                var label1 = phase1Asistencia.querySelector('.attendance-label');
-                if (label1) label1.innerHTML = '✅ Fase 1: Confirmación Completada';
-                var btn1 = document.getElementById('attendance-confirm-btn');
-                if (btn1) {
-                    btn1.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
-                    btn1.style.background = 'var(--success)';
-                }
-            }
-
-            if (pagoDone && phase2Pagos) {
-                var label2 = phase2Pagos.querySelector('.attendance-label');
-                if (label2) label2.innerHTML = '✅ Fase 2: Aportación Final Completada';
-            }
-        }
-
-        // Hook iCloud confirm button
+        // ── Botón de asistencia: rojo si pendiente, verde si hecho ──
         if (confirmBtn) {
-            confirmBtn.addEventListener('click', function() {
-                localStorage.setItem('wp_asistencia_done', 'true');
-                if (successModal) {
-                    successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
-                    successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 2.';
-                    successModal.classList.add('active');
+            confirmBtn.classList.remove('attendance-btn-pending', 'attendance-btn-done');
+            if (!asistenciaDone) {
+                confirmBtn.classList.add('attendance-btn-pending');
+            } else {
+                confirmBtn.classList.add('attendance-btn-done');
+                confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
+                if (phase1Section) {
+                    var lbl1 = phase1Section.querySelector('.attendance-label');
+                    if (lbl1) lbl1.innerHTML = '✅ Fase 1: Confirmación Completada';
                 }
-                setTimeout(initProgressiveDisclosure, 500);
-            });
+            }
         }
 
-        // Hook Payment buttons to mark Phase 2 as completed
-        if (phase2Pagos) {
-            var paymentBtns = phase2Pagos.querySelectorAll('.payment-btn, .efectivo-btn');
-            paymentBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    if (asistenciaDone) {
-                        localStorage.setItem('wp_pago_done', 'true');
-                        if (successModal) {
-                            successModal.querySelector('h2').innerText = '¡Aportación Registrada!';
-                            successModal.querySelector('p').innerText = 'Gracias por tu aportación. Todo el proceso ha sido completado. ¡Nos vemos en la fiesta!';
-                            successModal.classList.add('active');
-                        }
-                        initProgressiveDisclosure();
-                    }
-                });
-            });
+        // ── Métodos de pago: sección verde si pagoDone ──
+        var phase2Pagos2 = document.getElementById('phase-2-pagos');
+        if (phase2Pagos2) {
+            if (pagoDone) {
+                phase2Pagos2.classList.add('payment-methods-done');
+                var lbl2 = phase2Pagos2.querySelector('.attendance-label');
+                if (lbl2) lbl2.innerHTML = '✅ Fase 2: Aportación Registrada';
+            } else {
+                phase2Pagos2.classList.remove('payment-methods-done');
+            }
         }
     }
 
-    // Dynamic UI unlock when returning to tab
+    function initProgressiveDisclosure() {
+        var phase1Asistencia = document.getElementById('phase-1-asistencia');
+        var phase2Pagos      = document.getElementById('phase-2-pagos');
+        var confirmBtn       = document.getElementById('attendance-confirm-btn');
+
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
+
+        // Block clicks on locked sections
+        document.addEventListener('click', function(e) {
+            var t = e.target;
+            while (t && t !== document) {
+                if (t.classList && t.classList.contains('locked-section')) {
+                    e.preventDefault(); e.stopPropagation(); return false;
+                }
+                t = t.parentNode;
+            }
+        }, true);
+
+        function lockSection(el) {
+            if (!el) return;
+            el.classList.add('locked-section');
+            el.querySelectorAll('a').forEach(function(a) {
+                if (a.hasAttribute('href')) { a.setAttribute('data-href', a.getAttribute('href')); a.removeAttribute('href'); }
+            });
+            if (!el.querySelector('.locked-overlay')) {
+                var ov = document.createElement('div');
+                ov.className = 'locked-overlay';
+                ov.innerHTML = '<span class="material-symbols-outlined">lock</span><strong style="font-size:1.1rem;margin-bottom:4px">Sección Bloqueada</strong><span style="font-size:0.85rem;opacity:0.8">Completa la fase anterior primero.</span>';
+                el.appendChild(ov);
+            }
+        }
+
+        function unlockSection(el) {
+            if (!el) return;
+            el.classList.remove('locked-section');
+            el.querySelectorAll('a').forEach(function(a) {
+                if (a.hasAttribute('data-href')) { a.setAttribute('href', a.getAttribute('data-href')); a.removeAttribute('data-href'); }
+            });
+            var ov = el.querySelector('.locked-overlay');
+            if (ov) ov.remove();
+        }
+
+        // Apply lock/unlock
+        if (!asistenciaDone) {
+            lockSection(phase2Pagos);
+        } else {
+            unlockSection(phase2Pagos);
+        }
+
+        // Apply visual states (colors)
+        applyVisualStates();
+
+        // ── Hook: botón confirmar asistencia (iCloud) ──
+        if (confirmBtn && !confirmBtn._hooked) {
+            confirmBtn._hooked = true;
+            confirmBtn.addEventListener('click', function() {
+                // Guardar estado al volver de iCloud
+                localStorage.setItem('wp_asistencia_done', 'true');
+            });
+        }
+
+        // ── Hook: botones de pago ──
+        if (phase2Pagos && !phase2Pagos._hooksAttached) {
+            phase2Pagos._hooksAttached = true;
+
+            // Stripe — modal inmediato
+            var stripeBtn = phase2Pagos.querySelector('.stripe-btn');
+            if (stripeBtn) {
+                stripeBtn.addEventListener('click', function() {
+                    if (!localStorage.getItem('wp_asistencia_done')) return;
+                    // Abre stripe en nueva pestaña (ya tiene target=_blank en el <a>)
+                    // Marcar como pagado inmediatamente y mostrar modal
+                    localStorage.setItem('wp_pago_done', 'true');
+                    applyVisualStates();
+                    showPhaseModal(
+                        '¡Pago iniciado! 🎉',
+                        'Completaste el proceso de aportación vía Stripe. ¡Nos vemos el 29 de agosto!'
+                    );
+                });
+            }
+
+            // SPEI — delay 3s antes del modal de completado
+            var speiBtn = document.getElementById('openBankModal');
+            if (speiBtn) {
+                speiBtn.addEventListener('click', function() {
+                    if (!localStorage.getItem('wp_asistencia_done')) return;
+                    // El modal de SPEI se abre normalmente, después de 3s mostrar modal de completado
+                    setTimeout(function() {
+                        localStorage.setItem('wp_pago_done', 'true');
+                        applyVisualStates();
+                        showPhaseModal(
+                            '¡Método de pago seleccionado! 💸',
+                            'Ya tienes los datos de transferencia. Una vez realizado el SPEI quedas registrado. ¡Nos vemos el 29!'
+                        );
+                    }, 3000);
+                });
+            }
+
+            // CODI — delay 3s
+            var codiBtn = document.getElementById('openCodiModal');
+            if (codiBtn) {
+                codiBtn.addEventListener('click', function() {
+                    if (!localStorage.getItem('wp_asistencia_done')) return;
+                    setTimeout(function() {
+                        localStorage.setItem('wp_pago_done', 'true');
+                        applyVisualStates();
+                        showPhaseModal(
+                            '¡Método de pago seleccionado! 📱',
+                            'Ya tienes el QR y los datos CODI. Una vez escaneado quedas registrado. ¡Nos vemos el 29!'
+                        );
+                    }, 3000);
+                });
+            }
+
+            // El botón de COSTOS (openCostModal) NO completa la sección — sin hook
+        }
+    }
+
+    // Al volver a la pestaña (regresa de iCloud) refrescar estado
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
+            var wasDone = localStorage.getItem('wp_asistencia_done') === 'true';
+            // Si aún no estaba done pero ahora iCloud redirigió de vuelta, mostramos modal
             initProgressiveDisclosure();
+            var nowDone = localStorage.getItem('wp_asistencia_done') === 'true';
+            if (!wasDone && nowDone) {
+                // No mostrar nada extra — ya se gestiona abajo
+            }
         }
     });
 
-    // Initialize progressive disclosure on load
-    initProgressiveDisclosure();
+    // Al regresar de iCloud con asistencia guardada, mostrar modal Fase 1 completada
+    window.addEventListener('pageshow', function() {
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var fase1Shown     = localStorage.getItem('wp_fase1_modal_shown') === 'true';
+        if (asistenciaDone && !fase1Shown) {
+            localStorage.setItem('wp_fase1_modal_shown', 'true');
+            setTimeout(function() {
+                showPhaseModal(
+                    '¡Fase 1 Completada! ✅',
+                    'Tu asistencia ha sido confirmada. Ahora ya puedes ver los métodos de aportación en la Fase 2. ¡Gracias!'
+                );
+                initProgressiveDisclosure();
+            }, 400);
+        } else {
+            initProgressiveDisclosure();
+        }
+    });
 
 })();
 </script>
@@ -1450,9 +1523,9 @@
 </div>
 <script>
     function closeSuccessModal() {
-        document.getElementById('success-modal').classList.remove('active');
-        localStorage.setItem('wp_welcome_modal_shown', 'true');
-        // Reload to reveal phase 3 smoothly or it's already revealed by initProgressiveDisclosure
+        var sm = document.getElementById('success-modal');
+        sm.classList.remove('active');
+        if (sm._onClose) { sm._onClose(); sm._onClose = null; }
     }
 </script>
 
