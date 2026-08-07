@@ -1486,7 +1486,7 @@
         if (confirmBtn && !confirmBtn._hooked) {
             confirmBtn._hooked = true;
             confirmBtn.addEventListener('click', function() {
-                localStorage.setItem('wp_asistencia_done', 'true');
+                localStorage.setItem('wp_icloud_clicked', 'true');
             });
         }
 
@@ -1561,25 +1561,33 @@
     // Al volver a la pestaña (regresa de iCloud) refrescar estado
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
-            var wasDone = localStorage.getItem('wp_asistencia_done') === 'true';
-            // Si aún no estaba done pero ahora iCloud redirigió de vuelta, mostramos modal
-            initProgressiveDisclosure();
-            var nowDone = localStorage.getItem('wp_asistencia_done') === 'true';
-            if (!wasDone && nowDone) {
-                // No mostrar nada extra — ya se gestiona abajo
+            var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
+            var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+
+            if (icloudClicked && !asistenciaDone) {
+                localStorage.removeItem('wp_icloud_clicked');
+                setTimeout(function() {
+                    openConfirmModal(htmlPhase1Ask());
+                }, 600);
             }
+            
+            initProgressiveDisclosure();
+            updateProgressSection();
         }
     });
 
-    // Al regresar de iCloud — mostrar modal de confirmación fase 1 la primera vez
+    // Al regresar de iCloud — por si el navegador recarga la página
     window.addEventListener('pageshow', function() {
-        var fase1Shown = localStorage.getItem('wp_fase1_modal_shown') === 'true';
-        if (!fase1Shown) {
-            localStorage.setItem('wp_fase1_modal_shown', 'true');
+        var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+
+        if (icloudClicked && !asistenciaDone) {
+            localStorage.removeItem('wp_icloud_clicked');
             setTimeout(function() {
                 openConfirmModal(htmlPhase1Ask());
             }, 600);
         }
+
         initProgressiveDisclosure();
         updateProgressSection();
         if (typeof updateConfirmedSectionVisibility === 'function') {
