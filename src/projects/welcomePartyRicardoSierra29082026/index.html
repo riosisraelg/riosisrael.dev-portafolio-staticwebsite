@@ -1643,9 +1643,12 @@
             btnPaid._hooked = true;
             btnPaid.addEventListener('click', function() {
                 var paidList = guestsData.filter(function(g) { return g.pago; });
-                var txt = "📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN):\n\n" +
-                    paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✓ Pagado"; }).join("\n");
-                copyToClipboard(txt, "¡Lista de Pagados copiada al portapapeles! 📋");
+                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN)*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    paidList.map(function(g, i) {
+                        return (i + 1) + ". " + g.name + " - ✅ *Pagado*";
+                    }).join("\n");
+                copyToClipboard(txt, "¡Lista de Pagados (Formato WhatsApp) copiada! 📋");
             });
         }
 
@@ -1653,9 +1656,12 @@
             btnConfirmed._hooked = true;
             btnConfirmed.addEventListener('click', function() {
                 var confList = guestsData.filter(function(g) { return g.asistencia; });
-                var txt = "📋 LISTA DE ASISTENCIA CONFIRMADA:\n\n" +
-                    confList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✓ Confirmado"; }).join("\n");
-                copyToClipboard(txt, "¡Lista de Confirmados copiada al portapapeles! 📋");
+                var txt = "*📋 LISTA DE ASISTENCIA CONFIRMADA*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    confList.map(function(g, i) {
+                        return (i + 1) + ". " + g.name + " - ✅ *Confirmado*";
+                    }).join("\n");
+                copyToClipboard(txt, "¡Lista de Confirmados (Formato WhatsApp) copiada! 📋");
             });
         }
 
@@ -1663,14 +1669,15 @@
             btnPending._hooked = true;
             btnPending.addEventListener('click', function() {
                 var pendList = guestsData.filter(function(g) { return !g.asistencia || !g.pago; });
-                var txt = "📋 LISTA DE PENDIENTES (Asistencia / Aportación):\n\n" +
+                var txt = "*📋 LISTA DE INVITADOS PENDIENTES*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
                     pendList.map(function(g, i) {
                         var status = [];
                         if (!g.asistencia) status.push("Asistencia Pendiente");
                         if (!g.pago) status.push("Pago Pendiente");
-                        return (i + 1) + ". " + g.name + " (" + status.join(", ") + ")";
+                        return (i + 1) + ". " + g.name + " - ⏳ *" + status.join(" / ") + "*";
                     }).join("\n");
-                copyToClipboard(txt, "¡Lista de Pendientes copiada al portapapeles! 📋");
+                copyToClipboard(txt, "¡Lista de Pendientes (Formato WhatsApp) copiada! 📋");
             });
         }
     }
