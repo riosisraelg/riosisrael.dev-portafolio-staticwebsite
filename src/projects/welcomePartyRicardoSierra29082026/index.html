@@ -186,7 +186,7 @@
                         Aportación Confirmada
                     </div>
                     <div class="confirmed-hint" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                        <span class="material-symbols-outlined" style="font-size: 1rem; color: var(--gray-500);" id="payment-banner-icon">touch_app</span>
+                        <span class="material-symbols-outlined" style="font-size: 1rem; color: var(--gray-500);" id="payment-banner-icon">info</span>
                         <span id="payment-banner-text">Tap o hover para ver opciones de pago</span>
                     </div>
                 </div>
@@ -1465,14 +1465,11 @@
             var isAnimating = false;
 
             // Touch vs Click detection for hint text
-            var pbIcon = document.getElementById('payment-banner-icon');
             var pbText = document.getElementById('payment-banner-text');
-            if (pbIcon && pbText) {
+            if (pbText) {
                 if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
-                    pbIcon.textContent = 'touch_app';
                     pbText.textContent = 'Tap para ver opciones de pago';
                 } else {
-                    pbIcon.textContent = 'ads_click';
                     pbText.textContent = 'Click o hover para opciones';
                 }
             }
@@ -1878,10 +1875,12 @@
 
     function closeConfirmModal() {
         document.getElementById('confirm-modal').classList.remove('active');
-        // Forzar actualización de UI al cerrar modal
-        if (typeof updateProgressSection === 'function') updateProgressSection();
-        if (typeof applyVisualStates === 'function') applyVisualStates();
-        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
+        // Forzar actualización de UI al cerrar modal con ligero retraso para asegurar repaint
+        setTimeout(function() {
+            if (typeof updateProgressSection === 'function') updateProgressSection();
+            if (typeof applyVisualStates === 'function') applyVisualStates();
+            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
+        }, 50);
     }
 
     // ── Contenido de modales ──
@@ -1948,9 +1947,11 @@
     function closeSuccessModal() {
         var sm = document.getElementById('success-modal');
         if (sm) { sm.classList.remove('active'); }
-        if (typeof updateProgressSection === 'function') updateProgressSection();
-        if (typeof applyVisualStates === 'function') applyVisualStates();
-        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
+        setTimeout(function() {
+            if (typeof updateProgressSection === 'function') updateProgressSection();
+            if (typeof applyVisualStates === 'function') applyVisualStates();
+            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
+        }, 50);
     }
 
     // ── Actualizar sección de progreso ──
