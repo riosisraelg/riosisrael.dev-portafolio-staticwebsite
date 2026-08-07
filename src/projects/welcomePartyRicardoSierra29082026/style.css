@@ -2497,14 +2497,14 @@ a.step-card-btn, .hero-date, .itinerary-modal-close,
 .attendance-btn-done {
     background: linear-gradient(135deg, rgba(22,163,74,0.14) 0%, rgba(34,197,94,0.08) 100%) !important;
     border: 1.5px solid rgba(34,197,94,0.5) !important;
-    color: var(--fg) !important;
+    color: #22c55e !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     box-shadow: 0 4px 20px rgba(34,197,94,0.15) !important;
     animation: none !important;
 }
 .attendance-btn-done {
-    color: var(--fg) !important;
+    color: #22c55e !important;
 }
 .attendance-btn-done .material-symbols-outlined {
     color: #22c55e !important;

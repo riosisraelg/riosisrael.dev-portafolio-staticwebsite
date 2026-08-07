@@ -1614,6 +1614,15 @@
             confirmBtn._hooked = true;
             confirmBtn.addEventListener('click', function() {
                 localStorage.setItem('wp_icloud_clicked', 'true');
+                setTimeout(function() {
+                    if (localStorage.getItem('wp_asistencia_done') !== 'true') {
+                        localStorage.removeItem('wp_icloud_clicked');
+                        localStorage.setItem('wp_asistencia_asked', 'true');
+                        if (typeof openConfirmModal === 'function' && typeof htmlPhase1Ask === 'function') {
+                            openConfirmModal(htmlPhase1Ask());
+                        }
+                    }
+                }, 1500);
             });
         }
 
@@ -1749,7 +1758,6 @@
         { id: 2, name: "Israel Ríos", asistencia: true, pago: true },
         { id: 3, name: "Kary", asistencia: true, pago: true },
         { id: 4, name: "Eduardo Castañeda", asistencia: true, pago: false },
-        { id: 5, name: "Garrido", asistencia: true, pago: false },
         { id: 6, name: "Pepe", asistencia: true, pago: false },
         { id: 7, name: "Sebastián G", asistencia: true, pago: false },
         { id: 8, name: "Invitado 8", asistencia: false, pago: false },
@@ -1990,6 +1998,7 @@
         }
         updateProgressSection();
         applyVisualStates();
+        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
     }
 
     function closeSuccessModal() {
