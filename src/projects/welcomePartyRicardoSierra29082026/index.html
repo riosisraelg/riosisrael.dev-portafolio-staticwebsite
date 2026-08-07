@@ -248,19 +248,19 @@
             </table>
         </div>
 
-        <!-- Acciones: 3 Botones para Copiar Listas -->
+        <!-- Acciones: 3 Botones para Copiar Listas (WhatsApp Format) -->
         <div class="list-action-btns" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-            <button class="glass-btn action-copy-btn" id="btn-copy-paid" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
-                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #22c55e;">content_copy</span>
-                Copiar Lista de Pagados
-            </button>
             <button class="glass-btn action-copy-btn" id="btn-copy-confirmed" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
                 <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--primary);">content_copy</span>
-                Copiar Lista de Confirmados
+                Copiar Lista de Asistencia
             </button>
-            <button class="glass-btn action-copy-btn" id="btn-copy-pending" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
-                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #ef4444;">content_copy</span>
-                Copiar Pendientes
+            <button class="glass-btn action-copy-btn" id="btn-copy-paid" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #22c55e;">content_copy</span>
+                Copiar Lista de Pagos
+            </button>
+            <button class="glass-btn action-copy-btn" id="btn-copy-combined" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #a855f7;">content_copy</span>
+                Copiar Estatus Combinado
             </button>
         </div>
     </section>
@@ -1635,22 +1635,9 @@
     }
 
     function setupListCopyButtons() {
-        var btnPaid = document.getElementById('btn-copy-paid');
         var btnConfirmed = document.getElementById('btn-copy-confirmed');
-        var btnPending = document.getElementById('btn-copy-pending');
-
-        if (btnPaid && !btnPaid._hooked) {
-            btnPaid._hooked = true;
-            btnPaid.addEventListener('click', function() {
-                var paidList = guestsData.filter(function(g) { return g.pago; });
-                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN)*\n" +
-                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
-                    paidList.map(function(g, i) {
-                        return (i + 1) + ". " + g.name + " - ✅ *Pagado*";
-                    }).join("\n");
-                copyToClipboard(txt, "¡Lista de Pagados (Formato WhatsApp) copiada! 📋");
-            });
-        }
+        var btnPaid = document.getElementById('btn-copy-paid');
+        var btnCombined = document.getElementById('btn-copy-combined');
 
         if (btnConfirmed && !btnConfirmed._hooked) {
             btnConfirmed._hooked = true;
@@ -1661,23 +1648,34 @@
                     confList.map(function(g, i) {
                         return (i + 1) + ". " + g.name + " - ✅ *Confirmado*";
                     }).join("\n");
-                copyToClipboard(txt, "¡Lista de Confirmados (Formato WhatsApp) copiada! 📋");
+                copyToClipboard(txt, "¡Lista de Asistencia (Formato WhatsApp) copiada! 📋");
             });
         }
 
-        if (btnPending && !btnPending._hooked) {
-            btnPending._hooked = true;
-            btnPending.addEventListener('click', function() {
-                var pendList = guestsData.filter(function(g) { return !g.asistencia || !g.pago; });
-                var txt = "*📋 LISTA DE INVITADOS PENDIENTES*\n" +
+        if (btnPaid && !btnPaid._hooked) {
+            btnPaid._hooked = true;
+            btnPaid.addEventListener('click', function() {
+                var paidList = guestsData.filter(function(g) { return g.pago; });
+                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN)*\n" +
                     "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
-                    pendList.map(function(g, i) {
-                        var status = [];
-                        if (!g.asistencia) status.push("Asistencia Pendiente");
-                        if (!g.pago) status.push("Pago Pendiente");
-                        return (i + 1) + ". " + g.name + " - ⏳ *" + status.join(" / ") + "*";
+                    paidList.map(function(g, i) {
+                        return (i + 1) + ". " + g.name + " - ✅ *Pago $350 Registrado*";
                     }).join("\n");
-                copyToClipboard(txt, "¡Lista de Pendientes (Formato WhatsApp) copiada! 📋");
+                copyToClipboard(txt, "¡Lista de Pagos (Formato WhatsApp) copiada! 📋");
+            });
+        }
+
+        if (btnCombined && !btnCombined._hooked) {
+            btnCombined._hooked = true;
+            btnCombined.addEventListener('click', function() {
+                var txt = "*📋 ESTATUS GENERAL DE INVITADOS (ASISTENCIA Y PAGO)*\n" +
+                    "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
+                    guestsData.map(function(g, i) {
+                        var asisTxt = g.asistencia ? "✅ *Asistencia: Confirmada*" : "⏳ *Asistencia: Pendiente*";
+                        var pagoTxt = g.pago ? "✅ *Pago: $350 Registrado*" : "⏳ *Pago: Pendiente*";
+                        return (i + 1) + ". " + g.name + " — " + asisTxt + " | " + pagoTxt;
+                    }).join("\n");
+                copyToClipboard(txt, "¡Estatus Combinado (Formato WhatsApp) copiado! 📋");
             });
         }
     }
