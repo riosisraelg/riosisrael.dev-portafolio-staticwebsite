@@ -48,25 +48,14 @@
         </div>
     </section>
 
-    <!-- ── Fase 1: Encuesta Banner CTA ─────────────── -->
-    <section class="section" id="phase-1-encuesta" style="padding-top: 20px;">
-        <div class="section-card glass-card" style="padding: 24px; text-align: center; border: 2px solid var(--primary); background: rgba(37, 99, 235, 0.05);">
-            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">Fase 1: ¡Ayúdanos a armar el menú!</h3>
-            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Vota por tu carne favorita y dinos qué puedes aportar para que no falte nada. (Obligatorio para avanzar)</p>
-            <a href="encuesta/index.html" target="_blank" class="typeform-btn primary phase-1-btn" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 0.9rem; font-weight: 700; background: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; transition: 0.2s;">
-                Ir a la encuesta <span class="material-symbols-outlined" style="font-size: 18px;">assignment</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- ── Fase 2: Attendance Section (Two Columns) ────────── -->
-    <section class="section attendance-section" id="phase-2-asistencia">
+    <!-- ── Fase 1: Attendance Section (Two Columns) ────────── -->
+    <section class="section attendance-section" id="phase-1-asistencia">
         <div class="section-card glass-card attendance-grid">
             
             <!-- Left Column: Instructions & Steps -->
             <div class="attendance-info">
                 <div class="attendance-header">
-                    <span class="attendance-label">Fase 2: Confirmación de Asistencia</span>
+                    <span class="attendance-label">Fase 1: Confirmación de Asistencia</span>
                 </div>
                 <p class="attendance-explanation">
                     Tu confirmación es obligatoria para contemplar costos finales, lugares y dinámicas de la fiesta.
@@ -118,12 +107,12 @@
     </section>
 
     <!-- ── Payment Section (Large Card) ──── -->
-    <section class="section payment-section" id="phase-3-pagos">
+    <section class="section payment-section" id="phase-2-pagos">
         <div class="section-card glass-card" style="padding: 24px; border-radius: 24px; display: flex; flex-direction: column; gap: 16px;">
             
             <div style="text-align: center;">
                 <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 3: Aportación Final</span>
+                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 2: Aportación Final</span>
                 </div>
                 <p class="attendance-explanation" style="margin-bottom: 0; color: var(--gray-600); max-width: 400px; margin-left: auto; margin-right: auto;">
                     Revisa los costos y elige el método que te sea más cómodo para liquidar tu parte.
@@ -145,23 +134,9 @@
                         Cuota con Comida
                     </div>
                     <div class="step-card-body" style="text-align: left; margin-bottom: 12px;">
-                        <span class="payment-cost-amount" style="font-size: 2rem; line-height: 1; color: var(--fg);">$300<span class="payment-cost-currency" style="font-size: 0.9rem;">MXN</span></span>
+                        <span class="payment-cost-amount" style="font-size: 2rem; line-height: 1; color: var(--fg);">$350<span class="payment-cost-currency" style="font-size: 0.9rem;">MXN</span></span>
                     </div>
                     <div class="step-card-video" style="justify-content: flex-start; font-size: 0.75rem; width: 100%; border-top: 1px solid var(--border); padding-top: 8px; margin-top: auto;">
-                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">info</span>
-                        Tap para ver desglose
-                    </div>
-                </button>
-
-                <!-- Boton 2: Cuota Basica -->
-                <button id="openBasicCostModal" class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: transparent; flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
-                    <div class="step-card-header" style="justify-content: flex-start; font-size: 0.9rem; color: var(--gray-500); font-weight: 600; margin-bottom: 8px;">
-                        Recuperación Básica
-                    </div>
-                    <div class="step-card-body" style="text-align: left; margin-bottom: 12px;">
-                        <span class="payment-cost-amount" style="font-size: 1.5rem; line-height: 1; color: var(--gray-500);">$113<span class="payment-cost-currency" style="font-size: 0.7rem;">MXN</span></span>
-                    </div>
-                    <div class="step-card-video" style="justify-content: flex-start; font-size: 0.75rem; color: var(--gray-500); width: 100%; border-top: 1px solid var(--border); padding-top: 8px; margin-top: auto;">
                         <span class="material-symbols-outlined" style="font-size: 1.1rem;">info</span>
                         Tap para ver desglose
                     </div>
@@ -212,108 +187,44 @@
 
 </div>
 
-<!-- ── Basic Cost Modal (Glassmorphism) ── -->
-<div class="cost-modal-overlay" id="basicCostModalOverlay">
-    <div class="cost-modal-container">
-        <!-- Close Button -->
-        <button class="cost-modal-close" id="closeBasicCostModal">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        
+<!-- ── Welcome Modal ─────────────────────────────────────── -->
+<div class="cost-modal-overlay" id="welcomeModalOverlay">
+    <div class="cost-modal-container" style="max-width: 420px;">
         <div class="cost-modal-header">
-            <h3 class="cost-modal-title">Desglose Recuperación Básica</h3>
-            <p class="cost-modal-subtitle">Lo mínimo para armar la fiesta</p>
+            <h3 class="cost-modal-title" style="font-size: 1.3rem;">¡Bienvenido! 🎉</h3>
         </div>
+        <div class="cost-modal-body" style="padding: 0 24px 24px;">
+            <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.6; text-align: center;">
+                Para participar en la fiesta de Ricardo sigue estas <strong>2 etapas</strong>. Cada una desbloquea la siguiente.
+            </p>
 
-        <div class="cost-modal-body" id="body-basicCost">
-            <!-- VENUE -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Venue</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Lugar (Mondlicht)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Limpieza</span>
-                        <span class="cost-item-value">$500</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Mobiliario (20 sillas y 2 mesas rectangulares)</span>
-                        <span class="cost-item-value">$400</span>
-                    </div>
+            <!-- Fase 1 -->
+            <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
+                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">1</div>
+                <div>
+                    <div style="font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px;">Confirmar Asistencia</div>
+                    <div style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.5;">Acepta la invitación de iCloud para quedar en la lista oficial de invitados. <strong>Obligatorio para avanzar.</strong></div>
                 </div>
             </div>
 
-            <!-- BEBIDAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Bebidas & Postre</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Agua simple</span>
-                        <span class="cost-item-value">$60</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Hielo</span>
-                        <span class="cost-item-value">$120</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Pastel (Selva Negra)</span>
-                        <span class="cost-item-value">$600</span>
-                    </div>
+            <!-- Conector -->
+            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px; padding-left: 20px;">
+                <div style="width: 0; border-left: 2px dashed var(--border); height: 20px; margin-left: 0;"></div>
+                <span style="font-size: 0.75rem; color: var(--gray-400); padding-left: 8px;">se desbloquea ↓</span>
+            </div>
+
+            <!-- Fase 2 -->
+            <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px; opacity: 0.7;">
+                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); color: var(--gray-500); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">2</div>
+                <div>
+                    <div style="font-weight: 700; font-size: 1rem; color: var(--gray-500); margin-bottom: 4px;">Aportación Final <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle; color: var(--gray-400);">lock</span></div>
+                    <div style="font-size: 0.85rem; color: var(--gray-400); line-height: 1.5;">Revisa los costos y realiza tu aportación de <strong>$350 MXN</strong> por los medios disponibles (Stripe, SPEI o CODI).</div>
                 </div>
             </div>
 
-            <!-- EXTRAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Extras</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                        <div style="display: flex; justify-content: space-between; width: 100%;">
-                            <span class="cost-item-name">Desechables (¡Plan Ecológico!)</span>
-                            <span class="cost-item-value" style="color: var(--primary);">$0</span>
-                        </div>
-                        <div style="font-size: 0.8rem; color: var(--gray-500); line-height: 1.4;">
-                            Trae tus cubiertos (tenedor, cuchillo, cuchara) y un <strong>tupper con tapa</strong> para que te lleves sobrantes sin que se derramen. ¡Te invitamos a traer <strong>servilletas de tela</strong>!
-                        </div>
-                        <div style="font-size: 0.75rem; color: var(--success, #28a745); margin-top: 4px; font-weight: 600;">
-                            Ahorro total de ~$400 (aprox. $23.50 por persona)
-                        </div>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Bolsas para basura</span>
-                        <span class="cost-item-value">$45</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Rollo servilletas de cocina</span>
-                        <span class="cost-item-value">$40</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Tacos extra para Ricardo</span>
-                        <span class="cost-item-value">$150</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">2 Extensiones y 1 Multicontacto</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOTAL -->
-            <div class="cost-total-section">
-                <div class="cost-total-row">
-                    <span class="cost-total-label">Costo Total Básico</span>
-                    <span class="cost-total-value">$1,915.00</span>
-                </div>
-                <div class="cost-total-row cost-per-person">
-                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)*</span>
-                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">($113 aprox. por persona)</span>
-                </div>
-                <div style="font-size: 0.75rem; color: var(--gray-500); margin-top: 16px; line-height: 1.4; text-align: center;">
-                    *Puedes picar un poquito de los complementos sin abusar, porque al final también costaron 😉
-                </div>
-            </div>
-
+            <button id="closeWelcomeModal" class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;">
+                ¡Entendido, vamos! <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
         </div>
     </div>
 </div>
@@ -685,68 +596,33 @@
                 <h4 class="cost-category-title">Comida</h4>
                 <div class="cost-category-items">
                     <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="font-weight: 600; color: var(--fg); font-size: 1rem; margin-bottom: 4px;">Propuestas de Carne (La Roja)</div>
-                        <div style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 8px; line-height: 1.4;">Gramaje: 4 kg en total (aprox. 235g/persona). Para 17 invitados, los 3 kg de tortillas rinden para unos 5 tacos por persona.</div>
-                        
-                        <!-- Propuesta 1 -->
+                        <div style="font-weight: 600; color: var(--fg); font-size: 1rem; margin-bottom: 4px;">Carne (La Roja) — 4 kg total</div>
+                        <div style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 8px; line-height: 1.4;">4 cortes premium, 1 kg cada uno. ~235 g/persona para 17 invitados.</div>
                         <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
                             <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>P1: La Clásica (Actual)</span>
-                                <span>$2,185</span>
+                                <span>Cortes seleccionados</span>
+                                <span>$2,789</span>
                             </div>
                             <div class="cost-item-details" style="margin-left: 0;">
-                                <span class="detail-line">• 2 kg Arrachera Marinada ($539/kg) = $1,078</span>
-                                <span class="detail-line">• 2 kg Diezmillo ($359/kg) = $718</span>
-                                <span class="detail-line" style="margin-top: 6px; color: var(--gray-500); font-weight: 500;">+ Chistorra, Chorizo, Asado y Complementos ($389)</span>
-                            </div>
-                        </div>
-
-                        <!-- (P2 Premium ha sido retirada de las opciones) -->
-
-                        <!-- Propuesta 3 -->
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>P3: Norteña</span>
-                                <span>$2,485</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <span class="detail-line">• 2 kg Costilla Norteña ($529/kg) = $1,058</span>
-                                <span class="detail-line">• 2 kg Short Rib ($519/kg) = $1,038</span>
-                                <span class="detail-line" style="margin-top: 6px; color: var(--gray-500); font-weight: 500;">+ Chistorra, Chorizo, Asado y Complementos ($389)</span>
+                                <span class="detail-line">• 1 kg Ribeye ($580/kg) = $580</span>
+                                <span class="detail-line">• 1 kg Tomahawk ($840/kg) = $840</span>
+                                <span class="detail-line">• 1 kg New York ($489/kg) = $489</span>
+                                <span class="detail-line">• 1 kg Picaña Sterling ($590/kg) = $590</span>
+                                <span class="detail-line" style="margin-top: 6px; color: var(--gray-500); font-weight: 500;">+ Complementos: chistorra, chorizo, acompañamientos ($290)</span>
                             </div>
                         </div>
                     </div>
                     <div class="cost-item">
-                        <span class="cost-item-name">Tortillas (Aprox. 3 kg para ~5 tacos/pp)</span>
+                        <span class="cost-item-name">Tortillas (aprox. 3 kg, ~5 tacos/pp)</span>
                         <span class="cost-item-value">$70</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Arroz con verduras (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Pasta guisada con aceite de oliva y queso parmesano (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Chicharrón (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Guacamole (1 kg) con totopos (500 g) y pico de gallo (500 g) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Salsa roja (0.5 L) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Salsa verde (0.5 L) (Se busca donante / Cotizar)</span>
-                        <span class="cost-item-value">$0</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Papas tipo Lays</span>
                         <span class="cost-item-value">$400</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-item-name">Arroz, pasta, guacamole, salsas (donantes)</span>
+                        <span class="cost-item-value">$0</span>
                     </div>
                 </div>
             </div>
@@ -756,15 +632,15 @@
                 <h4 class="cost-category-title">Bebidas</h4>
                 <div class="cost-category-items">
                     <div class="cost-item">
-                        <span class="cost-item-name">Refrescos (Paq. Coca/Squirt + Colchón extra)</span>
+                        <span class="cost-item-name">Refrescos (Coca/Squirt, 2 paquetes)</span>
                         <span class="cost-item-value">$523</span>
                     </div>
                     <div class="cost-item">
-                        <span class="cost-item-name">Agua simple</span>
+                        <span class="cost-item-name">Agua simple (garrafón)</span>
                         <span class="cost-item-value">$60</span>
                     </div>
                     <div class="cost-item">
-                        <span class="cost-item-name">Hielo</span>
+                        <span class="cost-item-name">Hielo (2 bolsas 5 kg)</span>
                         <span class="cost-item-value">$120</span>
                     </div>
                 </div>
@@ -785,37 +661,22 @@
             <div class="cost-category">
                 <h4 class="cost-category-title">Extras</h4>
                 <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-                        <div style="display: flex; justify-content: space-between; width: 100%;">
-                            <span class="cost-item-name">Desechables (¡Plan Ecológico!)</span>
-                            <span class="cost-item-value" style="color: var(--primary);">$0</span>
-                        </div>
-                        <div style="font-size: 0.8rem; color: var(--gray-500); line-height: 1.4;">
-                            Trae tus cubiertos (tenedor, cuchillo, cuchara) y un <strong>tupper con tapa</strong> para que te lleves sobrantes sin que se derramen. ¡Te invitamos a traer <strong>servilletas de tela</strong>!
-                        </div>
-                        <div style="font-size: 0.75rem; color: var(--success, #28a745); margin-top: 4px; font-weight: 600;">
-                            Ahorro total de ~$400 (aprox. $23.50 por persona)
-                        </div>
-                    </div>
                     <div class="cost-item">
-                        <span class="cost-item-name">Bolsas para basura</span>
-                        <span class="cost-item-value">$45</span>
+                        <span class="cost-item-name">Desechables (platos, vasos, cubiertos)</span>
+                        <span class="cost-item-value">$220</span>
                     </div>
                     <div class="cost-item">
                         <span class="cost-item-name">Rollo servilletas de cocina</span>
                         <span class="cost-item-value">$40</span>
                     </div>
                     <div class="cost-item">
+                        <span class="cost-item-name">Bolsas para basura</span>
+                        <span class="cost-item-value">$45</span>
+                    </div>
+                    <div class="cost-item">
                         <span class="cost-item-name">Tacos extra para Ricardo</span>
                         <span class="cost-item-value">$150</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- OTROS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Otros</h4>
-                <div class="cost-category-items">
                     <div class="cost-item">
                         <span class="cost-item-name">2 Extensiones y 1 Multicontacto</span>
                         <span class="cost-item-value">$0</span>
@@ -826,12 +687,12 @@
             <!-- TOTAL -->
             <div class="cost-total-section">
                 <div class="cost-total-row">
-                    <span class="cost-total-label">Costo Total (Base P1)</span>
-                    <span class="cost-total-value">$5,093.00</span>
+                    <span class="cost-total-label">Costo Total</span>
+                    <span class="cost-total-value">$5,917.00</span>
                 </div>
                 <div class="cost-total-row cost-per-person">
-                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)*</span>
-                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">($300 aprox. por persona)</span>
+                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)</span>
+                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">~$350 por persona</span>
                 </div>
                 <p style="font-size: 0.75rem; color: var(--gray-500); text-align: center; margin-top: 12px; font-weight: 500;">(Costos exactos calculados. No incluye margen para imprevistos)</p>
                 <p style="font-size: 0.7rem; color: var(--gray-500); text-align: center; margin-top: 6px;">*Número estimado ya sondeado; falta reconfirmar con la última lista de asistencia.</p>
@@ -923,12 +784,11 @@
         }
     });
 
-    // ── Basic Cost Modal (Glassmorphism) ──
-    var basicCostOverlay = document.getElementById('basicCostModalOverlay');
-    var openBasicCostBtn = document.getElementById('openBasicCostModal');
-    var closeBasicCostBtn = document.getElementById('closeBasicCostModal');
+    // ── Welcome Modal ──
+    var welcomeOverlay = document.getElementById('welcomeModalOverlay');
+    var closeWelcomeBtn = document.getElementById('closeWelcomeModal');
 
-    function openBasicCostModal() {
+    function openWelcomeModal() {
         scrollYBefore = window.scrollY;
         document.body.style.position = 'fixed';
         document.body.style.top = '-' + scrollYBefore + 'px';
@@ -936,48 +796,41 @@
         document.body.style.right = '0';
         document.body.style.width = '100%';
         document.body.style.overflowY = 'scroll';
-        basicCostOverlay.classList.add('open');
-        history.pushState(null, null, '#costobasico');
+        welcomeOverlay.classList.add('open');
     }
 
-    function closeBasicCostModal() {
-        basicCostOverlay.classList.remove('open');
-        setTimeout(function() {
-            var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            document.body.style.right = '';
-            document.body.style.width = '';
-            document.body.style.overflowY = '';
-            window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
-            if (window.location.hash === '#costobasico') {
-                history.replaceState(null, null, ' ');
-            }
-        }, 300);
+    function closeWelcomeModal() {
+        welcomeOverlay.classList.remove('open');
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        localStorage.setItem('wp_welcome_shown', 'true');
     }
 
-    if (openBasicCostBtn) {
-        openBasicCostBtn.addEventListener('click', function() {
+    if (closeWelcomeBtn) {
+        closeWelcomeBtn.addEventListener('click', function() {
             triggerHaptic();
-            openBasicCostModal();
+            closeWelcomeModal();
         });
     }
 
-    if (closeBasicCostBtn) {
-        closeBasicCostBtn.addEventListener('click', function() {
-            triggerHaptic();
-            closeBasicCostModal();
-        });
-    }
-
-    if (basicCostOverlay) {
-        basicCostOverlay.addEventListener('click', function(e) {
-            if (e.target === basicCostOverlay) {
+    if (welcomeOverlay) {
+        welcomeOverlay.addEventListener('click', function(e) {
+            if (e.target === welcomeOverlay) {
                 triggerHaptic();
-                closeBasicCostModal();
+                closeWelcomeModal();
             }
         });
+    }
+
+    // Show welcome modal on first visit
+    if (localStorage.getItem('wp_welcome_shown') !== 'true') {
+        setTimeout(openWelcomeModal, 600);
     }
 
     // ── Bank Modal (Glassmorphism) ──
@@ -1379,7 +1232,7 @@
         document.body.style.width = '';
         document.body.style.overflowY = '';
         window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
-        if (window.location.hash === '#costos' || window.location.hash === '#costos-opcion1' || window.location.hash === '#costos-opcion2') {
+        if (window.location.hash === '#costos') {
             history.replaceState(null, null, ' ');
         }
     }
@@ -1422,17 +1275,11 @@
 
     // ── Auto-open modals from URL hash ──
     function checkHashAndOpenModal() {
-        var hash = window.location.hash.substring(1); // Remove the #
+        var hash = window.location.hash.substring(1);
         if (hash === 'itinerario') {
             openItineraryModal();
-        } else if (hash === 'costobasico') {
-            openBasicCostModal();
         } else if (hash === 'costos' || hash === 'costos-opcion1') {
             openCostModal();
-            if (typeof switchCostTab === 'function') switchCostTab(1);
-        } else if (hash === 'costos-opcion2') {
-            openCostModal();
-            if (typeof switchCostTab === 'function') switchCostTab(2);
         } else if (hash === 'transferencia') {
             openBankModal();
         } else if (hash === 'codi') {
@@ -1448,14 +1295,8 @@
         var hash = window.location.hash.substring(1);
         if (hash === 'itinerario') {
             openItineraryModal();
-        } else if (hash === 'costobasico') {
-            openBasicCostModal();
         } else if (hash === 'costos' || hash === 'costos-opcion1') {
             openCostModal();
-            if (typeof switchCostTab === 'function') switchCostTab(1);
-        } else if (hash === 'costos-opcion2') {
-            openCostModal();
-            if (typeof switchCostTab === 'function') switchCostTab(2);
         } else if (hash === 'transferencia') {
             openBankModal();
         } else if (hash === 'codi') {
@@ -1464,25 +1305,21 @@
             // Close all modals if no hash
             if (itineraryOverlay.classList.contains('open')) closeItineraryModal();
             if (costOverlay.classList.contains('open')) closeCostModal();
-            if (typeof basicCostOverlay !== 'undefined' && basicCostOverlay && basicCostOverlay.classList.contains('open')) closeBasicCostModal();
             if (bankOverlay.classList.contains('open')) closeBankModal();
             if (codiOverlay.classList.contains('open')) closeCodiModal();
         }
     });
 
-    // ── PROGRESSIVE DISCLOSURE LOGIC ──
+    // ── PROGRESSIVE DISCLOSURE LOGIC (2 fases) ──
     function initProgressiveDisclosure() {
-        var phase1Encuesta = document.getElementById('phase-1-encuesta');
-        var phase2Asistencia = document.getElementById('phase-2-asistencia');
-        var phase3Pagos = document.getElementById('phase-3-pagos');
+        var phase1Asistencia = document.getElementById('phase-1-asistencia');
+        var phase2Pagos = document.getElementById('phase-2-pagos');
         var confirmBtn = document.getElementById('attendance-confirm-btn');
         var successModal = document.getElementById('success-modal');
 
         // Retrieve states
-        var encuestaDone = localStorage.getItem('wp_encuesta_done') === 'true';
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var pagoDone = localStorage.getItem('wp_pago_done') === 'true';
-        var welcomeModalShown = localStorage.getItem('wp_welcome_modal_shown') === 'true';
 
         // Block clicks on locked sections using capturing phase
         document.addEventListener('click', function(e) {
@@ -1497,12 +1334,9 @@
             }
         }, true);
 
-        // Helper to lock a section
         function lockSection(sectionElement) {
             if (!sectionElement) return;
             sectionElement.classList.add('locked-section');
-            
-            // Remove hrefs to prevent tabbing and enter
             var links = sectionElement.querySelectorAll('a');
             links.forEach(function(link) {
                 if (link.hasAttribute('href')) {
@@ -1510,7 +1344,6 @@
                     link.removeAttribute('href');
                 }
             });
-
             if (!sectionElement.querySelector('.locked-overlay')) {
                 var overlay = document.createElement('div');
                 overlay.className = 'locked-overlay';
@@ -1522,8 +1355,6 @@
         function unlockSection(sectionElement) {
             if (!sectionElement) return;
             sectionElement.classList.remove('locked-section');
-            
-            // Restore hrefs
             var links = sectionElement.querySelectorAll('a');
             links.forEach(function(link) {
                 if (link.hasAttribute('data-href')) {
@@ -1531,101 +1362,60 @@
                     link.removeAttribute('data-href');
                 }
             });
-
             var overlay = sectionElement.querySelector('.locked-overlay');
             if (overlay) overlay.remove();
         }
 
         // Apply UI states based on progress
-        if (!encuestaDone) {
-            // Phase 1 is incomplete. Lock 2 and 3.
-            lockSection(phase2Asistencia);
-            lockSection(phase3Pagos);
-        } else if (encuestaDone && !asistenciaDone) {
-            // Phase 1 done, Phase 2 incomplete. Unlock 2, Lock 3.
-            unlockSection(phase2Asistencia);
-            lockSection(phase3Pagos);
-            
-            // Mark phase 1 as done visually
-            if (phase1Encuesta) {
-                var title = phase1Encuesta.querySelector('h3');
-                if (title) title.innerHTML = '✅ Fase 1: ¡Encuesta Completada!';
-                var btn = phase1Encuesta.querySelector('.typeform-btn');
-                if (btn) btn.innerHTML = 'Volver a ver respuestas <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>';
-            }
+        if (!asistenciaDone) {
+            // Fase 1 incompleta → bloquear Fase 2
+            lockSection(phase2Pagos);
+        } else {
+            // Fase 1 completada → desbloquear Fase 2
+            unlockSection(phase2Pagos);
 
-            // Show success modal for Phase 1 if not shown before
-            var phase1ModalShown = localStorage.getItem('wp_phase1_modal_shown') === 'true';
-            if (!phase1ModalShown && successModal) {
-                successModal.querySelector('h2').innerText = '¡Fase 1 Completada!';
-                successModal.querySelector('p').innerText = 'Has respondido la encuesta. Ahora la Fase 2 está desbloqueada para que puedas confirmar tu asistencia final.';
-                successModal.classList.add('active');
-                localStorage.setItem('wp_phase1_modal_shown', 'true');
-            }
-        } else if (encuestaDone && asistenciaDone) {
-            // Both phases done! Unlock everything.
-            unlockSection(phase2Asistencia);
-            unlockSection(phase3Pagos);
-
-            // Mark phase 1 and 2 as done visually
-            if (phase1Encuesta) {
-                var title = phase1Encuesta.querySelector('h3');
-                if (title) title.innerHTML = '✅ Fase 1: ¡Encuesta Completada!';
-            }
-            if (phase2Asistencia) {
-                var title2 = phase2Asistencia.querySelector('.attendance-label');
-                if (title2) title2.innerHTML = '✅ Fase 2: Confirmación Completada';
-                var btn2 = document.getElementById('attendance-confirm-btn');
-                if (btn2) {
-                    btn2.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
-                    btn2.style.background = 'var(--success)';
+            if (phase1Asistencia) {
+                var label1 = phase1Asistencia.querySelector('.attendance-label');
+                if (label1) label1.innerHTML = '✅ Fase 1: Confirmación Completada';
+                var btn1 = document.getElementById('attendance-confirm-btn');
+                if (btn1) {
+                    btn1.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
+                    btn1.style.background = 'var(--success)';
                 }
             }
 
-            // Mark phase 3 as done visually if payment method was clicked
-            if (pagoDone && phase3Pagos) {
-                var title3 = phase3Pagos.querySelector('.attendance-label');
-                if (title3) title3.innerHTML = '✅ Fase 3: Aportación Final Completada';
-            }
-
-            // Show success modal if not shown before
-            if (!welcomeModalShown && successModal) {
-                successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
-                successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 3.';
-                successModal.classList.add('active');
-                localStorage.setItem('wp_welcome_modal_shown', 'true');
+            if (pagoDone && phase2Pagos) {
+                var label2 = phase2Pagos.querySelector('.attendance-label');
+                if (label2) label2.innerHTML = '✅ Fase 2: Aportación Final Completada';
             }
         }
 
         // Hook iCloud confirm button
         if (confirmBtn) {
-            confirmBtn.addEventListener('click', function(e) {
-                if (encuestaDone) {
-                    localStorage.setItem('wp_asistencia_done', 'true');
-                    if (successModal) {
-                        successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
-                        successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 3.';
-                        successModal.classList.add('active');
-                        localStorage.setItem('wp_welcome_modal_shown', 'true');
-                    }
-                    setTimeout(initProgressiveDisclosure, 500);
+            confirmBtn.addEventListener('click', function() {
+                localStorage.setItem('wp_asistencia_done', 'true');
+                if (successModal) {
+                    successModal.querySelector('h2').innerText = '¡Asistencia Confirmada!';
+                    successModal.querySelector('p').innerText = 'Te has anotado en la lista final de invitados. Ahora puedes ver los métodos de aportación en la Fase 2.';
+                    successModal.classList.add('active');
                 }
+                setTimeout(initProgressiveDisclosure, 500);
             });
         }
 
-        // Hook Payment buttons to mark Phase 3 as completed
-        if (phase3Pagos) {
-            var paymentBtns = phase3Pagos.querySelectorAll('.payment-btn, .efectivo-btn');
+        // Hook Payment buttons to mark Phase 2 as completed
+        if (phase2Pagos) {
+            var paymentBtns = phase2Pagos.querySelectorAll('.payment-btn, .efectivo-btn');
             paymentBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
-                    if (encuestaDone && asistenciaDone) {
+                    if (asistenciaDone) {
                         localStorage.setItem('wp_pago_done', 'true');
                         if (successModal) {
                             successModal.querySelector('h2').innerText = '¡Aportación Registrada!';
-                            successModal.querySelector('p').innerText = 'Gracias por tu aportación. Todo el proceso de registro ha sido completado con éxito. ¡Nos vemos en la fiesta!';
+                            successModal.querySelector('p').innerText = 'Gracias por tu aportación. Todo el proceso ha sido completado. ¡Nos vemos en la fiesta!';
                             successModal.classList.add('active');
                         }
-                        initProgressiveDisclosure(); // Instantly update UI
+                        initProgressiveDisclosure();
                     }
                 });
             });
