@@ -174,11 +174,25 @@
             <!-- Right: Payment Methods -->
             <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
                 
-                <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                    <span class="attendance-label">Métodos de Pago</span>
+                <!-- Confirmed Banner (se muestra cuando pagoDone es true) -->
+                <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg);">
+                        <span class="material-symbols-outlined" style="font-size: 1.2rem; color: #22c55e;">check_circle</span>
+                        APORTACIÓN CONFIRMADA
+                    </div>
+                    <div class="confirmed-hint" style="font-size: 0.72rem; color: var(--gray-500); font-weight: 500; margin-top: 4px; display: flex; align-items: center; gap: 4px;">
+                        <span class="material-symbols-outlined" style="font-size: 0.9rem; color: var(--gray-500);">touch_app</span>
+                        Tap o hover para ver opciones de pago
+                    </div>
                 </div>
 
-                <!-- Tarjeta (Stripe) -->
+                <!-- Options Wrapper -->
+                <div class="payment-options-wrapper" id="payment-options-wrapper" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
+                        <span class="attendance-label">Métodos de Pago</span>
+                    </div>
+
+                    <!-- Tarjeta (Stripe) -->
                 <a href="https://buy.stripe.com/00wcN7doacB95whazGbII02" target="_blank" rel="noopener" class="payment-btn glass-btn stripe-btn" style="flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; gap: 6px; margin-bottom: 0; border-radius: 16px; border: 1px solid var(--border); background: var(--bg);">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; color: var(--fg);">
                         <span class="material-symbols-outlined" style="font-size: 1.2rem;">credit_card</span>
@@ -201,7 +215,6 @@
                         <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">CODI</span>
                     </button>
                 </div>
-
             </div>
 
             </div>
@@ -1401,9 +1414,14 @@
             confirmBtn.classList.remove('attendance-btn-pending', 'attendance-btn-done');
             if (!asistenciaDone) {
                 confirmBtn.classList.add('attendance-btn-pending');
+                confirmBtn.innerHTML = '<span class="material-symbols-outlined">person_add</span> Confirmar';
+                if (phase1Section) {
+                    var lbl1 = phase1Section.querySelector('.attendance-label');
+                    if (lbl1) lbl1.innerHTML = 'Fase 1: Confirmación de Asistencia';
+                }
             } else {
                 confirmBtn.classList.add('attendance-btn-done');
-                confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
+                confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ASISTENCIA CONFIRMADA';
                 if (phase1Section) {
                     var lbl1 = phase1Section.querySelector('.attendance-label');
                     if (lbl1) lbl1.innerHTML = '✅ Fase 1: Confirmación Completada';
@@ -1411,14 +1429,87 @@
             }
         }
 
-        // ── Solo el right container de métodos de pago: rojo/verde ──
+        // ── Solo el right container de métodos de pago: rojo/verde y banner ──
+        var banner = document.getElementById('payment-confirmed-banner');
+        var wrapper = document.getElementById('payment-options-wrapper');
+
         if (methodsRight) {
             methodsRight.classList.remove('methods-pending', 'methods-done');
             if (pagoDone) {
                 methodsRight.classList.add('methods-done');
+                if (banner && wrapper) {
+                    banner.style.display = 'flex';
+                    wrapper.style.display = 'none';
+                }
             } else if (asistenciaDone) {
                 methodsRight.classList.add('methods-pending');
+                if (banner && wrapper) {
+                    banner.style.display = 'none';
+                    wrapper.style.display = 'flex';
+                }
+            } else {
+                if (banner && wrapper) {
+                    banner.style.display = 'none';
+                    wrapper.style.display = 'flex';
+                }
             }
+        }
+
+        // ── Interaction: hover / tap en el banner de pago confirmado para revelar opciones suavemente ──
+        if (methodsRight && !methodsRight._bannerHooked) {
+            methodsRight._bannerHooked = true;
+            var revertPayTimer = null;
+            var isAnimating = false;
+
+            function revealPaymentOptions() {
+                if (localStorage.getItem('wp_pago_done') !== 'true') return;
+                var b = document.getElementById('payment-confirmed-banner');
+                var w = document.getElementById('payment-options-wrapper');
+                if (!b || !w || isAnimating) return;
+
+                if (b.style.display !== 'none') {
+                    isAnimating = true;
+                    b.classList.add('fade-out-content');
+                    setTimeout(function() {
+                        b.style.display = 'none';
+                        b.classList.remove('fade-out-content');
+                        w.style.display = 'flex';
+                        w.classList.add('fade-in-content');
+                        setTimeout(function() { w.classList.remove('fade-in-content'); isAnimating = false; }, 350);
+                    }, 300);
+                }
+                
+                clearTimeout(revertPayTimer);
+                revertPayTimer = setTimeout(function() { hidePaymentOptions(); }, 4000);
+            }
+
+            function hidePaymentOptions() {
+                if (localStorage.getItem('wp_pago_done') !== 'true') return;
+                var b = document.getElementById('payment-confirmed-banner');
+                var w = document.getElementById('payment-options-wrapper');
+                if (!b || !w || isAnimating) return;
+                if (w.style.display !== 'none') {
+                    isAnimating = true;
+                    w.classList.add('fade-out-content');
+                    setTimeout(function() {
+                        w.style.display = 'none';
+                        w.classList.remove('fade-out-content');
+                        b.style.display = 'flex';
+                        b.classList.add('fade-in-content');
+                        setTimeout(function() { b.classList.remove('fade-in-content'); isAnimating = false; }, 350);
+                    }, 300);
+                }
+            }
+
+            methodsRight.addEventListener('mouseenter', revealPaymentOptions);
+            methodsRight.addEventListener('mouseleave', function() {
+                clearTimeout(revertPayTimer);
+                revertPayTimer = setTimeout(function() { hidePaymentOptions(); }, 1500);
+            });
+            methodsRight.addEventListener('click', function(e) {
+                var b = document.getElementById('payment-confirmed-banner');
+                if (b && b.style.display !== 'none' && !isAnimating) { revealPaymentOptions(); }
+            });
         }
 
         // ── Label fase 2 si pagado ──
