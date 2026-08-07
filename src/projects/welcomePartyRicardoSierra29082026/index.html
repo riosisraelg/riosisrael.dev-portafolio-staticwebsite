@@ -69,7 +69,7 @@
                 <div class="progress-step-icon pending" id="progress-icon-2">✗</div>
                 <div class="progress-step-text">
                     <div class="progress-step-title pending" id="progress-title-2">Fase 2: Aportación ($350 MXN)</div>
-                    <div class="progress-step-sub" id="progress-sub-2">Bloqueada — completa la Fase 1 primero</div>
+                    <div class="progress-step-sub" id="progress-sub-2">Pendiente — elige un método de pago</div>
                 </div>
                 <span class="material-symbols-outlined progress-step-arrow">chevron_right</span>
             </div>
@@ -1564,48 +1564,6 @@
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
 
-        // Block clicks on locked sections
-        document.addEventListener('click', function(e) {
-            var t = e.target;
-            while (t && t !== document) {
-                if (t.classList && t.classList.contains('locked-section')) {
-                    e.preventDefault(); e.stopPropagation(); return false;
-                }
-                t = t.parentNode;
-            }
-        }, true);
-
-        function lockSection(el) {
-            if (!el) return;
-            el.classList.add('locked-section');
-            el.querySelectorAll('a').forEach(function(a) {
-                if (a.hasAttribute('href')) { a.setAttribute('data-href', a.getAttribute('href')); a.removeAttribute('href'); }
-            });
-            if (!el.querySelector('.locked-overlay')) {
-                var ov = document.createElement('div');
-                ov.className = 'locked-overlay';
-                ov.innerHTML = '<span class="material-symbols-outlined">lock</span><strong style="font-size:1.1rem;margin-bottom:4px">Sección Bloqueada</strong><span style="font-size:0.85rem;opacity:0.8">Completa la fase anterior primero.</span>';
-                el.appendChild(ov);
-            }
-        }
-
-        function unlockSection(el) {
-            if (!el) return;
-            el.classList.remove('locked-section');
-            el.querySelectorAll('a').forEach(function(a) {
-                if (a.hasAttribute('data-href')) { a.setAttribute('href', a.getAttribute('data-href')); a.removeAttribute('data-href'); }
-            });
-            var ov = el.querySelector('.locked-overlay');
-            if (ov) ov.remove();
-        }
-
-        // Apply lock/unlock
-        if (!asistenciaDone) {
-            lockSection(phase2Pagos);
-        } else {
-            unlockSection(phase2Pagos);
-        }
-
         // Apply visual states (colors)
         applyVisualStates();
 
@@ -1642,7 +1600,6 @@
             }
 
             function triggerPayConfirm(delay) {
-                if (!localStorage.getItem('wp_asistencia_done')) return;
                 if (localStorage.getItem('wp_pago_asked') === 'true') return; // Solo preguntar automáticamente la primera vez
 
                 if (payDebouncing) {
@@ -2043,16 +2000,11 @@
             icon2.className = 'progress-step-icon done'; icon2.textContent = '✓';
             title2.className = 'progress-step-title done'; title2.textContent = 'Fase 2: Aportación Registrada ✅';
             sub2.textContent = '¡Gracias! Aportación de $350 MXN confirmada.';
-        } else if (asistenciaDone) {
-            step2.className = 'progress-step step-pending';
-            icon2.className = 'progress-step-icon pending'; icon2.textContent = '✗';
-            title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación ($350 MXN)';
-            sub2.textContent = 'Pendiente — elige un método de pago';
         } else {
             step2.className = 'progress-step step-pending';
             icon2.className = 'progress-step-icon pending'; icon2.textContent = '✗';
             title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación ($350 MXN)';
-            sub2.textContent = 'Bloqueada — completa la Fase 1 primero';
+            sub2.textContent = 'Pendiente — elige un método de pago';
         }
 
         // Taps en la sección de progreso abren el modal correspondiente
@@ -2065,11 +2017,7 @@
         if (step2 && !step2._tapHooked) {
             step2._tapHooked = true;
             step2.addEventListener('click', function() {
-                if (localStorage.getItem('wp_asistencia_done') === 'true') {
-                    openConfirmModal(htmlPhase2Ask());
-                } else {
-                    openConfirmModal(htmlPhase1Ask()); // Redirige a fase 1 si no está completa
-                }
+                openConfirmModal(htmlPhase2Ask());
             });
         }
 
