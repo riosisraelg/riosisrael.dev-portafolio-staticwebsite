@@ -110,7 +110,7 @@
                     </a>
 
                     <!-- Android / Other Button -->
-                    <a href="https://youtu.be/vP8dGlX9R5c?si=rLtDVhMy5iZBcShw&t=276" target="_blank" rel="noopener" class="step-card-btn">
+                    <a href="https://youtu.be/vP8dGlX9R5c?si=4o5nW3hvd_CaMH0-&t=323" target="_blank" rel="noopener" class="step-card-btn">
                         <div class="step-card-header">
                             <span class="material-symbols-outlined">android</span>
                             <strong>Cualquier otro dispositivo</strong>
@@ -788,32 +788,50 @@
     </div>
 </div>
 
+<!-- Success Modal -->
+<div class="modal-overlay-success" id="success-modal">
+    <div class="success-modal-content">
+        <span class="material-symbols-outlined success-icon-large">verified</span>
+        <h2 style="font-size: 1.5rem; color: var(--fg); margin-bottom: 12px; font-weight: 700;">¡Felicidades!</h2>
+        <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
+            Has completado el proceso de registro exitosamente. Ya estás anotado en la lista final de invitados.
+        </p>
+        <button class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;" onclick="closeSuccessModal()">
+            Continuar <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </div>
+</div>
+<!-- ── Modal de Confirmación (único, reutilizable) ── -->
+<div class="modal-overlay-success" id="confirm-modal">
+    <div class="success-modal-content" id="confirm-modal-content">
+        <!-- El contenido se inyecta dinámicamente -->
+    </div>
+</div>
+
 <script>
 (function() {
     'use strict';
 
-    // ── Haptic Feedback ──
+    // ══════════════════════════════════════════════════════════
+    //  UTILITIES
+    // ══════════════════════════════════════════════════════════
+
     function triggerHaptic() {
-        try {
-            if (navigator.vibrate) navigator.vibrate(50);
-        } catch (e) { /* silent */ }
+        try { if (navigator.vibrate) navigator.vibrate(50); } catch (e) { /* silent */ }
     }
 
-    // ── Copy Toast ──
-    var toast = document.getElementById('copyToast');
-    var toastTimer = null;
-
-    function showToast(message) {
-        toast.textContent = message || '¡Copiado!';
-        toast.classList.add('visible');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() {
-            toast.classList.remove('visible');
-        }, 1800);
+    function showToast(msg) {
+        var t = document.getElementById('copyToast');
+        if (!t) return;
+        t.textContent = msg || '¡Copiado!';
+        t.classList.add('visible');
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(function() {
+            t.classList.remove('visible');
+        }, 2200);
     }
 
-    // ── Copy to Clipboard ──
-    function copyText(text) {
+    function copyToClipboard(text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             return navigator.clipboard.writeText(text);
         }
@@ -828,14 +846,44 @@
         return Promise.resolve();
     }
 
-    // ── Parallax & Liquid Glass Drag Physics ──
+    // ══════════════════════════════════════════════════════════
+    //  SCROLL LOCK HELPERS
+    // ══════════════════════════════════════════════════════════
+
+    var _scrollYBefore = 0;
+
+    function lockScroll() {
+        _scrollYBefore = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = '-' + _scrollYBefore + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+        document.body.style.overflowY = 'scroll';
+    }
+
+    function unlockScroll() {
+        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  PARALLAX & LIQUID GLASS DRAG PHYSICS
+    // ══════════════════════════════════════════════════════════
+
     var heroSection = document.getElementById('heroSection');
     var heroOrbs = document.getElementById('heroOrbs');
     var heroGlassCard = document.getElementById('heroGlassCard');
 
     var currentX = 0, currentY = 0;
     var scrollY = window.scrollY;
-    
+
     // Drag state
     var isDragging = false;
     var startX = 0, startY = 0;
@@ -853,11 +901,10 @@
     }
 
     if (heroGlassCard) {
-        // Prepare card for smooth snapping
         heroGlassCard.style.cursor = 'grab';
-        
+
         function onDragStart(e) {
-            if (e.target.closest('button') || e.target.closest('a')) return; // let buttons work
+            if (e.target.closest('button') || e.target.closest('a')) return;
             isDragging = true;
             if (heroSection) heroSection.classList.add('is-dragging-card');
             var clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
@@ -866,17 +913,16 @@
             startY = clientY - dragY;
             lastX = clientX;
             lastY = clientY;
-            heroGlassCard.style.transition = 'none'; // Instant follow
+            heroGlassCard.style.transition = 'none';
             heroGlassCard.style.cursor = 'grabbing';
         }
 
         function onDragMove(e) {
             if (!isDragging) return;
-            e.preventDefault(); // Prevent scrolling on mobile
+            e.preventDefault();
             var clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
             var clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            
-            // Calculate velocity for liquid glass effect
+
             velocityX = clientX - lastX;
             velocityY = clientY - lastY;
             lastX = clientX;
@@ -885,15 +931,10 @@
             dragX = clientX - startX;
             dragY = clientY - startY;
 
-            // Liquid glass squish & skew based on velocity and drag distance
             var stretchX = 1 + Math.abs(velocityX) * 0.002;
             var stretchY = 1 + Math.abs(velocityY) * 0.002;
-            var skewX = velocityX * 0.3;
-            var skewY = velocityY * 0.3;
-            
-            // Clamp values
-            skewX = Math.max(-15, Math.min(15, skewX));
-            skewY = Math.max(-15, Math.min(15, skewY));
+            var skewX = Math.max(-15, Math.min(15, velocityX * 0.3));
+            var skewY = Math.max(-15, Math.min(15, velocityY * 0.3));
 
             heroGlassCard.style.transform = 'translate3d(' + dragX + 'px, ' + dragY + 'px, 0) scale(' + stretchX + ', ' + stretchY + ') skew(' + skewX + 'deg, ' + skewY + 'deg)';
         }
@@ -903,13 +944,11 @@
             isDragging = false;
             if (heroSection) heroSection.classList.remove('is-dragging-card');
             heroGlassCard.style.cursor = 'grab';
-            
-            // Spring back animation (liquid glass snap)
+
             heroGlassCard.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
             dragX = 0; dragY = 0;
             heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1) skew(0deg, 0deg)';
-            
-            // Remove transition after it completes to allow parallax
+
             setTimeout(function() {
                 if (!isDragging) heroGlassCard.style.transition = 'none';
             }, 800);
@@ -918,13 +957,14 @@
         heroGlassCard.addEventListener('mousedown', onDragStart);
         window.addEventListener('mousemove', onDragMove, {passive: false});
         window.addEventListener('mouseup', onDragEnd);
-        
+
         heroGlassCard.addEventListener('touchstart', onDragStart, {passive: false});
         window.addEventListener('touchmove', onDragMove, {passive: false});
         window.addEventListener('touchend', onDragEnd);
     }
 
     if (heroSection) {
+        // Parallax on mouse move
         heroSection.addEventListener('mousemove', function(e) {
             if (isDragging) return;
             var rect = heroSection.getBoundingClientRect();
@@ -940,6 +980,21 @@
             renderParallax();
             if (heroGlassCard && dragX === 0 && dragY === 0) heroGlassCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
         });
+
+        // Interactive gradient (merged — uses same heroSection element)
+        function updateHeroMouse(e) {
+            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            var rect = heroSection.getBoundingClientRect();
+            heroSection.style.setProperty('--mouse-x', (clientX - rect.left) + 'px');
+            heroSection.style.setProperty('--mouse-y', (clientY - rect.top) + 'px');
+        }
+        heroSection.addEventListener('mousemove', updateHeroMouse);
+        heroSection.addEventListener('touchmove', updateHeroMouse, {passive: true});
+
+        var initialRect = heroSection.getBoundingClientRect();
+        heroSection.style.setProperty('--mouse-x', (initialRect.width / 2) + 'px');
+        heroSection.style.setProperty('--mouse-y', (initialRect.height / 2) + 'px');
     }
 
     window.addEventListener('scroll', function() {
@@ -949,31 +1004,21 @@
         }
     });
 
-    // ── Welcome Modal ──
+    // ══════════════════════════════════════════════════════════
+    //  WELCOME MODAL
+    // ══════════════════════════════════════════════════════════
+
     var welcomeOverlay = document.getElementById('welcomeModalOverlay');
     var closeWelcomeBtn = document.getElementById('closeWelcomeModal');
 
     function openWelcomeModal() {
-        scrollYBefore = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = '-' + scrollYBefore + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflowY = 'scroll';
+        lockScroll();
         welcomeOverlay.classList.add('open');
     }
 
     function closeWelcomeModal() {
         welcomeOverlay.classList.remove('open');
-        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflowY = '';
-        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        unlockScroll();
         localStorage.setItem('wp_welcome_shown', 'true');
     }
 
@@ -993,119 +1038,82 @@
         });
     }
 
-    // Show welcome modal on first visit
-    if (localStorage.getItem('wp_welcome_shown') !== 'true') {
-        setTimeout(openWelcomeModal, 600);
-    }
+    // ══════════════════════════════════════════════════════════
+    //  EFECTIVO BUTTONS (declared early — used by modal closers)
+    // ══════════════════════════════════════════════════════════
 
-    // ── Bank Modal (Glassmorphism) ──
+    var efectivoBtns = document.querySelectorAll('.efectivo-btn');
+
+    // ══════════════════════════════════════════════════════════
+    //  BANK MODAL
+    // ══════════════════════════════════════════════════════════
+
     var bankOverlay = document.getElementById('bankModalOverlay');
     var openBankBtn = document.getElementById('openBankModal');
-    var openBankBtn2 = document.getElementById('openBankModal2');
     var closeBankBtn = document.getElementById('closeBankModal');
-    var scrollYBefore = 0;
 
     function openBankModal() {
-        scrollYBefore = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = '-' + scrollYBefore + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflowY = 'scroll';
+        lockScroll();
         bankOverlay.classList.add('open');
         history.pushState(null, null, '#transferencia');
     }
 
     function closeBankModal() {
         bankOverlay.classList.remove('open');
-        
-        // Remove active state from payment buttons with delay
-        setTimeout(() => {
-            efectivoBtns.forEach(b => b.classList.remove('active'));
+        setTimeout(function() {
+            efectivoBtns.forEach(function(b) { b.classList.remove('active'); });
         }, 300);
-
-        // Reset fare section
-        if (typeof speiEditor !== 'undefined') speiEditor.closeAndReset();
-        // Unlock body
-        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflowY = '';
-        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (speiEditor) speiEditor.closeAndReset();
+        unlockScroll();
         if (window.location.hash === '#transferencia') {
             history.replaceState(null, null, ' ');
         }
     }
 
-    openBankBtn.addEventListener('click', function() {
-        triggerHaptic();
-        openBankModal();
-    });
-
-    if (openBankBtn2) {
-        openBankBtn2.addEventListener('click', function() {
+    if (openBankBtn) {
+        openBankBtn.addEventListener('click', function() {
             triggerHaptic();
             openBankModal();
         });
     }
 
-    // Dynamic Efectivo Buttons (SPEI / CODI) Focus Effect
-    var efectivoBtns = document.querySelectorAll('.efectivo-btn');
-    efectivoBtns.forEach(function(btn) {
-        btn.addEventListener('mouseenter', function() {
-            efectivoBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+    if (closeBankBtn) {
+        closeBankBtn.addEventListener('click', function() {
+            triggerHaptic();
+            closeBankModal();
         });
-        btn.addEventListener('mouseleave', function() {
-            if (!bankOverlay.classList.contains('open') && !document.getElementById('codiModalOverlay').classList.contains('open')) {
-                this.classList.remove('active');
+    }
+
+    if (bankOverlay) {
+        bankOverlay.addEventListener('click', function(e) {
+            if (e.target === bankOverlay) {
+                triggerHaptic();
+                closeBankModal();
             }
         });
-        btn.addEventListener('click', function() {
-            efectivoBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+    }
 
-    // ── CODI Modal ──
+    // ══════════════════════════════════════════════════════════
+    //  CODI MODAL
+    // ══════════════════════════════════════════════════════════
+
     var codiOverlay = document.getElementById('codiModalOverlay');
     var openCodiBtn = document.getElementById('openCodiModal');
     var closeCodiBtn = document.getElementById('closeCodiModal');
 
     function openCodiModal() {
-        scrollYBefore = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = '-' + scrollYBefore + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflowY = 'scroll';
+        lockScroll();
         codiOverlay.classList.add('open');
         history.pushState(null, null, '#codi');
     }
 
     function closeCodiModal() {
         codiOverlay.classList.remove('open');
-        
-        // Remove active state from payment buttons with delay
-        setTimeout(() => {
-            efectivoBtns.forEach(b => b.classList.remove('active'));
+        setTimeout(function() {
+            efectivoBtns.forEach(function(b) { b.classList.remove('active'); });
         }, 300);
-
-        if (typeof codiEditor !== 'undefined') codiEditor.closeAndReset();
-
-        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflowY = '';
-        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (codiEditor) codiEditor.closeAndReset();
+        unlockScroll();
         if (window.location.hash === '#codi') {
             history.replaceState(null, null, ' ');
         }
@@ -1134,30 +1142,37 @@
         });
     }
 
-    closeBankBtn.addEventListener('click', function() {
-        triggerHaptic();
-        closeBankModal();
+    // ── Efectivo Button Effects ──
+    efectivoBtns.forEach(function(btn) {
+        btn.addEventListener('mouseenter', function() {
+            efectivoBtns.forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+        });
+        btn.addEventListener('mouseleave', function() {
+            if (!bankOverlay.classList.contains('open') && !codiOverlay.classList.contains('open')) {
+                this.classList.remove('active');
+            }
+        });
+        btn.addEventListener('click', function() {
+            efectivoBtns.forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+        });
     });
 
-    bankOverlay.addEventListener('click', function(e) {
-        if (e.target === bankOverlay) {
-            triggerHaptic();
-            closeBankModal();
-        }
-    });
+    // ══════════════════════════════════════════════════════════
+    //  BANK ROW CLICK HANDLERS
+    // ══════════════════════════════════════════════════════════
 
-    // ── Bank Row Click Handlers ──
-    var bankRows = document.querySelectorAll('.bank-row:not(#fareToggleRow)');
-
-    bankRows.forEach(function(row) {
+    document.querySelectorAll('.bank-row').forEach(function(row) {
         row.addEventListener('click', function() {
             var textToCopy = this.getAttribute('data-copy');
+            if (!textToCopy) return; // skip rows without copy data (e.g. fare toggle rows)
             var valueEl = this.querySelector('.bank-field-value');
             var originalText = valueEl.textContent;
 
             triggerHaptic();
 
-            copyText(textToCopy).then(function() {
+            copyToClipboard(textToCopy).then(function() {
                 valueEl.textContent = '¡COPIADO!';
                 valueEl.classList.add('copied');
                 showToast('¡Copiado al portapapeles!');
@@ -1172,7 +1187,10 @@
         });
     });
 
-    // ── Fare Editor Logic ──
+    // ══════════════════════════════════════════════════════════
+    //  FARE EDITOR LOGIC
+    // ══════════════════════════════════════════════════════════
+
     function initFareEditor(prefix) {
         var fareClosed = document.getElementById(prefix + 'FareClosed');
         var fareOpen = document.getElementById(prefix + 'FareOpen');
@@ -1186,39 +1204,34 @@
         var fareDisplay = document.getElementById(prefix + 'FareDisplay');
         var farePreviewText = document.getElementById(prefix + 'FarePreviewText');
 
-        if (!fareClosed) return; // fail-safe if DOM is missing
+        if (!fareClosed) return null;
 
         function generateFareConcept(strict) {
             var firstName = fareFirstName.value.trim().toUpperCase();
             var lastName = fareLastName.value.trim().toUpperCase();
             var count = parseInt(fareCount.value || '1', 10);
             if (isNaN(count) || count < 1) count = 1;
-            
+
             var concept = 'FARE ' + count;
             if (firstName) concept += ' ' + firstName;
             if (lastName) concept += ' ' + lastName;
-            
+
             if (strict && (!firstName || !lastName)) return null;
-            
-            // Strict length limit for bank systems
+
             return concept.substring(0, 40);
         }
 
         function updateFarePreview() {
             var conceptToDisplay = generateFareConcept(false);
             var validConcept = generateFareConcept(true);
-            
+
             farePreviewText.textContent = conceptToDisplay;
             fareCopyBtn.disabled = !validConcept;
-            
-            if(fareTotalCounter) {
+
+            if (fareTotalCounter) {
                 var used = conceptToDisplay.length;
                 fareTotalCounter.textContent = (40 - used) + ' restantes';
-                if(used === 40) {
-                    fareTotalCounter.style.color = '#ef4444'; // Red when full
-                } else {
-                    fareTotalCounter.style.color = 'var(--gray-500)';
-                }
+                fareTotalCounter.style.color = (used === 40) ? '#ef4444' : 'var(--gray-500)';
             }
         }
 
@@ -1227,9 +1240,7 @@
             fareClosed.style.display = 'none';
             fareOpen.style.display = '';
             updateFarePreview();
-            setTimeout(function() {
-                fareFirstName.focus();
-            }, 100);
+            setTimeout(function() { fareFirstName.focus(); }, 100);
         });
 
         fareCloseBtn.addEventListener('click', function() {
@@ -1263,12 +1274,11 @@
             if (!concept) return;
 
             triggerHaptic();
-            copyText(concept).then(function() {
+            copyToClipboard(concept).then(function() {
                 fareDisplay.textContent = '¡COPIADO!';
                 fareDisplay.classList.add('copied');
                 showToast('Concepto copiado: ' + concept);
 
-                // Close editor
                 fareOpen.style.display = 'none';
                 fareClosed.style.display = '';
                 fareFirstName.value = '';
@@ -1288,8 +1298,7 @@
         // Initialize
         fareOpen.style.display = 'none';
         updateFarePreview();
-        
-        // Export an object if we ever need to reset externally
+
         return {
             closeAndReset: function() {
                 fareOpen.style.display = 'none';
@@ -1305,38 +1314,26 @@
     var speiEditor = initFareEditor('spei');
     var codiEditor = initFareEditor('codi');
 
-    // ── Itinerary Modal (Glassmorphism) ──
+    // ══════════════════════════════════════════════════════════
+    //  ITINERARY MODAL
+    // ══════════════════════════════════════════════════════════
+
     var itineraryOverlay = document.getElementById('itineraryModalOverlay');
     var openItineraryBtn = document.getElementById('openItineraryModal');
     var closeItineraryBtn = document.getElementById('closeItineraryModal');
 
     function openItineraryModal() {
-        scrollYBefore = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = '-' + scrollYBefore + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflowY = 'scroll';
+        lockScroll();
         itineraryOverlay.classList.add('open');
         history.pushState(null, null, '#itinerario');
     }
 
     function closeItineraryModal() {
         itineraryOverlay.classList.remove('open');
-        
-        setTimeout(() => {
+        setTimeout(function() {
             if (openItineraryBtn) openItineraryBtn.classList.remove('active');
         }, 300);
-
-        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflowY = '';
-        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        unlockScroll();
         if (window.location.hash === '#itinerario') {
             history.replaceState(null, null, ' ');
         }
@@ -1358,50 +1355,42 @@
         });
     }
 
-    closeItineraryBtn.addEventListener('click', function() {
-        triggerHaptic();
-        closeItineraryModal();
-    });
-
-    itineraryOverlay.addEventListener('click', function(e) {
-        if (e.target === itineraryOverlay) {
+    if (closeItineraryBtn) {
+        closeItineraryBtn.addEventListener('click', function() {
             triggerHaptic();
             closeItineraryModal();
-        }
-    });
+        });
+    }
 
-    // ── Cost Modal (Glassmorphism) ──
+    if (itineraryOverlay) {
+        itineraryOverlay.addEventListener('click', function(e) {
+            if (e.target === itineraryOverlay) {
+                triggerHaptic();
+                closeItineraryModal();
+            }
+        });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  COST MODAL
+    // ══════════════════════════════════════════════════════════
+
     var costOverlay = document.getElementById('costModalOverlay');
     var openCostBtn = document.getElementById('openCostModal');
     var closeCostBtn = document.getElementById('closeCostModal');
 
     function openCostModal() {
         if (!costOverlay) return;
-        var btn = document.getElementById('openCostModal');
-        if (btn) btn.classList.add('active');
-        scrollYBefore = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = '-' + scrollYBefore + 'px';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-        document.body.style.overflowY = 'scroll';
+        if (openCostBtn) openCostBtn.classList.add('active');
+        lockScroll();
         costOverlay.classList.add('open');
         history.pushState(null, null, '#costos');
     }
 
     function closeCostModal() {
-        var btn = document.getElementById('openCostModal');
-        if (btn) btn.classList.remove('active');
-        costOverlay.classList.remove('open');
-        var savedY = parseInt(document.body.style.top || '0', 10) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        document.body.style.overflowY = '';
-        window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+        if (openCostBtn) openCostBtn.classList.remove('active');
+        if (costOverlay) costOverlay.classList.remove('open');
+        unlockScroll();
         if (window.location.hash === '#costos') {
             history.replaceState(null, null, ' ');
         }
@@ -1414,19 +1403,26 @@
         });
     }
 
-    closeCostBtn.addEventListener('click', function() {
-        triggerHaptic();
-        closeCostModal();
-    });
-
-    costOverlay.addEventListener('click', function(e) {
-        if (e.target === costOverlay) {
+    if (closeCostBtn) {
+        closeCostBtn.addEventListener('click', function() {
             triggerHaptic();
             closeCostModal();
-        }
-    });
+        });
+    }
 
-    // ── Intersection Observer for fade-in ──
+    if (costOverlay) {
+        costOverlay.addEventListener('click', function(e) {
+            if (e.target === costOverlay) {
+                triggerHaptic();
+                closeCostModal();
+            }
+        });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  INTERSECTION OBSERVER (fade-in)
+    // ══════════════════════════════════════════════════════════
+
     if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
@@ -1443,53 +1439,35 @@
         });
     }
 
-    // ── Auto-open modals from URL hash ──
+    // ══════════════════════════════════════════════════════════
+    //  URL HASH — AUTO-OPEN MODALS
+    // ══════════════════════════════════════════════════════════
+
     function checkHashAndOpenModal() {
         var hash = window.location.hash.substring(1);
-        if (hash === 'itinerario') {
-            openItineraryModal();
-        } else if (hash === 'costos' || hash === 'costos-opcion1') {
-            openCostModal();
-        } else if (hash === 'transferencia') {
-            openBankModal();
-        } else if (hash === 'codi') {
-            openCodiModal();
-        }
+        if (hash === 'itinerario') openItineraryModal();
+        else if (hash === 'costos' || hash === 'costos-opcion1') openCostModal();
+        else if (hash === 'transferencia') openBankModal();
+        else if (hash === 'codi') openCodiModal();
     }
 
-    // Check on page load
-    checkHashAndOpenModal();
-
-    // Check when hash changes (browser back/forward)
     window.addEventListener('hashchange', function() {
         var hash = window.location.hash.substring(1);
-        if (hash === 'itinerario') {
-            openItineraryModal();
-        } else if (hash === 'costos' || hash === 'costos-opcion1') {
-            openCostModal();
-        } else if (hash === 'transferencia') {
-            openBankModal();
-        } else if (hash === 'codi') {
-            openCodiModal();
-        } else {
-            // Close all modals if no hash
-            if (itineraryOverlay.classList.contains('open')) closeItineraryModal();
-            if (costOverlay.classList.contains('open')) closeCostModal();
-            if (bankOverlay.classList.contains('open')) closeBankModal();
-            if (codiOverlay.classList.contains('open')) closeCodiModal();
+        if (hash === 'itinerario') openItineraryModal();
+        else if (hash === 'costos' || hash === 'costos-opcion1') openCostModal();
+        else if (hash === 'transferencia') openBankModal();
+        else if (hash === 'codi') openCodiModal();
+        else {
+            if (itineraryOverlay && itineraryOverlay.classList.contains('open')) closeItineraryModal();
+            if (costOverlay && costOverlay.classList.contains('open')) closeCostModal();
+            if (bankOverlay && bankOverlay.classList.contains('open')) closeBankModal();
+            if (codiOverlay && codiOverlay.classList.contains('open')) closeCodiModal();
         }
     });
 
-    // ── PROGRESSIVE DISCLOSURE LOGIC (2 fases) ──
-    function showPhaseModal(title, body, onClose) {
-        var sm = document.getElementById('success-modal');
-        if (!sm) return;
-        sm.querySelector('h2').innerText = title;
-        sm.querySelector('p').innerText = body;
-        sm.classList.add('active');
-        // store callback
-        sm._onClose = onClose || null;
-    }
+    // ══════════════════════════════════════════════════════════
+    //  STATE MANAGEMENT — VISUAL STATES
+    // ══════════════════════════════════════════════════════════
 
     function applyVisualStates() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
@@ -1498,7 +1476,7 @@
         var phase1Section  = document.getElementById('phase-1-asistencia');
         var methodsRight   = document.getElementById('payment-methods-right');
 
-        // ── Botón de asistencia: rojo si pendiente, verde si hecho ──
+        // ── Attendance button: red if pending, green if done ──
         if (confirmBtn) {
             confirmBtn.classList.remove('attendance-btn-pending', 'attendance-btn-done');
             if (!asistenciaDone) {
@@ -1512,13 +1490,13 @@
                 confirmBtn.classList.add('attendance-btn-done');
                 confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ASISTENCIA CONFIRMADA';
                 if (phase1Section) {
-                    var lbl1 = phase1Section.querySelector('.attendance-label');
-                    if (lbl1) lbl1.innerHTML = '✅ Fase 1: Confirmación Completada';
+                    var lbl1d = phase1Section.querySelector('.attendance-label');
+                    if (lbl1d) lbl1d.innerHTML = '✅ Fase 1: Confirmación Completada';
                 }
             }
         }
 
-        // ── Solo el right container de métodos de pago: rojo/verde y banner ──
+        // ── Payment methods right container: red/green + banner ──
         var banner = document.getElementById('payment-confirmed-banner');
         var wrapper = document.getElementById('payment-options-wrapper');
 
@@ -1539,12 +1517,11 @@
             }
         }
 
-        // ── Interaction: hover / tap en el banner de pago confirmado para revelar opciones suavemente ──
+        // ── Banner hover/tap interaction (hook once) ──
         if (methodsRight && !methodsRight._bannerHooked) {
             methodsRight._bannerHooked = true;
             var isAnimating = false;
 
-            // Touch vs Click detection for hint text
             var pbText = document.getElementById('payment-banner-text');
             if (pbText) {
                 if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
@@ -1562,40 +1539,40 @@
 
                 if (b.style.display !== 'none') {
                     isAnimating = true;
-                    w.style.pointerEvents = 'none'; // Bloquear clicks accidentales
+                    w.style.pointerEvents = 'none';
                     b.classList.add('fade-out-content');
                     setTimeout(function() {
                         b.style.display = 'none';
                         b.classList.remove('fade-out-content');
                         w.style.display = 'flex';
                         w.classList.add('fade-in-content');
-                        setTimeout(function() { 
-                            w.classList.remove('fade-in-content'); 
-                            w.style.pointerEvents = ''; // Habilitar clicks de nuevo
-                            isAnimating = false; 
+                        setTimeout(function() {
+                            w.classList.remove('fade-in-content');
+                            w.style.pointerEvents = '';
+                            isAnimating = false;
                         }, 350);
                     }, 300);
                 }
-            } // closing brace for revealPaymentOptions
-            
+            }
+
             function hidePaymentOptions() {
                 var b = document.getElementById('payment-confirmed-banner');
                 var w = document.getElementById('payment-options-wrapper');
                 if (!b || !w || isAnimating) return;
-                
+
                 if (w.style.display !== 'none') {
                     isAnimating = true;
-                    b.style.pointerEvents = 'none'; // Bloquear clicks accidentales
+                    b.style.pointerEvents = 'none';
                     w.classList.add('fade-out-content');
                     setTimeout(function() {
                         w.style.display = 'none';
                         w.classList.remove('fade-out-content');
                         b.style.display = 'flex';
                         b.classList.add('fade-in-content');
-                        setTimeout(function() { 
-                            b.classList.remove('fade-in-content'); 
-                            b.style.pointerEvents = ''; // Habilitar clicks de nuevo
-                            isAnimating = false; 
+                        setTimeout(function() {
+                            b.classList.remove('fade-in-content');
+                            b.style.pointerEvents = '';
+                            isAnimating = false;
                         }, 350);
                     }, 300);
                 }
@@ -1605,17 +1582,15 @@
             if (!isTouch) {
                 methodsRight.addEventListener('mouseenter', revealPaymentOptions);
             }
-            methodsRight.addEventListener('click', function(e) {
+            methodsRight.addEventListener('click', function() {
                 var b = document.getElementById('payment-confirmed-banner');
-                if (b && b.style.display !== 'none' && !isAnimating) { 
-                    revealPaymentOptions(); 
+                if (b && b.style.display !== 'none' && !isAnimating) {
+                    revealPaymentOptions();
                 }
             });
-            
-            var wrapper = document.getElementById('payment-options-wrapper');
+
             if (wrapper) {
                 wrapper.addEventListener('click', function(e) {
-                    // Si el click no fue en un link o botón
                     if (localStorage.getItem('wp_pago_done') === 'true' && !e.target.closest('a') && !e.target.closest('button')) {
                         hidePaymentOptions();
                     }
@@ -1623,7 +1598,7 @@
             }
         }
 
-        // ── Label fase 2 si pagado ──
+        // ── Phase 2 label when paid ──
         var phase2Pagos2 = document.getElementById('phase-2-pagos');
         if (phase2Pagos2 && pagoDone) {
             var lbl2 = phase2Pagos2.querySelector('.attendance-label');
@@ -1631,160 +1606,10 @@
         }
     }
 
-    function initProgressiveDisclosure() {
-        var phase1Asistencia = document.getElementById('phase-1-asistencia');
-        var phase2Pagos      = document.getElementById('phase-2-pagos');
-        var confirmBtn       = document.getElementById('attendance-confirm-btn');
+    // ══════════════════════════════════════════════════════════
+    //  GUESTS DATA & TABLE (Phase 3)
+    // ══════════════════════════════════════════════════════════
 
-        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
-        var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
-
-        // Apply visual states (colors)
-        applyVisualStates();
-
-        // ── Hook: botón confirmar asistencia (iCloud) ──
-        if (confirmBtn && !confirmBtn._hooked) {
-            confirmBtn._hooked = true;
-            confirmBtn.addEventListener('click', function() {
-                localStorage.setItem('wp_icloud_clicked', 'true');
-                setTimeout(function() {
-                    if (localStorage.getItem('wp_asistencia_done') !== 'true') {
-                        localStorage.removeItem('wp_icloud_clicked');
-                        localStorage.setItem('wp_asistencia_asked', 'true');
-                        if (typeof openConfirmModal === 'function' && typeof htmlPhase1Ask === 'function') {
-                            openConfirmModal(htmlPhase1Ask());
-                        }
-                    }
-                }, 1500);
-            });
-        }
-
-        // ── Hook: botones de pago con debounce 2s ──
-        if (phase2Pagos && !phase2Pagos._hooksAttached) {
-            phase2Pagos._hooksAttached = true;
-
-            var payDebounceTimer = null;
-            var payDebouncing = false;
-
-            function isPayModalOpen() {
-                // No mostrar modal de confirmación si SPEI o CODI están abiertos
-                var bank = document.getElementById('bankModalOverlay');
-                var codi = document.getElementById('codiModalOverlay');
-                return (bank && bank.classList.contains('open')) ||
-                       (codi && codi.classList.contains('open'));
-            }
-
-            function triggerPayConfirm(delay) {
-                if (localStorage.getItem('wp_pago_asked') === 'true') return; // Solo preguntar automáticamente la primera vez
-
-                if (payDebouncing) {
-                    // Ya hay un timer corriendo — resetear para que solo dispare una vez
-                    clearTimeout(payDebounceTimer);
-                } else {
-                    payDebouncing = true;
-                }
-                payDebounceTimer = setTimeout(function() {
-                    payDebouncing = false;
-                    localStorage.setItem('wp_pago_asked', 'true'); // Marcar como preguntado
-                    // Solo mostrar si ningún modal de datos está abierto
-                    if (!isPayModalOpen()) {
-                        openConfirmModal(htmlPhase2Ask());
-                    } else {
-                        // Esperar a que cierre el modal de datos y luego preguntar
-                        var pollClose = setInterval(function() {
-                            if (!isPayModalOpen()) {
-                                clearInterval(pollClose);
-                                openConfirmModal(htmlPhase2Ask());
-                            }
-                        }, 400);
-                    }
-                }, delay);
-            }
-
-            // Stripe — 1s delay (abre en nueva pestaña)
-            var stripeBtn = phase2Pagos.querySelector('.stripe-btn');
-            if (stripeBtn) {
-                stripeBtn.addEventListener('click', function() {
-                    triggerPayConfirm(1000);
-                });
-            }
-
-            // SPEI — 3s delay
-            var speiBtn = document.getElementById('openBankModal');
-            if (speiBtn) {
-                speiBtn.addEventListener('click', function() {
-                    triggerPayConfirm(3000);
-                });
-            }
-
-            // CODI — 3s delay
-            var codiBtn = document.getElementById('openCodiModal');
-            if (codiBtn) {
-                codiBtn.addEventListener('click', function() {
-                    triggerPayConfirm(3000);
-                });
-            }
-
-            // Costos — sin confirmación
-        }
-    }
-
-    // Al volver a la pestaña (regresa de iCloud o Bancos) refrescar estado
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
-            var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
-            var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
-
-            if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
-                localStorage.removeItem('wp_icloud_clicked');
-                localStorage.setItem('wp_asistencia_asked', 'true');
-                setTimeout(function() {
-                    openConfirmModal(htmlPhase1Ask());
-                }, 600);
-            }
-            
-            initProgressiveDisclosure();
-            updateProgressSection();
-            if (typeof updateConfirmedSectionVisibility === 'function') {
-                updateConfirmedSectionVisibility();
-            }
-        }
-    });
-
-    // Sincronización en tiempo real si abren otra pestaña
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'wp_asistencia_done' || e.key === 'wp_pago_done' || e.key === 'wp_icloud_clicked') {
-            initProgressiveDisclosure();
-            updateProgressSection();
-            if (typeof updateConfirmedSectionVisibility === 'function') {
-                updateConfirmedSectionVisibility();
-            }
-        }
-    });
-
-    // Al regresar de iCloud — por si el navegador recarga la página
-    window.addEventListener('pageshow', function() {
-        var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
-        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
-        var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
-
-        if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
-            localStorage.removeItem('wp_icloud_clicked');
-            localStorage.setItem('wp_asistencia_asked', 'true');
-            setTimeout(function() {
-                openConfirmModal(htmlPhase1Ask());
-            }, 600);
-        }
-
-        initProgressiveDisclosure();
-        updateProgressSection();
-        if (typeof updateConfirmedSectionVisibility === 'function') {
-            updateConfirmedSectionVisibility();
-        }
-    });
-
-    // ── 17 Invitados Confirmados y Estado (Fase 3) ──
     var guestsData = [
         { id: 1, name: "Javier Gutiérrez", asistencia: true, pago: true },
         { id: 2, name: "Israel Ríos", asistencia: true, pago: true },
@@ -1809,10 +1634,10 @@
         if (!tbody) return;
         var html = '';
         guestsData.forEach(function(g) {
-            var asisBadge = g.asistencia 
+            var asisBadge = g.asistencia
                 ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">check_circle</span> Confirmado</span>'
                 : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">cancel</span> Pendiente</span>';
-            var pagoBadge = g.pago 
+            var pagoBadge = g.pago
                 ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">check_circle</span> Pagado</span>'
                 : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">cancel</span> Pendiente</span>';
 
@@ -1824,36 +1649,6 @@
                     '</tr>';
         });
         tbody.innerHTML = html;
-    }
-
-    function showToast(msg) {
-        var existing = document.getElementById('app-toast');
-        if (existing) existing.remove();
-
-        var t = document.createElement('div');
-        t.id = 'app-toast';
-        t.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--fg); color:var(--bg); padding:12px 20px; border-radius:12px; font-size:0.85rem; font-weight:600; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,0.25);';
-        t.innerHTML = msg;
-        document.body.appendChild(t);
-        setTimeout(function() {
-            t.style.opacity = '0';
-            t.style.transition = 'opacity 0.3s';
-            setTimeout(function() { t.remove(); }, 300);
-        }, 2500);
-    }
-
-    function copyToClipboard(text, msg) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(function() { showToast(msg); });
-        } else {
-            var ta = document.createElement('textarea');
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-            showToast(msg);
-        }
     }
 
     function setupListCopyButtons() {
@@ -1868,7 +1663,7 @@
                 var txt = "*📋 LISTA DE ASISTENCIA CONFIRMADA*\n" +
                     "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
                     confList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Confirmado*"; }).join("\n");
-                copyToClipboard(txt, "¡Lista de Asistencia copiada! 📋");
+                copyToClipboard(txt).then(function() { showToast("¡Lista de Asistencia copiada! 📋"); });
             });
         }
         if (btnPaid && !btnPaid._hooked) {
@@ -1878,7 +1673,7 @@
                 var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN)*\n" +
                     "_Fiesta de Bienvenida a Ricardo Sierra_ 🎉\n\n" +
                     paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Pago $350 Registrado*"; }).join("\n");
-                copyToClipboard(txt, "¡Lista de Pagos copiada! 📋");
+                copyToClipboard(txt).then(function() { showToast("¡Lista de Pagos copiada! 📋"); });
             });
         }
         if (btnCombined && !btnCombined._hooked) {
@@ -1891,12 +1686,12 @@
                         var pagoTxt = g.pago ? "✅ *Pago: $350 Registrado*" : "⏳ *Pago: Pendiente*";
                         return (i + 1) + ". " + g.name + " — " + asisTxt + " | " + pagoTxt;
                     }).join("\n");
-                copyToClipboard(txt, "¡Estatus Combinado copiado! 📋");
+                copyToClipboard(txt).then(function() { showToast("¡Estatus Combinado copiado! 📋"); });
             });
         }
     }
 
-    window.updateConfirmedSectionVisibility = function() {
+    function updateConfirmedSectionVisibility() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
         var phase3 = document.getElementById('phase-3-confirmed');
@@ -1909,141 +1704,12 @@
                 phase3.style.display = 'none';
             }
         }
-    };
-
-    // Al arrancar, si por algo ya estaba todo, mostrarlo
-    if (typeof updateConfirmedSectionVisibility === 'function') {
-        updateConfirmedSectionVisibility();
     }
 
-})();
-</script>
+    // ══════════════════════════════════════════════════════════
+    //  PROGRESS SECTION — UPDATE UI
+    // ══════════════════════════════════════════════════════════
 
-<!-- Success Modal -->
-<div class="modal-overlay-success" id="success-modal">
-    <div class="success-modal-content">
-        <span class="material-symbols-outlined success-icon-large">verified</span>
-        <h2 style="font-size: 1.5rem; color: var(--fg); margin-bottom: 12px; font-weight: 700;">¡Felicidades!</h2>
-        <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
-            Has completado el proceso de registro exitosamente. Ya estás anotado en la lista final de invitados.
-        </p>
-        <button class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;" onclick="closeSuccessModal()">
-            Continuar <span class="material-symbols-outlined">arrow_forward</span>
-        </button>
-    </div>
-</div>
-<!-- ── Modal de Confirmación (único, reutilizable) ── -->
-<div class="modal-overlay-success" id="confirm-modal">
-    <div class="success-modal-content" id="confirm-modal-content">
-        <!-- El contenido se inyecta dinámicamente -->
-    </div>
-</div>
-
-<script>
-    // ── Utilidad: swap de contenido con animación ──
-    function swapModalContent(newHTML, onDone) {
-        var content = document.getElementById('confirm-modal-content');
-        content.classList.add('modal-content-swap');
-        setTimeout(function() {
-            content.innerHTML = newHTML;
-            content.classList.remove('modal-content-swap');
-            content.classList.add('modal-content-in');
-            setTimeout(function() {
-                content.classList.remove('modal-content-in');
-                if (onDone) onDone();
-            }, 250);
-        }, 200);
-    }
-
-    function openConfirmModal(html) {
-        var content = document.getElementById('confirm-modal-content');
-        content.innerHTML = html;
-        document.getElementById('confirm-modal').classList.add('active');
-    }
-
-    function closeConfirmModal() {
-        document.getElementById('confirm-modal').classList.remove('active');
-        // Forzar actualización de UI al cerrar modal con ligero retraso para asegurar repaint
-        setTimeout(function() {
-            if (typeof updateProgressSection === 'function') updateProgressSection();
-            if (typeof applyVisualStates === 'function') applyVisualStates();
-            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
-        }, 50);
-    }
-
-    // ── Contenido de modales ──
-    function htmlPhase1Ask() {
-        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">event_available</span>' +
-            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Confirmaste tu asistencia?</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Ya aceptaste la invitación en iCloud y quedaste en la lista?</p>' +
-            '<div style="display:flex;gap:10px">' +
-            '<button onclick="confirmPhase1(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Aún no</button>' +
-            '<button onclick="confirmPhase1(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya estoy!</button>' +
-            '</div>';
-    }
-
-    function htmlPhase1Success() {
-        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
-            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 1 Completada! ✅</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">Ya estás en la lista de invitados. Ahora puedes realizar tu aportación en la Fase 2. ¡Gracias!</p>' +
-            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🎉</button>';
-    }
-
-    function htmlPhase2Ask() {
-        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">payments</span>' +
-            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Realizaste tu aportación?</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Completaste el pago de <strong>$350 MXN</strong> por Stripe, SPEI o CODI?</p>' +
-            '<div style="display:flex;gap:10px">' +
-            '<button onclick="confirmPhase2(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Todavía no</button>' +
-            '<button onclick="confirmPhase2(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya pagué!</button>' +
-            '</div>';
-    }
-
-    function htmlPhase2Success() {
-        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
-            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 2 Completada! ✅</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¡Gracias! Tu aportación de $350 MXN está registrada. ¡Nos vemos el 29 de agosto! 🎉</p>' +
-            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🥩🍺</button>';
-    }
-
-    // ── Confirmaciones ──
-    function confirmPhase1(done) {
-        if (done) {
-            localStorage.setItem('wp_asistencia_done', 'true');
-            swapModalContent(htmlPhase1Success());
-        } else {
-            localStorage.removeItem('wp_asistencia_done');
-            closeConfirmModal();
-        }
-        updateProgressSection();
-        applyVisualStates();
-        if (typeof initProgressiveDisclosure === 'function') initProgressiveDisclosure();
-    }
-
-    function confirmPhase2(done) {
-        if (done) {
-            localStorage.setItem('wp_pago_done', 'true');
-            swapModalContent(htmlPhase2Success());
-        } else {
-            localStorage.removeItem('wp_pago_done');
-            closeConfirmModal();
-        }
-        updateProgressSection();
-        applyVisualStates();
-        if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
-    }
-
-    function closeSuccessModal() {
-        var sm = document.getElementById('success-modal');
-        if (sm) { sm.classList.remove('active'); }
-        setTimeout(function() {
-            if (typeof updateProgressSection === 'function') updateProgressSection();
-            if (typeof applyVisualStates === 'function') applyVisualStates();
-            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
-        }, 50);
-    }
-
-    // ── Actualizar sección de progreso ──
     function updateProgressSection() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
         var pagoDone       = localStorage.getItem('wp_pago_done') === 'true';
@@ -2082,68 +1748,288 @@
             sub2.textContent = 'Pendiente — elige un método de pago';
         }
 
-        // Taps en la sección de progreso abren el modal correspondiente
-        if (step1 && !step1._tapHooked) {
+        // Taps on progress steps open confirm modal
+        if (!step1._tapHooked) {
             step1._tapHooked = true;
             step1.addEventListener('click', function() {
                 openConfirmModal(htmlPhase1Ask());
             });
         }
-        if (step2 && !step2._tapHooked) {
+        if (!step2._tapHooked) {
             step2._tapHooked = true;
             step2.addEventListener('click', function() {
                 openConfirmModal(htmlPhase2Ask());
             });
         }
 
-        if (typeof updateConfirmedSectionVisibility === 'function') {
+        updateConfirmedSectionVisibility();
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  PROGRESSIVE DISCLOSURE (hooks for auto-confirm flow)
+    // ══════════════════════════════════════════════════════════
+
+    function initProgressiveDisclosure() {
+        var confirmBtn = document.getElementById('attendance-confirm-btn');
+        var phase2Pagos = document.getElementById('phase-2-pagos');
+
+        // Apply all visual states (colors, labels, buttons)
+        applyVisualStates();
+
+        // ── Hook: confirm attendance button (iCloud) ──
+        if (confirmBtn && !confirmBtn._hooked) {
+            confirmBtn._hooked = true;
+            confirmBtn.addEventListener('click', function() {
+                localStorage.setItem('wp_icloud_clicked', 'true');
+                setTimeout(function() {
+                    if (localStorage.getItem('wp_asistencia_done') !== 'true') {
+                        localStorage.removeItem('wp_icloud_clicked');
+                        localStorage.setItem('wp_asistencia_asked', 'true');
+                        openConfirmModal(htmlPhase1Ask());
+                    }
+                }, 1500);
+            });
+        }
+
+        // ── Hook: payment buttons with debounce ──
+        if (phase2Pagos && !phase2Pagos._hooksAttached) {
+            phase2Pagos._hooksAttached = true;
+
+            var payDebounceTimer = null;
+            var payDebouncing = false;
+
+            function isPayModalOpen() {
+                var bank = document.getElementById('bankModalOverlay');
+                var codi = document.getElementById('codiModalOverlay');
+                return (bank && bank.classList.contains('open')) ||
+                       (codi && codi.classList.contains('open'));
+            }
+
+            function triggerPayConfirm(delay) {
+                if (localStorage.getItem('wp_pago_asked') === 'true') return;
+
+                if (payDebouncing) {
+                    clearTimeout(payDebounceTimer);
+                } else {
+                    payDebouncing = true;
+                }
+                payDebounceTimer = setTimeout(function() {
+                    payDebouncing = false;
+                    localStorage.setItem('wp_pago_asked', 'true');
+                    if (!isPayModalOpen()) {
+                        openConfirmModal(htmlPhase2Ask());
+                    } else {
+                        var pollClose = setInterval(function() {
+                            if (!isPayModalOpen()) {
+                                clearInterval(pollClose);
+                                openConfirmModal(htmlPhase2Ask());
+                            }
+                        }, 400);
+                    }
+                }, delay);
+            }
+
+            // Stripe — 1s delay (opens in new tab)
+            var stripeBtn = phase2Pagos.querySelector('.stripe-btn');
+            if (stripeBtn) {
+                stripeBtn.addEventListener('click', function() { triggerPayConfirm(1000); });
+            }
+
+            // SPEI — 3s delay
+            var speiBtn = document.getElementById('openBankModal');
+            if (speiBtn) {
+                speiBtn.addEventListener('click', function() { triggerPayConfirm(3000); });
+            }
+
+            // CODI — 3s delay
+            var codiBtn = document.getElementById('openCodiModal');
+            if (codiBtn) {
+                codiBtn.addEventListener('click', function() { triggerPayConfirm(3000); });
+            }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  CONFIRM MODAL SYSTEM
+    // ══════════════════════════════════════════════════════════
+
+    function swapModalContent(newHTML, onDone) {
+        var content = document.getElementById('confirm-modal-content');
+        content.classList.add('modal-content-swap');
+        setTimeout(function() {
+            content.innerHTML = newHTML;
+            content.classList.remove('modal-content-swap');
+            content.classList.add('modal-content-in');
+            setTimeout(function() {
+                content.classList.remove('modal-content-in');
+                if (onDone) onDone();
+            }, 250);
+        }, 200);
+    }
+
+    function openConfirmModal(html) {
+        var content = document.getElementById('confirm-modal-content');
+        content.innerHTML = html;
+        document.getElementById('confirm-modal').classList.add('active');
+    }
+
+    function closeConfirmModal() {
+        document.getElementById('confirm-modal').classList.remove('active');
+        setTimeout(function() {
+            updateProgressSection();
+            applyVisualStates();
+            updateConfirmedSectionVisibility();
+        }, 50);
+    }
+
+    // ── Modal Content Builders ──
+
+    function htmlPhase1Ask() {
+        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">event_available</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Confirmaste tu asistencia?</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Ya aceptaste la invitación en iCloud y quedaste en la lista?</p>' +
+            '<div style="display:flex;gap:10px">' +
+            '<button onclick="confirmPhase1(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Aún no</button>' +
+            '<button onclick="confirmPhase1(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya estoy!</button>' +
+            '</div>';
+    }
+
+    function htmlPhase1Success() {
+        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 1 Completada! ✅</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">Ya estás en la lista de invitados. Ahora puedes realizar tu aportación en la Fase 2. ¡Gracias!</p>' +
+            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🎉</button>';
+    }
+
+    function htmlPhase2Ask() {
+        return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">payments</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Realizaste tu aportación?</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Completaste el pago de <strong>$350 MXN</strong> por Stripe, SPEI o CODI?</p>' +
+            '<div style="display:flex;gap:10px">' +
+            '<button onclick="confirmPhase2(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Todavía no</button>' +
+            '<button onclick="confirmPhase2(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya pagué!</button>' +
+            '</div>';
+    }
+
+    function htmlPhase2Success() {
+        return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
+            '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 2 Completada! ✅</h2>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¡Gracias! Tu aportación de $350 MXN está registrada. ¡Nos vemos el 29 de agosto! 🎉</p>' +
+            '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🥩🍺</button>';
+    }
+
+    // ── Phase Confirmations ──
+
+    function confirmPhase1(done) {
+        if (done) {
+            localStorage.setItem('wp_asistencia_done', 'true');
+            swapModalContent(htmlPhase1Success());
+        } else {
+            localStorage.removeItem('wp_asistencia_done');
+            closeConfirmModal();
+        }
+        updateProgressSection();
+        applyVisualStates();
+        initProgressiveDisclosure();
+    }
+
+    function confirmPhase2(done) {
+        if (done) {
+            localStorage.setItem('wp_pago_done', 'true');
+            swapModalContent(htmlPhase2Success());
+        } else {
+            localStorage.removeItem('wp_pago_done');
+            closeConfirmModal();
+        }
+        updateProgressSection();
+        applyVisualStates();
+        updateConfirmedSectionVisibility();
+    }
+
+    function closeSuccessModal() {
+        var sm = document.getElementById('success-modal');
+        if (sm) sm.classList.remove('active');
+        setTimeout(function() {
+            updateProgressSection();
+            applyVisualStates();
+            updateConfirmedSectionVisibility();
+        }, 50);
+    }
+
+    // ── Expose to global scope for onclick="" attributes in modals ──
+    window.confirmPhase1 = confirmPhase1;
+    window.confirmPhase2 = confirmPhase2;
+    window.closeConfirmModal = closeConfirmModal;
+    window.closeSuccessModal = closeSuccessModal;
+
+    // ══════════════════════════════════════════════════════════
+    //  EVENT LISTENERS — STATE SYNCHRONIZATION
+    // ══════════════════════════════════════════════════════════
+
+    // Tab returns from iCloud or bank app
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
+            var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+            var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
+
+            if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
+                localStorage.removeItem('wp_icloud_clicked');
+                localStorage.setItem('wp_asistencia_asked', 'true');
+                setTimeout(function() {
+                    openConfirmModal(htmlPhase1Ask());
+                }, 600);
+            }
+
+            initProgressiveDisclosure();
+            updateProgressSection();
             updateConfirmedSectionVisibility();
         }
-    }
+    });
 
-    // Inicializar sección de progreso al cargar
+    // Cross-tab sync via storage event
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'wp_asistencia_done' || e.key === 'wp_pago_done' || e.key === 'wp_icloud_clicked') {
+            initProgressiveDisclosure();
+            updateProgressSection();
+            updateConfirmedSectionVisibility();
+        }
+    });
+
+    // Back-forward cache restore
+    window.addEventListener('pageshow', function() {
+        var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+        var asistenciaAsked = localStorage.getItem('wp_asistencia_asked') === 'true';
+
+        if (icloudClicked && !asistenciaDone && !asistenciaAsked) {
+            localStorage.removeItem('wp_icloud_clicked');
+            localStorage.setItem('wp_asistencia_asked', 'true');
+            setTimeout(function() {
+                openConfirmModal(htmlPhase1Ask());
+            }, 600);
+        }
+
+        initProgressiveDisclosure();
+        updateProgressSection();
+        updateConfirmedSectionVisibility();
+    });
+
+    // ══════════════════════════════════════════════════════════
+    //  INITIALIZATION
+    // ══════════════════════════════════════════════════════════
+
+    initProgressiveDisclosure();
     updateProgressSection();
+    updateConfirmedSectionVisibility();
+    checkHashAndOpenModal();
 
-    // ── Hero Interactive Gradient ──
-    var heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        function updateHeroMouse(e) {
-            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            var clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            var rect = heroSection.getBoundingClientRect();
-            var x = clientX - rect.left;
-            var y = clientY - rect.top;
-            
-            heroSection.style.setProperty('--mouse-x', x + 'px');
-            heroSection.style.setProperty('--mouse-y', y + 'px');
-        }
-        heroSection.addEventListener('mousemove', updateHeroMouse);
-        heroSection.addEventListener('touchmove', updateHeroMouse, {passive: true});
-        
-        // Inicializar al centro
-        var initialRect = heroSection.getBoundingClientRect();
-        heroSection.style.setProperty('--mouse-x', (initialRect.width / 2) + 'px');
-        heroSection.style.setProperty('--mouse-y', (initialRect.height / 2) + 'px');
+    // Show welcome modal on first visit
+    if (localStorage.getItem('wp_welcome_shown') !== 'true') {
+        setTimeout(openWelcomeModal, 600);
     }
-    
-    // ── Auto-refresh state every second (polling) ──
-    var _lastAsistenciaDone = localStorage.getItem('wp_asistencia_done');
-    var _lastPagoDone       = localStorage.getItem('wp_pago_done');
 
-    setInterval(function() {
-        var currentAsistenciaDone = localStorage.getItem('wp_asistencia_done');
-        var currentPagoDone       = localStorage.getItem('wp_pago_done');
-
-        if (currentAsistenciaDone !== _lastAsistenciaDone || currentPagoDone !== _lastPagoDone) {
-            _lastAsistenciaDone = currentAsistenciaDone;
-            _lastPagoDone       = currentPagoDone;
-            
-            if (typeof updateProgressSection === 'function') updateProgressSection();
-            if (typeof applyVisualStates === 'function') applyVisualStates();
-            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
-        }
-    }, 1000);
+})();
 </script>
 
 </body>
