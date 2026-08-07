@@ -2051,6 +2051,24 @@
         heroSection.style.setProperty('--mouse-x', (initialRect.width / 2) + 'px');
         heroSection.style.setProperty('--mouse-y', (initialRect.height / 2) + 'px');
     }
+    
+    // ── Auto-refresh state every second (polling) ──
+    var _lastAsistenciaDone = localStorage.getItem('wp_asistencia_done');
+    var _lastPagoDone       = localStorage.getItem('wp_pago_done');
+
+    setInterval(function() {
+        var currentAsistenciaDone = localStorage.getItem('wp_asistencia_done');
+        var currentPagoDone       = localStorage.getItem('wp_pago_done');
+
+        if (currentAsistenciaDone !== _lastAsistenciaDone || currentPagoDone !== _lastPagoDone) {
+            _lastAsistenciaDone = currentAsistenciaDone;
+            _lastPagoDone       = currentPagoDone;
+            
+            if (typeof updateProgressSection === 'function') updateProgressSection();
+            if (typeof applyVisualStates === 'function') applyVisualStates();
+            if (typeof updateConfirmedSectionVisibility === 'function') updateConfirmedSectionVisibility();
+        }
+    }, 1000);
 </script>
 
 </body>
