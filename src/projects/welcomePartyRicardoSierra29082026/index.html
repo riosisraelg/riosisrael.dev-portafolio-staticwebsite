@@ -172,7 +172,7 @@
             </div>
 
             <!-- Right: Payment Methods -->
-            <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+            <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; min-height: 270px;">
                 
                 <!-- Confirmed Banner (se muestra cuando pagoDone es true) -->
                 <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none;">
@@ -215,6 +215,12 @@
                         <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">CODI</span>
                     </button>
                 </div>
+            </div>
+            
+            <!-- Back to Confirmation Note -->
+            <div id="payment-options-hide-btn" style="text-align: center; margin-top: 4px; padding: 8px; cursor: pointer; color: var(--gray-500); display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.75rem; font-weight: 500;">
+                <span class="material-symbols-outlined" style="font-size: 0.9rem;">visibility_off</span>
+                Ocultar opciones
             </div>
 
             </div>
@@ -1458,7 +1464,6 @@
         // ── Interaction: hover / tap en el banner de pago confirmado para revelar opciones suavemente ──
         if (methodsRight && !methodsRight._bannerHooked) {
             methodsRight._bannerHooked = true;
-            var revertPayTimer = null;
             var isAnimating = false;
 
             function revealPaymentOptions() {
@@ -1478,12 +1483,10 @@
                         setTimeout(function() { w.classList.remove('fade-in-content'); isAnimating = false; }, 350);
                     }, 300);
                 }
-                
-                clearTimeout(revertPayTimer);
-                revertPayTimer = setTimeout(function() { hidePaymentOptions(); }, 4000);
             }
 
-            function hidePaymentOptions() {
+            function hidePaymentOptions(e) {
+                if (e) { e.preventDefault(); e.stopPropagation(); }
                 if (localStorage.getItem('wp_pago_done') !== 'true') return;
                 var b = document.getElementById('payment-confirmed-banner');
                 var w = document.getElementById('payment-options-wrapper');
@@ -1502,14 +1505,15 @@
             }
 
             methodsRight.addEventListener('mouseenter', revealPaymentOptions);
-            methodsRight.addEventListener('mouseleave', function() {
-                clearTimeout(revertPayTimer);
-                revertPayTimer = setTimeout(function() { hidePaymentOptions(); }, 1500);
-            });
             methodsRight.addEventListener('click', function(e) {
                 var b = document.getElementById('payment-confirmed-banner');
                 if (b && b.style.display !== 'none' && !isAnimating) { revealPaymentOptions(); }
             });
+            
+            var hideBtn = document.getElementById('payment-options-hide-btn');
+            if (hideBtn) {
+                hideBtn.addEventListener('click', hidePaymentOptions);
+            }
         }
 
         // ── Label fase 2 si pagado ──
