@@ -60,7 +60,7 @@
                 <div class="progress-step-icon pending" id="progress-icon-1">✗</div>
                 <div class="progress-step-text">
                     <div class="progress-step-title pending" id="progress-title-1">Fase 1: Confirmar Asistencia</div>
-                    <div class="progress-step-sub" id="progress-sub-1">Pendiente — acepta la invitación de iCloud</div>
+                    <div class="progress-step-sub" id="progress-sub-1">Pendiente — acepta la invitación en iCloud Invites</div>
                 </div>
                 <span class="material-symbols-outlined progress-step-arrow">chevron_right</span>
             </div>
@@ -86,7 +86,7 @@
                     <span class="attendance-label">Fase 1: Confirmación de Asistencia</span>
                 </div>
                 <p class="attendance-explanation">
-                    Tu confirmación es obligatoria para contemplar costos finales, lugares y dinámicas de la fiesta.
+                    Tu confirmación en la plataforma oficial de <strong>iCloud Invites</strong> es obligatoria para contemplar costos finales y apartar tu lugar en la fiesta.
                 </p>
                 <div class="attendance-steps">
                     
@@ -149,62 +149,119 @@
 
             <div class="payment-large-card">
                 
-                <!-- Left: Cost Breakdown (Clickeable) -->
-                <div class="payment-large-left" style="display: flex; flex-direction: column; gap: 12px; margin: 0;">
+                <!-- Left: Cost Breakdown Container -->
+                <div class="payment-large-left" id="payment-cost-left" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; border-radius: 16px; border: 1.5px solid var(--border); padding: 12px;">
                     
                     <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
                         <span class="attendance-label">Costos</span>
                     </div>
 
-                <!-- Boton 1: Cuota Completa -->
-                <button id="openCostModal" class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: var(--surface); flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px;">
-                    <div class="step-card-header" style="justify-content: flex-start; font-size: 1rem; color: var(--fg); font-weight: 600; margin-bottom: 8px;">
-                        Cuota con Comida
-                    </div>
-                    <div class="step-card-body" style="text-align: left; margin-bottom: 12px;">
-                        <span class="payment-cost-amount" style="font-size: 2rem; line-height: 1; color: var(--fg);">$350<span class="payment-cost-currency" style="font-size: 0.9rem;">MXN</span></span>
-                    </div>
-                    <div class="step-card-video" style="justify-content: flex-start; font-size: 0.75rem; width: 100%; border-top: 1px solid var(--border); padding-top: 8px; margin-top: auto;">
-                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">info</span>
-                        Tap para ver desglose
-                    </div>
-                </button>
-            </div>
+                    <!-- Boton 1: Cuota Completa -->
+                    <button id="openCostModal" class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: var(--bg); flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px;">
+                        <div class="step-card-header" style="justify-content: flex-start; font-size: 1rem; color: var(--fg); font-weight: 600; margin-bottom: 8px;">
+                            Cuota con Comida
+                        </div>
+                        <div class="step-card-body" style="text-align: left; margin-bottom: 12px;">
+                            <span class="payment-cost-amount" style="font-size: 2rem; line-height: 1; color: var(--fg);">$350<span class="payment-cost-currency" style="font-size: 0.9rem;">MXN</span></span>
+                        </div>
+                        <div class="step-card-video" style="justify-content: flex-start; font-size: 0.75rem; width: 100%; border-top: 1px solid var(--border); padding-top: 8px; margin-top: auto;">
+                            <span class="material-symbols-outlined" style="font-size: 1.1rem;">info</span>
+                            Tap para ver desglose
+                        </div>
+                    </button>
+                </div>
 
-            <!-- Right: Payment Methods -->
-            <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+                <!-- Right: Payment Methods -->
+                <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
                 
-                <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                    <span class="attendance-label">Métodos de Pago</span>
-                </div>
-
-                <!-- Tarjeta (Stripe) -->
-                <a href="https://buy.stripe.com/00wcN7doacB95whazGbII02" target="_blank" rel="noopener" class="payment-btn glass-btn stripe-btn" style="flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; gap: 6px; margin-bottom: 0; border-radius: 16px; border: 1px solid var(--border); background: var(--bg);">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; color: var(--fg);">
-                        <span class="material-symbols-outlined" style="font-size: 1.2rem;">credit_card</span>
-                        Pago Seguro (Stripe)
+                    <!-- Confirmed Banner (se muestra cuando pagoDone es true) -->
+                    <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg);">
+                            <span class="material-symbols-outlined" style="font-size: 1.2rem; color: #22c55e;">check_circle</span>
+                            APORTACIÓN CONFIRMADA
+                        </div>
+                        <div class="confirmed-hint" style="font-size: 0.72rem; color: var(--gray-500); font-weight: 500; margin-top: 4px; display: flex; align-items: center; gap: 4px;">
+                            <span class="material-symbols-outlined" style="font-size: 0.9rem; color: var(--gray-500);">touch_app</span>
+                            Tap o hover para ver opciones de pago
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.65rem; font-weight: 500; opacity: 0.7; line-height: 1.3; text-transform: uppercase; color: var(--fg);">
-                        <span class="material-symbols-outlined" style="font-size: 0.9rem;">info</span>
-                        Acepta Tarjeta, Apple Pay, Google Pay, OXXO y Link
+
+                    <!-- Options Wrapper -->
+                    <div class="payment-options-wrapper" id="payment-options-wrapper" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
+                            <span class="attendance-label">Métodos de Pago</span>
+                        </div>
+
+                        <!-- Tarjeta (Stripe) -->
+                        <a href="https://buy.stripe.com/00wcN7doacB95whazGbII02" target="_blank" rel="noopener" class="payment-btn glass-btn stripe-btn" style="flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; gap: 6px; margin-bottom: 0; border-radius: 16px; border: 1px solid var(--border); background: var(--bg);">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; color: var(--fg);">
+                                <span class="material-symbols-outlined" style="font-size: 1.2rem;">credit_card</span>
+                                Pago Seguro (Stripe)
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.65rem; font-weight: 500; opacity: 0.7; line-height: 1.3; text-transform: uppercase; color: var(--fg);">
+                                <span class="material-symbols-outlined" style="font-size: 0.9rem;">info</span>
+                                Acepta Tarjeta, Apple Pay, Google Pay, OXXO y Link
+                            </div>
+                        </a>
+
+                        <!-- Efectivo (Dynamic SPEI / CODI) -->
+                        <div class="efectivo-container" style="gap: 12px; flex-wrap: wrap;">
+                            <button class="efectivo-btn glass-btn" id="openBankModal" data-type="spei" style="border-radius: 16px; padding: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);">
+                                <span class="material-symbols-outlined" style="font-size: 1.5rem; margin-bottom: 4px;">account_balance</span>
+                                <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">SPEI</span>
+                            </button>
+                            <button class="efectivo-btn glass-btn" id="openCodiModal" data-type="codi" style="border-radius: 16px; padding: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);">
+                                <span class="material-symbols-outlined" style="font-size: 1.5rem; margin-bottom: 4px;">qr_code_scanner</span>
+                                <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">CODI</span>
+                            </button>
+                        </div>
                     </div>
-                </a>
 
-                <!-- Efectivo (Dynamic SPEI / CODI) -->
-                <div class="efectivo-container" style="gap: 12px; flex-wrap: wrap;">
-                    <button class="efectivo-btn glass-btn" id="openBankModal" data-type="spei" style="border-radius: 16px; padding: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);">
-                        <span class="material-symbols-outlined" style="font-size: 1.5rem; margin-bottom: 4px;">account_balance</span>
-                        <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">SPEI</span>
-                    </button>
-                    <button class="efectivo-btn glass-btn" id="openCodiModal" data-type="codi" style="border-radius: 16px; padding: 16px; border: 1px solid var(--border); background: var(--bg); color: var(--fg);">
-                        <span class="material-symbols-outlined" style="font-size: 1.5rem; margin-bottom: 4px;">qr_code_scanner</span>
-                        <span class="efectivo-label" style="font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px;">CODI</span>
-                    </button>
                 </div>
+        </div>
+    </section>
 
+    <!-- ── Sección Final: Lista de Confirmaciones y Aportaciones (Desbloqueada tras completar Fase 1 y 2) ── -->
+    <section class="section-card" id="confirmed-list-section" style="display: none; margin-top: 32px; animation: fadeInBanner 0.5s ease;">
+        <div class="attendance-header" style="margin-bottom: 16px; flex-direction: column; align-items: flex-start; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="material-symbols-outlined" style="color: #22c55e; font-size: 1.5rem;">fact_check</span>
+                <h2 style="font-size: 1.2rem; font-weight: 700; margin: 0; color: var(--fg);">📋 Lista Oficial de Confirmaciones (17 Asistentes)</h2>
             </div>
+            <p style="font-size: 0.8rem; color: var(--gray-500); margin: 0;">Estatus de asistencia y aportación de la lista final de invitados.</p>
+        </div>
 
-            </div>
+        <!-- Tabla de Asistentes -->
+        <div class="table-container" style="overflow-x: auto; margin-bottom: 20px; border-radius: 12px; border: 1px solid var(--border);">
+            <table class="confirmed-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+                <thead>
+                    <tr style="background: var(--surface); border-bottom: 1px solid var(--border); color: var(--fg);">
+                        <th style="padding: 12px 14px; font-weight: 700; width: 40px; text-align: center;">#</th>
+                        <th style="padding: 12px 14px; font-weight: 700;">Nombre del Invitado</th>
+                        <th style="padding: 12px 14px; font-weight: 700; text-align: center;">Asistencia</th>
+                        <th style="padding: 12px 14px; font-weight: 700; text-align: center;">Aportación ($350)</th>
+                    </tr>
+                </thead>
+                <tbody id="confirmed-table-body">
+                    <!-- Se llena dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Acciones: 3 Botones para Copiar Listas -->
+        <div class="list-action-btns" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <button class="glass-btn action-copy-btn" id="btn-copy-paid" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #22c55e;">content_copy</span>
+                Copiar Lista de Pagados
+            </button>
+            <button class="glass-btn action-copy-btn" id="btn-copy-confirmed" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--primary);">content_copy</span>
+                Copiar Lista de Confirmados
+            </button>
+            <button class="glass-btn action-copy-btn" id="btn-copy-pending" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem; color: #ef4444;">content_copy</span>
+                Copiar Pendientes
+            </button>
         </div>
     </section>
 
@@ -223,34 +280,33 @@
         </div>
         <div class="cost-modal-body" style="padding: 0 24px 24px;">
             <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.6; text-align: center;">
-                Para participar en la fiesta de Ricardo sigue estas <strong>2 etapas</strong>. Cada una desbloquea la siguiente.
+                Para participar en la fiesta de Ricardo sigue estas <strong>2 etapas</strong>:
             </p>
 
             <!-- Fase 1 -->
             <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px;">
-                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">1</div>
+                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--fg); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">1</div>
                 <div>
                     <div style="font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px;">Confirmar Asistencia</div>
-                    <div style="font-size: 0.85rem; color: var(--gray-500); line-height: 1.5;">Acepta la invitación de iCloud para quedar en la lista oficial de invitados. <strong>Obligatorio para avanzar.</strong></div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">Acepta la invitación oficial mediante <strong>iCloud Invites</strong> (de Apple). Abre directamente en iPhone o desde el navegador web en cualquier otro dispositivo. <strong>Obligatorio.</strong></div>
                 </div>
             </div>
 
             <!-- Conector -->
-            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px; padding-left: 20px;">
-                <div style="width: 0; border-left: 2px dashed var(--border); height: 20px; margin-left: 0;"></div>
-                <span style="font-size: 0.75rem; color: var(--gray-400); padding-left: 8px;">se desbloquea ↓</span>
+            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px; padding-left: 19px;">
+                <div style="width: 0; border-left: 2px dashed var(--border); height: 20px;"></div>
             </div>
 
             <!-- Fase 2 -->
-            <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px; opacity: 0.7;">
-                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); color: var(--gray-500); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">2</div>
+            <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px;">
+                <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--fg); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">2</div>
                 <div>
-                    <div style="font-weight: 700; font-size: 1rem; color: var(--gray-500); margin-bottom: 4px;">Aportación Final <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle; color: var(--gray-400);">lock</span></div>
-                    <div style="font-size: 0.85rem; color: var(--gray-400); line-height: 1.5;">Revisa los costos y realiza tu aportación de <strong>$350 MXN</strong> por los medios disponibles (Stripe, SPEI o CODI).</div>
+                    <div style="font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px;">Aportación Final</div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">Revisa los costos y realiza tu aportación de <strong>$350 MXN</strong> por los medios disponibles (Stripe, SPEI o CODI). <strong>Obligatoria.</strong></div>
                 </div>
             </div>
 
-            <button id="closeWelcomeModal" class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;">
+            <button id="closeWelcomeModal" class="welcome-cta-btn">
                 ¡Entendido, vamos! <span class="material-symbols-outlined">arrow_forward</span>
             </button>
         </div>
@@ -1010,7 +1066,7 @@
     });
 
     // ── Bank Row Click Handlers ──
-    var bankRows = document.querySelectorAll('.bank-row:not(#fareToggleRow)');
+    var bankRows = document.querySelectorAll('.bank-row[data-copy]');
 
     bankRows.forEach(function(row) {
         row.addEventListener('click', function() {
@@ -1361,9 +1417,14 @@
             confirmBtn.classList.remove('attendance-btn-pending', 'attendance-btn-done');
             if (!asistenciaDone) {
                 confirmBtn.classList.add('attendance-btn-pending');
+                confirmBtn.innerHTML = '<span class="material-symbols-outlined">person_add</span> Confirmar';
+                if (phase1Section) {
+                    var lbl1 = phase1Section.querySelector('.attendance-label');
+                    if (lbl1) lbl1.innerHTML = 'Fase 1: Confirmación de Asistencia';
+                }
             } else {
                 confirmBtn.classList.add('attendance-btn-done');
-                confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Asistencia Confirmada';
+                confirmBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ASISTENCIA CONFIRMADA';
                 if (phase1Section) {
                     var lbl1 = phase1Section.querySelector('.attendance-label');
                     if (lbl1) lbl1.innerHTML = '✅ Fase 1: Confirmación Completada';
@@ -1371,22 +1432,248 @@
             }
         }
 
-        // ── Solo el right container de métodos de pago: rojo/verde ──
+        // ── Solo el right container de métodos de pago: rojo/verde y banner ──
+        var banner = document.getElementById('payment-confirmed-banner');
+        var wrapper = document.getElementById('payment-options-wrapper');
+
         if (methodsRight) {
             methodsRight.classList.remove('methods-pending', 'methods-done');
             if (pagoDone) {
                 methodsRight.classList.add('methods-done');
+                if (banner && wrapper) {
+                    banner.style.display = 'flex';
+                    wrapper.style.display = 'none';
+                }
             } else if (asistenciaDone) {
                 methodsRight.classList.add('methods-pending');
+                if (banner && wrapper) {
+                    banner.style.display = 'none';
+                    wrapper.style.display = 'flex';
+                }
+            } else {
+                if (banner && wrapper) {
+                    banner.style.display = 'none';
+                    wrapper.style.display = 'flex';
+                }
             }
         }
 
-        // ── Label fase 2 si pagado ──
-        var phase2Pagos2 = document.getElementById('phase-2-pagos');
-        if (phase2Pagos2 && pagoDone) {
-            var lbl2 = phase2Pagos2.querySelector('.attendance-label');
-            if (lbl2) lbl2.innerHTML = '✅ Fase 2: Aportación Registrada';
+        // ── Interaction: hover / tap en el banner de pago confirmado para revelar opciones suavemente ──
+        if (methodsRight && !methodsRight._bannerHooked) {
+            methodsRight._bannerHooked = true;
+            var revertPayTimer = null;
+            var isAnimating = false;
+
+            function revealPaymentOptions() {
+                if (localStorage.getItem('wp_pago_done') !== 'true') return;
+                var b = document.getElementById('payment-confirmed-banner');
+                var w = document.getElementById('payment-options-wrapper');
+                if (!b || !w || isAnimating) return;
+
+                if (b.style.display !== 'none') {
+                    isAnimating = true;
+                    b.classList.add('fade-out-content');
+                    setTimeout(function() {
+                        b.style.display = 'none';
+                        b.classList.remove('fade-out-content');
+                        w.style.display = 'flex';
+                        w.classList.add('fade-in-content');
+                        setTimeout(function() {
+                            w.classList.remove('fade-in-content');
+                            isAnimating = false;
+                        }, 350);
+                    }, 180);
+                }
+
+                clearTimeout(revertPayTimer);
+                revertPayTimer = setTimeout(function() {
+                    if (localStorage.getItem('wp_pago_done') === 'true') {
+                        revertToConfirmedBanner();
+                    }
+                }, 60000); // 60,000 ms = 1 minuto
+            }
+
+            function revertToConfirmedBanner() {
+                var b = document.getElementById('payment-confirmed-banner');
+                var w = document.getElementById('payment-options-wrapper');
+                if (!b || !w || isAnimating) return;
+
+                if (w.style.display !== 'none') {
+                    isAnimating = true;
+                    w.classList.add('fade-out-content');
+                    setTimeout(function() {
+                        w.style.display = 'none';
+                        w.classList.remove('fade-out-content');
+                        b.style.display = 'flex';
+                        b.classList.add('fade-in-content');
+                        setTimeout(function() {
+                            b.classList.remove('fade-in-content');
+                            isAnimating = false;
+                        }, 350);
+                    }, 180);
+                }
+            }
+
+            methodsRight.addEventListener('mouseenter', revealPaymentOptions);
+            methodsRight.addEventListener('click', function() {
+                var b = document.getElementById('payment-confirmed-banner');
+                if (b && b.style.display !== 'none') {
+                    revealPaymentOptions();
+                }
+            });
+            methodsRight.addEventListener('mouseleave', function() {
+                if (localStorage.getItem('wp_pago_done') === 'true') {
+                    clearTimeout(revertPayTimer);
+                    revertPayTimer = setTimeout(function() {
+                        if (localStorage.getItem('wp_pago_done') === 'true') {
+                            revertToConfirmedBanner();
+                        }
+                    }, 60000);
+                }
+            });
         }
+
+        // ── Label fase 2 según estado de pago ──
+        var phase2Pagos2 = document.getElementById('phase-2-pagos');
+        if (phase2Pagos2) {
+            var lbl2 = phase2Pagos2.querySelector('.attendance-label');
+            if (lbl2) {
+                if (pagoDone) {
+                    lbl2.innerHTML = '✅ Fase 2: Aportación Registrada';
+                } else {
+                    lbl2.innerHTML = 'Fase 2: Aportación Final';
+                }
+            }
+        }
+
+        // ── Mostrar u ocultar la lista de confirmados solo si ambos completados ──
+        var confirmedSection = document.getElementById('confirmed-list-section');
+        if (confirmedSection) {
+            if (asistenciaDone && pagoDone) {
+                confirmedSection.style.display = 'block';
+                renderConfirmedTable();
+                setupListCopyButtons();
+            } else {
+                confirmedSection.style.display = 'none';
+            }
+        }
+    }
+
+    // ── 17 Invitados Confirmados y Estado ──
+    var guestsData = [
+        { id: 1, name: "Ricardo Sierra", asistencia: true, pago: true },
+        { id: 2, name: "Israel Ríos", asistencia: true, pago: true },
+        { id: 3, name: "Fernando Gómez", asistencia: true, pago: false },
+        { id: 4, name: "Valeria Martínez", asistencia: true, pago: true },
+        { id: 5, name: "Diego Hernández", asistencia: false, pago: false },
+        { id: 6, name: "Camila López", asistencia: true, pago: true },
+        { id: 7, name: "Mateo Rodríguez", asistencia: true, pago: false },
+        { id: 8, name: "Ana Paula Sánchez", asistencia: true, pago: true },
+        { id: 9, name: "Santiago Pérez", asistencia: false, pago: false },
+        { id: 10, name: "Mariana Flores", asistencia: true, pago: true },
+        { id: 11, name: "Daniel Ramírez", asistencia: true, pago: true },
+        { id: 12, name: "Andrea Torres", asistencia: true, pago: false },
+        { id: 13, name: "Alejandro Cruz", asistencia: true, pago: true },
+        { id: 14, name: "Natalia Morales", asistencia: false, pago: false },
+        { id: 15, name: "Rodrigo Ortiz", asistencia: true, pago: true },
+        { id: 16, name: "Jimena Castillo", asistencia: true, pago: false },
+        { id: 17, name: "Gabriel Ruiz", asistencia: true, pago: true }
+    ];
+
+    function renderConfirmedTable() {
+        var tbody = document.getElementById('confirmed-table-body');
+        if (!tbody) return;
+        var html = '';
+        guestsData.forEach(function(g) {
+            var asisBadge = g.asistencia 
+                ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">check_circle</span> Confirmado</span>'
+                : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">cancel</span> Pendiente</span>';
+            var pagoBadge = g.pago 
+                ? '<span style="color:#22c55e; font-weight:700; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">task_alt</span> Pagado</span>'
+                : '<span style="color:#ef4444; font-weight:600; display:inline-flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:1rem;">pending</span> Pendiente</span>';
+
+            html += '<tr style="border-bottom: 1px solid var(--border); transition: background 0.2s;">' +
+                    '<td style="padding: 10px 14px; text-align: center; color: var(--gray-500); font-weight: 600;">' + g.id + '</td>' +
+                    '<td style="padding: 10px 14px; font-weight: 600; color: var(--fg);">' + g.name + '</td>' +
+                    '<td style="padding: 10px 14px; text-align: center;">' + asisBadge + '</td>' +
+                    '<td style="padding: 10px 14px; text-align: center;">' + pagoBadge + '</td>' +
+                    '</tr>';
+        });
+        tbody.innerHTML = html;
+    }
+
+    function showToast(msg) {
+        var existing = document.getElementById('app-toast');
+        if (existing) existing.remove();
+
+        var t = document.createElement('div');
+        t.id = 'app-toast';
+        t.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--fg); color:var(--bg); padding:12px 20px; border-radius:12px; font-size:0.85rem; font-weight:600; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,0.25);';
+        t.innerHTML = msg;
+        document.body.appendChild(t);
+        setTimeout(function() {
+            t.style.opacity = '0';
+            t.style.transition = 'opacity 0.3s';
+            setTimeout(function() { t.remove(); }, 300);
+        }, 2500);
+    }
+
+    function copyToClipboard(text, msg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast(msg);
+            });
+        } else {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast(msg);
+        }
+    }
+
+    function setupListCopyButtons() {
+        var btnPaid = document.getElementById('btn-copy-paid');
+        var btnConfirmed = document.getElementById('btn-copy-confirmed');
+        var btnPending = document.getElementById('btn-copy-pending');
+
+        if (btnPaid && !btnPaid._hooked) {
+            btnPaid._hooked = true;
+            btnPaid.addEventListener('click', function() {
+                var paidList = guestsData.filter(function(g) { return g.pago; });
+                var txt = "📋 LISTA DE APORTACIONES REALIZADAS ($350 MXN):\n\n" +
+                    paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✓ Pagado"; }).join("\n");
+                copyToClipboard(txt, "¡Lista de Pagados copiada al portapapeles! 📋");
+            });
+        }
+
+        if (btnConfirmed && !btnConfirmed._hooked) {
+            btnConfirmed._hooked = true;
+            btnConfirmed.addEventListener('click', function() {
+                var confList = guestsData.filter(function(g) { return g.asistencia; });
+                var txt = "📋 LISTA DE ASISTENCIA CONFIRMADA:\n\n" +
+                    confList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✓ Confirmado"; }).join("\n");
+                copyToClipboard(txt, "¡Lista de Confirmados copiada al portapapeles! 📋");
+            });
+        }
+
+        if (btnPending && !btnPending._hooked) {
+            btnPending._hooked = true;
+            btnPending.addEventListener('click', function() {
+                var pendList = guestsData.filter(function(g) { return !g.asistencia || !g.pago; });
+                var txt = "📋 LISTA DE PENDIENTES (Asistencia / Aportación):\n\n" +
+                    pendList.map(function(g, i) {
+                        var status = [];
+                        if (!g.asistencia) status.push("Asistencia Pendiente");
+                        if (!g.pago) status.push("Pago Pendiente");
+                        return (i + 1) + ". " + g.name + " (" + status.join(", ") + ")";
+                    }).join("\n");
+                copyToClipboard(txt, "¡Lista de Pendientes copiada al portapapeles! 📋");
+            });
+        }
+    }
     }
 
     function initProgressiveDisclosure() {
@@ -1432,8 +1719,10 @@
             if (ov) ov.remove();
         }
 
-        // Apply lock/unlock
-        if (!asistenciaDone) {
+        var fase1Asked = localStorage.getItem('wp_fase1_asked') === 'true';
+
+        // Apply lock/unlock: Bloquear Fase 2 SOLO si no se ha confirmado ni dado el 1er clic
+        if (!asistenciaDone && !fase1Asked) {
             lockSection(phase2Pagos);
         } else {
             unlockSection(phase2Pagos);
@@ -1442,15 +1731,24 @@
         // Apply visual states (colors)
         applyVisualStates();
 
-        // ── Hook: botón confirmar asistencia (iCloud) ──
-        if (confirmBtn && !confirmBtn._hooked) {
-            confirmBtn._hooked = true;
-            confirmBtn.addEventListener('click', function() {
-                localStorage.setItem('wp_asistencia_done', 'true');
-            });
-        }
+        // ── Hook: botones de confirmar asistencia (iCloud y tutoriales) ──
+        var attendanceBtns = document.querySelectorAll('#phase-1-asistencia a');
+        attendanceBtns.forEach(function(btn) {
+            if (!btn._hooked) {
+                btn._hooked = true;
+                btn.addEventListener('click', function() {
+                    var fase1Asked = localStorage.getItem('wp_fase1_asked') === 'true';
+                    if (!fase1Asked) {
+                        localStorage.setItem('wp_icloud_clicked', 'true');
+                        localStorage.setItem('wp_fase1_asked', 'true');
+                        unlockSection(phase2Pagos);
+                        applyVisualStates();
+                    }
+                });
+            }
+        });
 
-        // ── Hook: botones de pago con debounce 2s ──
+        // ── Hook: botones de pago con anti-spam y debounce ──
         if (phase2Pagos && !phase2Pagos._hooksAttached) {
             phase2Pagos._hooksAttached = true;
 
@@ -1458,7 +1756,6 @@
             var payDebouncing = false;
 
             function isPayModalOpen() {
-                // No mostrar modal de confirmación si SPEI o CODI están abiertos
                 var bank = document.getElementById('bankModalOverlay');
                 var codi = document.getElementById('codiModalOverlay');
                 return (bank && bank.classList.contains('open')) ||
@@ -1467,22 +1764,22 @@
 
             function triggerPayConfirm(delay) {
                 if (!localStorage.getItem('wp_asistencia_done')) return;
-                if (payDebouncing) {
-                    // Ya hay un timer corriendo — resetear para que solo dispare una vez
-                    clearTimeout(payDebounceTimer);
-                } else {
-                    payDebouncing = true;
-                }
+                var fase2Asked = localStorage.getItem('wp_fase2_asked') === 'true';
+                if (fase2Asked) return; // SKIP2: ya se preguntó una vez
+
+                if (payDebouncing) return; // DEBOUNCE: ignora clics rápidos extra
+                payDebouncing = true;
+                setTimeout(function() { payDebouncing = false; }, 2000);
+
                 payDebounceTimer = setTimeout(function() {
-                    payDebouncing = false;
-                    // Solo mostrar si ningún modal de datos está abierto
                     if (!isPayModalOpen()) {
+                        localStorage.setItem('wp_fase2_asked', 'true');
                         openConfirmModal(htmlPhase2Ask());
                     } else {
-                        // Esperar a que cierre el modal de datos y luego preguntar
                         var pollClose = setInterval(function() {
                             if (!isPayModalOpen()) {
                                 clearInterval(pollClose);
+                                localStorage.setItem('wp_fase2_asked', 'true');
                                 openConfirmModal(htmlPhase2Ask());
                             }
                         }, 400);
@@ -1513,53 +1810,39 @@
                     triggerPayConfirm(3000);
                 });
             }
-
-            // Costos — sin confirmación
         }
     }
 
-    // Al volver a la pestaña (regresa de iCloud) refrescar estado
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            var wasDone = localStorage.getItem('wp_asistencia_done') === 'true';
-            // Si aún no estaba done pero ahora iCloud redirigió de vuelta, mostramos modal
-            initProgressiveDisclosure();
-            var nowDone = localStorage.getItem('wp_asistencia_done') === 'true';
-            if (!wasDone && nowDone) {
-                // No mostrar nada extra — ya se gestiona abajo
-            }
-        }
-    });
+    // Exponer a scope global para ser invocados por los modales de confirmación
+    window.applyVisualStates = applyVisualStates;
+    window.initProgressiveDisclosure = initProgressiveDisclosure;
 
-    // Al regresar de iCloud — mostrar modal de confirmación fase 1 la primera vez
-    window.addEventListener('pageshow', function() {
-        var fase1Shown = localStorage.getItem('wp_fase1_modal_shown') === 'true';
-        if (!fase1Shown) {
-            localStorage.setItem('wp_fase1_modal_shown', 'true');
+    // ── Al regresar a la pestaña tras dar el 1er clic a iCloud ──
+    function checkIcloudReturn() {
+        var icloudClicked = localStorage.getItem('wp_icloud_clicked') === 'true';
+        var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
+
+        if (icloudClicked && !asistenciaDone) {
+            localStorage.removeItem('wp_icloud_clicked');
             setTimeout(function() {
                 openConfirmModal(htmlPhase1Ask());
-            }, 600);
+            }, 400);
         }
         initProgressiveDisclosure();
         updateProgressSection();
+    }
+
+    window.addEventListener('pageshow', checkIcloudReturn);
+    window.addEventListener('focus', checkIcloudReturn);
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            checkIcloudReturn();
+        }
     });
 
 })();
 </script>
 
-<!-- Success Modal -->
-<div class="modal-overlay-success" id="success-modal">
-    <div class="success-modal-content">
-        <span class="material-symbols-outlined success-icon-large">verified</span>
-        <h2 style="font-size: 1.5rem; color: var(--fg); margin-bottom: 12px; font-weight: 700;">¡Felicidades!</h2>
-        <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
-            Has completado el proceso de registro exitosamente. Ya estás anotado en la lista final de invitados.
-        </p>
-        <button class="typeform-btn primary" style="width: 100%; border: none; padding: 14px; font-size: 1rem; border-radius: 12px; background: var(--primary); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;" onclick="closeSuccessModal()">
-            Continuar <span class="material-symbols-outlined">arrow_forward</span>
-        </button>
-    </div>
-</div>
 <!-- ── Modal de Confirmación (único, reutilizable) ── -->
 <div class="modal-overlay-success" id="confirm-modal">
     <div class="success-modal-content" id="confirm-modal-content">
@@ -1568,7 +1851,7 @@
 </div>
 
 <script>
-    // ── Utilidad: swap de contenido con animación ──
+    // ── Utilidad: swap de contenido con animación suave en el mismo modal ──
     function swapModalContent(newHTML, onDone) {
         var content = document.getElementById('confirm-modal-content');
         content.classList.add('modal-content-swap');
@@ -1597,7 +1880,7 @@
     function htmlPhase1Ask() {
         return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">event_available</span>' +
             '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Confirmaste tu asistencia?</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Ya aceptaste la invitación en iCloud y quedaste en la lista?</p>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Ya aceptaste la invitación en <strong>iCloud Invites</strong> (web o iPhone) y quedaste en la lista?</p>' +
             '<div style="display:flex;gap:10px">' +
             '<button onclick="confirmPhase1(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Aún no</button>' +
             '<button onclick="confirmPhase1(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya estoy!</button>' +
@@ -1654,11 +1937,6 @@
         applyVisualStates();
     }
 
-    function closeSuccessModal() {
-        var sm = document.getElementById('success-modal');
-        if (sm) { sm.classList.remove('active'); }
-    }
-
     // ── Actualizar sección de progreso ──
     function updateProgressSection() {
         var asistenciaDone = localStorage.getItem('wp_asistencia_done') === 'true';
@@ -1703,7 +1981,7 @@
             sub2.textContent = 'Bloqueada — completa la Fase 1 primero';
         }
 
-        // Taps en la sección de progreso abren el modal correspondiente
+        // Re-verificación manual al tocar las tarjetas de progreso
         if (step1 && !step1._tapHooked) {
             step1._tapHooked = true;
             step1.addEventListener('click', function() {
@@ -1716,13 +1994,13 @@
                 if (localStorage.getItem('wp_asistencia_done') === 'true') {
                     openConfirmModal(htmlPhase2Ask());
                 } else {
-                    openConfirmModal(htmlPhase1Ask()); // Redirige a fase 1 si no está completa
+                    openConfirmModal(htmlPhase1Ask());
                 }
             });
         }
     }
 
-    // Inicializar sección de progreso al cargar
+    // Inicializar visuales y sección de progreso al cargar
     updateProgressSection();
 </script>
 
