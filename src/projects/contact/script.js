@@ -575,15 +575,12 @@
     codiEditor = initFareEditor('codi', 'PAY');
 
     // ══════════════════════════════════════════════════════════
-    //  VCARD (.VCF 3.0) CONTACT GENERATION
+    //  VCARD (.VCF 3.0) CONTACT GENERATION & FILE SHARING
     // ══════════════════════════════════════════════════════════
     const btnSaveContact = document.getElementById('btnSaveContact');
 
-    function generateAndDownloadVCF() {
-        triggerHaptic();
-        if (contactTileWrapper) contactTileWrapper.classList.remove('expanded');
-
-        const vCardData = [
+    function getVCardString() {
+        return [
             'BEGIN:VCARD',
             'VERSION:3.0',
             'N:Rios Garcia;Fernando Israel;;;',
@@ -599,8 +596,17 @@
             'NOTE:Software Engineer & Developer - Contacto y datos de pago',
             'END:VCARD'
         ].join('\r\n');
+    }
 
-        const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+    function getVCardBlob() {
+        return new Blob([getVCardString()], { type: 'text/vcard;charset=utf-8' });
+    }
+
+    function generateAndDownloadVCF() {
+        triggerHaptic();
+        if (contactTileWrapper) contactTileWrapper.classList.remove('expanded');
+
+        const blob = getVCardBlob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -611,7 +617,7 @@
         setTimeout(() => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }, 120);
+        }, 150);
 
         showToast('Descargando contacto (.vcf)...');
     }
@@ -627,22 +633,45 @@
         triggerHaptic();
         if (contactTileWrapper) contactTileWrapper.classList.remove('expanded');
 
-        const sharePayload = {
-            title: 'Fernando Israel Rios Garcia',
-            text: 'Tarjeta de contacto digital y datos para transferencias bancarias de Fernando Israel Rios Garcia:',
-            url: window.location.href
-        };
+        const vCardBlob = getVCardBlob();
+        let sharedAsFile = false;
 
-        if (navigator.share) {
+        // Attempt direct .vcf File Sharing via Web Share API Level 2
+        if (navigator.canShare && typeof File !== 'undefined') {
             try {
-                await navigator.share(sharePayload);
-            } catch (err) {
-                if (err.name !== 'AbortError') {
-                    copyToClipboard(window.location.href).then(() => showToast('Enlace copiado al portapapeles'));
+                const vCardFile = new File([vCardBlob], 'Fernando_Israel_Rios_Garcia.vcf', { type: 'text/vcard' });
+                if (navigator.canShare({ files: [vCardFile] })) {
+                    await navigator.share({
+                        files: [vCardFile],
+                        title: 'Fernando Israel Rios Garcia',
+                        text: 'Contacto de Fernando Israel Rios Garcia'
+                    });
+                    sharedAsFile = true;
                 }
+            } catch (err) {
+                if (err.name === 'AbortError') return;
             }
-        } else {
-            copyToClipboard(window.location.href).then(() => showToast('Enlace copiado al portapapeles'));
+        }
+
+        // Fallback: URL share or Clipboard copy
+        if (!sharedAsFile) {
+            const sharePayload = {
+                title: 'Fernando Israel Rios Garcia',
+                text: 'Tarjeta de contacto digital y datos de pago de Fernando Israel Rios Garcia:',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(sharePayload);
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        copyToClipboard(window.location.href).then(() => showToast('Enlace copiado al portapapeles'));
+                    }
+                }
+            } else {
+                copyToClipboard(window.location.href).then(() => showToast('Enlace copiado al portapapeles'));
+            }
         }
     }
 
@@ -654,14 +683,34 @@
         if ('NDEFReader' in window) {
             try {
                 const ndef = new NDEFReader();
+                const vCardText = getVCardString();
+                const encoder = new TextEncoder();
+                const vCardBytes = encoder.encode(vCardText);
+
                 await ndef.write({
                     records: [
-                        { recordType: "url", data: window.location.href }
+                        // Record 1: Native Contact MIME record for instant address book import on Android
+                        {
+                            recordType: "mime",
+                            mediaType: "text/vcard",
+                            data: vCardBytes
+                        },
+                        // Record 2: Extended compatibility MIME
+                        {
+                            recordType: "mime",
+                            mediaType: "text/x-vcard",
+                            data: vCardBytes
+                        },
+                        // Record 3: Web URL fallback for iOS / Browser
+                        {
+                            recordType: "url",
+                            data: window.location.href
+                        }
                     ]
                 });
                 if (!nfcActive) {
                     nfcActive = true;
-                    showToast('📡 NFC activado: acerca otro dispositivo');
+                    showToast('📡 NFC: Transmitiendo contacto (.vcf) y tarjeta');
                 }
             } catch (e) {
                 console.log('NFC proximity notice:', e);
