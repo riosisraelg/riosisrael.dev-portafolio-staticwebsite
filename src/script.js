@@ -104,9 +104,10 @@ const vfs = {
     '/home': ['rivers/'],
     '/home/rivers': ['portfolio/', 'projects/'],
     '/home/rivers/portfolio': ['index.html', 'script.js', 'style.css', 'status.txt', 'links.txt', 'notify-me.sh'],
-    '/home/rivers/projects': ['candle/', 'wpr/'],
+    '/home/rivers/projects': ['candle/', 'wpr/', 'contact/'],
     '/home/rivers/projects/candle': [],
-    '/home/rivers/projects/wpr': ['index.html', 'style.css', 'run-wpr.sh']
+    '/home/rivers/projects/wpr': ['index.html', 'style.css', 'run-wpr.sh'],
+    '/home/rivers/projects/contact': ['index.html', 'style.css', 'script.js', 'design.md']
 };
 let currentDir = '/home/rivers/portfolio';
 
@@ -237,6 +238,9 @@ if (cmdInput) {
                         if (currentDir === '/home/rivers/projects/candle') {
                             outputHtml += `<br>Navigating to /projects/candle...`;
                             setTimeout(() => window.location.href = '/projects/candle/', 500);
+                        } else if (currentDir === '/home/rivers/projects/contact') {
+                            outputHtml += `<br>Navigating to contact card & payment hub...`;
+                            setTimeout(() => window.location.href = '/projects/contact/', 500);
                         }
                     } else if (isFile) {
                         outputHtml += `bash: cd: ${target}: Not a directory`;
@@ -351,6 +355,9 @@ if (cmdInput) {
                 } else if (targetPath === '/home/rivers/projects/wpr/run-wpr.sh') {
                     outputHtml += `<br>Starting wpr server...<br>Redirecting to wpr app...`;
                     setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 800);
+                } else if (targetPath === '/home/rivers/projects/contact') {
+                    outputHtml += `<br>Navigating to contact card & payment hub...`;
+                    setTimeout(() => window.location.href = '/projects/contact/', 500);
                 } else {
                     let isFile = false;
                     const parentDir = targetPath.substring(0, targetPath.lastIndexOf('/')) || '/';
@@ -367,8 +374,24 @@ if (cmdInput) {
             } else if (cmd === 'wpr') {
                 outputHtml += `<br>Navigating to /projects/welcomePartyRicardoSierra29082026...`;
                 setTimeout(() => window.location.href = '/projects/welcomePartyRicardoSierra29082026/', 500);
+            } else if (cmd === 'contact' || cmd === 'card' || cmd === 'pay') {
+                outputHtml += `<br>Opening digital contact card & payment hub...`;
+                setTimeout(() => window.location.href = '/projects/contact/', 500);
+            } else if (cmd === 'clear') {
+                terminalHistory.innerHTML = '';
+                shouldAppend = false;
+            } else if (cmd === 'help') {
+                outputHtml += `<br><span style="color: #9effff; font-weight: bold">Available Commands:</span><br>
+  <span style="color: #79ffa8">contact</span>, <span style="color: #79ffa8">card</span>, <span style="color: #79ffa8">pay</span>  : Open digital contact card & payment hub
+  <span style="color: #79ffa8">candle</span>             : Open Candle project
+  <span style="color: #79ffa8">wpr</span>                : Open Welcome Party project
+  <span style="color: #79ffa8">ls [dir]</span>           : List directory contents
+  <span style="color: #79ffa8">cd &lt;dir&gt;</span>            : Change directory
+  <span style="color: #79ffa8">cat &lt;file&gt;</span>          : View file contents
+  <span style="color: #79ffa8">pwd</span>                : Print working directory
+  <span style="color: #79ffa8">clear</span>              : Clear terminal screen`;
             } else {
-                outputHtml += `bash: ${cmd}: command not found`;
+                outputHtml += `bash: ${cmd}: command not found. Type <span style="color: #79ffa8">'help'</span> for available commands.`;
             }
             
             if (shouldAppend) {

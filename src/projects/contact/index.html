@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fernando Israel Rios Garcia — Contacto & Pagos</title>
+    <meta name="description" content="Tarjeta de contacto digital y datos para transferencias bancarias de Fernando Israel Rios Garcia.">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+    <!-- Floating Orbs Background -->
+    <div class="hero-orbs" id="heroOrbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ── Main Profile Container ────────────── -->
+    <div class="profile-wrapper">
+        
+        <!-- Hero Glass Card -->
+        <div class="hero-glass-card" id="heroGlassCard">
+            
+            <h1 class="profile-name">Fernando Israel Rios Garcia</h1>
+
+            <!-- 2 Master Buttons (Dual Grid) -->
+            <div class="action-dual-grid">
+                
+                <!-- Master Tile 1: Contacto (Interactive Expand) -->
+                <div class="tile-wrapper" id="contactTileWrapper">
+                    <button class="action-tile primary-tile" id="toggleContactBtn" aria-expanded="false" aria-label="Abrir opciones de contacto">
+                        <span class="material-symbols-outlined tile-icon">person</span>
+                        <span class="tile-label">Contacto</span>
+                    </button>
+                    
+                    <!-- Sub-options overlay for Contact -->
+                    <div class="tile-sub-options" id="contactSubOptions">
+                        <button class="sub-option-btn" id="btnSaveContact" aria-label="Guardar contacto vCard">
+                            <span class="material-symbols-outlined">person_add</span>
+                            <span>Guardar .vcf</span>
+                        </button>
+                        <button class="sub-option-btn" id="btnShare" aria-label="Compartir tarjeta">
+                            <span class="material-symbols-outlined">share</span>
+                            <span>Compartir</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Master Tile 2: Bancos / Pagos (Interactive Expand) -->
+                <div class="tile-wrapper" id="bankTileWrapper">
+                    <button class="action-tile" id="toggleBankBtn" aria-expanded="false" aria-label="Abrir opciones de pago">
+                        <span class="material-symbols-outlined tile-icon">payments</span>
+                        <span class="tile-label">Bancos / Pagos</span>
+                    </button>
+                    
+                    <!-- Sub-options overlay for Banks -->
+                    <div class="tile-sub-options tile-sub-options-3" id="bankSubOptions">
+                        <button class="sub-option-btn" id="openBankModal" aria-label="Transferencia SPEI">
+                            <span class="material-symbols-outlined">account_balance</span>
+                            <span>SPEI Bancos</span>
+                        </button>
+                        <button class="sub-option-btn" id="openCodiModal" aria-label="Pago con DIMO / CODI">
+                            <span class="material-symbols-outlined">phone_iphone</span>
+                            <span>DIMO / CODI</span>
+                        </button>
+                        <button class="sub-option-btn" id="openStripeModal" aria-label="Pago con Tarjeta">
+                            <span class="material-symbols-outlined">credit_card</span>
+                            <span>Tarjeta</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ── Full-Screen Bank Modal (Glassmorphism) ────────────── -->
+    <div class="bank-modal-overlay full-screen-modal" id="bankModalOverlay">
+        <div class="bank-modal-container full-screen-container">
+            <div class="bank-modal-header">
+                <div class="bank-modal-title-group">
+                    <h3 class="bank-modal-title">Datos Bancarios</h3>
+                    <span class="bank-active-tag" id="carouselBankName">BBVA (1/4)</span>
+                </div>
+                
+                <div class="bank-modal-header-actions">
+                    <button class="bank-nav-header-btn" id="prevBankBtn" aria-label="Banco anterior">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button class="bank-nav-header-btn" id="nextBankBtn" aria-label="Banco siguiente">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                    <div class="header-divider"></div>
+                    <button class="bank-modal-close" id="closeBankModal" aria-label="Cerrar modal">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bank-modal-body">
+                
+                <!-- Bank Fields -->
+                <div class="bank-field-section">
+                    <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Beneficiario</span>
+                            <span class="bank-field-value">Fernando Israel Rios Garcia</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowBankName" data-copy="BBVA" data-field="bank">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Banco</span>
+                            <span class="bank-field-value" id="valBankName">BBVA</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowAccount" data-copy="012680015013907881" data-field="account">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">CLABE Interbancaria / Cuenta</span>
+                            <span class="bank-field-value" id="valAccount">0126 8001 5013 907881</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+                </div>
+
+                <!-- Fare Editor Section -->
+                <div class="fare-section" id="speiFareSection">
+                    <div class="fare-closed" id="speiFareClosed">
+                        <div class="bank-row" id="speiFareToggleRow">
+                            <div class="bank-row-info">
+                                <span class="bank-field-label">Concepto de Transferencia</span>
+                                <span class="bank-field-value" id="speiFareDisplay">Personalizar y copiar</span>
+                            </div>
+                            <span class="material-symbols-outlined bank-row-icon">edit</span>
+                        </div>
+                    </div>
+                    
+                    <div class="fare-open" id="speiFareOpen">
+                        <div class="fare-edit-header">
+                            <span class="bank-field-label">Personalizar Concepto SPEI</span>
+                            <button class="fare-close-btn" id="speiFareCloseBtn" aria-label="Cerrar editor">
+                                <span class="material-symbols-outlined" style="font-size:18px">close</span>
+                            </button>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--gray-500); margin-bottom: 14px;">
+                            Ingresa tu nombre para generar el concepto con el prefijo oficial PAY.
+                        </div>
+                        <div class="fare-input-group">
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Tu Nombre</label>
+                                <input type="text" id="speiFareFirstName" placeholder="JUAN" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Tu Apellido</label>
+                                <input type="text" id="speiFareLastName" placeholder="PEREZ" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Cantidad de Pagos (1-10)</label>
+                                <input type="number" id="speiFareCount" placeholder="1" min="1" max="10" inputmode="numeric" enterkeyhint="done" value="1">
+                            </div>
+                        </div>
+                        <div class="fare-preview">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                <span class="fare-preview-label" style="margin-bottom: 0;">Concepto generado:</span>
+                                <span id="speiFareTotalCounter" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500;">40 restantes</span>
+                            </div>
+                            <span class="fare-preview-text" id="speiFarePreviewText">PAY 1</span>
+                        </div>
+                        <div class="fare-footer">
+                            <button class="fare-copy-btn" id="speiFareCopyBtn" disabled>Copiar Concepto</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Full-Screen DIMO / CODI Modal ────────────────────── -->
+    <div class="codi-modal-overlay full-screen-modal" id="codiModalOverlay">
+        <div class="codi-modal-container full-screen-container">
+            <div class="bank-modal-header">
+                <div class="bank-modal-title-group">
+                    <h3 class="bank-modal-title">Pago con DIMO / CODI</h3>
+                </div>
+                <button class="bank-modal-close" id="closeCodiModal" aria-label="Cerrar modal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="bank-modal-body">
+                <div class="codi-instructions">
+                    Transfiere fácilmente usando únicamente mi número celular vinculado a BBVA México o mediante escaneo CODI.
+                </div>
+
+                <!-- CODI QR Code -->
+                <div class="codi-qr-container">
+                    <img src="../welcomePartyRicardoSierra29082026/codi-qr.jpeg" alt="Código QR CODI" class="codi-qr-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'160\' viewBox=\'0 0 160 160\'><rect width=\'160\' height=\'160\' fill=\'%23f5f5f5\'/><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'14\' fill=\'%23737373\' text-anchor=\'middle\' dy=\'.35em\'>QR DIMO / CODI</text></svg>'">
+                </div>
+
+                <!-- CODI Data -->
+                <div class="bank-field-section">
+                    <div class="bank-row" data-copy="4421604049" data-field="phone">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Teléfono (DIMO / CODI)</span>
+                            <span class="bank-field-value">442 160 4049</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Banco Destino</span>
+                            <span class="bank-field-value">BBVA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fare Editor Section for DIMO -->
+                <div class="fare-section" id="codiFareSection">
+                    <div class="fare-closed" id="codiFareClosed">
+                        <div class="bank-row" id="codiFareToggleRow">
+                            <div class="bank-row-info">
+                                <span class="bank-field-label">Concepto DIMO</span>
+                                <span class="bank-field-value" id="codiFareDisplay">Personalizar y copiar</span>
+                            </div>
+                            <span class="material-symbols-outlined bank-row-icon">edit</span>
+                        </div>
+                    </div>
+                    <div class="fare-open" id="codiFareOpen">
+                        <div class="fare-edit-header">
+                            <span class="bank-field-label">Información de transferencia</span>
+                            <button class="fare-close-btn" id="codiFareCloseBtn" aria-label="Cerrar editor">
+                                <span class="material-symbols-outlined" style="font-size:18px">close</span>
+                            </button>
+                        </div>
+                        <div class="fare-input-group">
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Nombre</label>
+                                <input type="text" id="codiFareFirstName" placeholder="JUAN" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Apellido</label>
+                                <input type="text" id="codiFareLastName" placeholder="PEREZ" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Cantidad de Pagos (1-10)</label>
+                                <input type="number" id="codiFareCount" placeholder="1" min="1" max="10" inputmode="numeric" enterkeyhint="done" value="1">
+                            </div>
+                        </div>
+                        <div class="fare-preview">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                <span class="fare-preview-label" style="margin-bottom: 0;">Concepto generado:</span>
+                                <span id="codiFareTotalCounter" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500;">40 restantes</span>
+                            </div>
+                            <span class="fare-preview-text" id="codiFarePreviewText">PAY 1</span>
+                        </div>
+                        <div class="fare-footer">
+                            <button class="fare-copy-btn" id="codiFareCopyBtn" disabled>Copiar Concepto</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Full-Screen Stripe / Card Modal ──────────────────── -->
+    <div class="stripe-modal-overlay full-screen-modal" id="stripeModalOverlay">
+        <div class="stripe-modal-container full-screen-container">
+            <div class="bank-modal-header">
+                <div class="bank-modal-title-group">
+                    <h3 class="bank-modal-title">Pago con Tarjeta</h3>
+                    <span class="bank-active-tag">Stripe</span>
+                </div>
+                <button class="bank-modal-close" id="closeStripeModal" aria-label="Cerrar modal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="bank-modal-body" style="padding: 32px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+                <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(0, 0, 0, 0.04); display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined" style="font-size: 36px; color: var(--gray-500);">credit_card</span>
+                </div>
+                
+                <div>
+                    <h4 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Enlace de Pago Seguro</h4>
+                    <p style="font-size: 0.9rem; color: var(--gray-500); max-width: 320px; line-height: 1.5;">
+                        Esta pasarela de pago directo con tarjeta de débito/crédito (Stripe) estará habilitada próximamente.
+                    </p>
+                </div>
+
+                <div class="stripe-btn-disabled" style="width: 100%; max-width: 360px;">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">lock</span>
+                    <span>Stripe Checkout — Próximamente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Copy Toast -->
+    <div class="copy-toast" id="copyToast">¡Copiado al portapapeles!</div>
+
+    <script src="script.js?v=4"></script>
+</body>
+</html>
