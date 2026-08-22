@@ -107,6 +107,14 @@
                 
                 <!-- Bank Fields -->
                 <div class="bank-field-section">
+                    
+                    <div class="bank-type-toggle-container" id="revolutToggleContainer" style="display: none; justify-content: center; margin-bottom: 12px;">
+                        <div style="display: inline-flex; background: rgba(0,0,0,0.05); border-radius: 8px; padding: 2px;">
+                            <button id="btnRevMx" style="background: var(--gray-900); color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Nacional (MX)</button>
+                            <button id="btnRevInt" style="background: transparent; color: var(--gray-500); border: none; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Internacional</button>
+                        </div>
+                    </div>
+
                     <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
                         <div class="bank-row-info">
                             <span class="bank-field-label">Beneficiario</span>
@@ -125,8 +133,24 @@
 
                     <div class="bank-row" id="rowAccount" data-copy="012680015013907881" data-field="account">
                         <div class="bank-row-info">
-                            <span class="bank-field-label">CLABE Interbancaria / Cuenta</span>
+                            <span class="bank-field-label" id="lblAccount">CLABE Interbancaria / Cuenta</span>
                             <span class="bank-field-value" id="valAccount">0126 8001 5013 907881</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowSwift" data-copy="" data-field="swift" style="display: none;">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">BIC/SWIFT code</span>
+                            <span class="bank-field-value" id="valSwift"></span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+                    
+                    <div class="bank-row" id="rowAddress" data-copy="" data-field="address" style="display: none;">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Dirección del Banco</span>
+                            <span class="bank-field-value" id="valAddress" style="font-size: 0.8rem; line-height: 1.2; margin-top: 2px;"></span>
                         </div>
                         <span class="material-symbols-outlined bank-row-icon">content_copy</span>
                     </div>

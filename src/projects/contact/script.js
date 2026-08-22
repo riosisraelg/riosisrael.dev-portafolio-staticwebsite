@@ -14,24 +14,38 @@
             name: 'BBVA',
             account: '0126 8001 5013 907881',
             rawAccount: '012680015013907881',
+            accountLabel: 'CLABE Interbancaria / Cuenta',
             prefix: 'PAY'
         },
         revolut: {
-            name: 'Revolut',
-            account: 'Pendiente de asignar (Revolut)',
-            rawAccount: 'PENDIENTE',
-            prefix: 'PAY'
+            name: 'STP',
+            account: '6469 9040 4054 2994 32',
+            rawAccount: '646990404054299432',
+            accountLabel: 'CLABE',
+            address: 'Calle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico',
+            prefix: 'PAY',
+            isRevolut: true,
+            international: {
+                name: 'Revolut Bank, S.A., Institución de Banca Múltiple',
+                account: '1700 0240 4054 2994 30',
+                rawAccount: '170002404054299430',
+                accountLabel: 'Account',
+                swift: 'REVOMXM2',
+                address: 'Calle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico'
+            }
         },
         banamex: {
             name: 'Citibanamex',
             account: 'Pendiente de asignar (Citibanamex)',
             rawAccount: 'PENDIENTE',
+            accountLabel: 'CLABE Interbancaria / Cuenta',
             prefix: 'PAY'
         },
         maybe: {
             name: 'Maybe',
             account: 'Pendiente de asignar (Maybe)',
             rawAccount: 'PENDIENTE',
+            accountLabel: 'CLABE Interbancaria / Cuenta',
             prefix: 'PAY'
         }
     };
@@ -284,21 +298,94 @@
         });
     }
 
+    let revolutMode = 'mx'; // 'mx' or 'int'
+
     function selectBank(bankKey) {
         const index = bankKeys.indexOf(bankKey);
         if (index === -1) return;
         currentBankIndex = index;
         currentBankKey = bankKey;
-        const b = bankData[bankKey];
+        let b = bankData[bankKey];
+
+        const toggleContainer = document.getElementById('revolutToggleContainer');
+        if (b.isRevolut) {
+            if (toggleContainer) toggleContainer.style.display = 'flex';
+            if (revolutMode === 'int' && b.international) {
+                b = { ...b, ...b.international };
+            }
+        } else {
+            if (toggleContainer) toggleContainer.style.display = 'none';
+        }
 
         if (carouselBankName) {
             carouselBankName.style.opacity = '0';
             carouselBankName.style.transform = 'scale(0.92)';
             setTimeout(() => {
-                carouselBankName.textContent = `${b.name} (${currentBankIndex + 1}/${bankKeys.length})`;
+                carouselBankName.textContent = `${bankData[bankKey].name.split(' ')[0]} (${currentBankIndex + 1}/${bankKeys.length})`;
                 carouselBankName.style.opacity = '1';
                 carouselBankName.style.transform = 'scale(1)';
             }, 120);
+        }
+
+        if (valBankName) valBankName.textContent = b.name;
+        if (rowBankName) rowBankName.setAttribute('data-copy', b.name);
+
+        const lblAccount = document.getElementById('lblAccount');
+        if (lblAccount) lblAccount.textContent = b.accountLabel || 'CLABE Interbancaria / Cuenta';
+
+        if (valAccount) valAccount.textContent = b.account;
+        if (rowAccount) rowAccount.setAttribute('data-copy', b.rawAccount);
+
+        const rowSwift = document.getElementById('rowSwift');
+        const valSwift = document.getElementById('valSwift');
+        if (b.swift) {
+            if (rowSwift) {
+                rowSwift.style.display = 'flex';
+                rowSwift.setAttribute('data-copy', b.swift);
+            }
+            if (valSwift) valSwift.textContent = b.swift;
+        } else {
+            if (rowSwift) rowSwift.style.display = 'none';
+        }
+
+        const rowAddress = document.getElementById('rowAddress');
+        const valAddress = document.getElementById('valAddress');
+        if (b.address) {
+            if (rowAddress) {
+                rowAddress.style.display = 'flex';
+                rowAddress.setAttribute('data-copy', b.address);
+            }
+            if (valAddress) valAddress.textContent = b.address;
+        } else {
+            if (rowAddress) rowAddress.style.display = 'none';
+        }
+
+        if (speiEditor) speiEditor.update();
+    }
+
+    // Toggle events
+    const btnRevMx = document.getElementById('btnRevMx');
+    const btnRevInt = document.getElementById('btnRevInt');
+    
+    if (btnRevMx && btnRevInt) {
+        btnRevMx.addEventListener('click', () => {
+            revolutMode = 'mx';
+            btnRevMx.style.background = 'var(--gray-900)';
+            btnRevMx.style.color = 'white';
+            btnRevInt.style.background = 'transparent';
+            btnRevInt.style.color = 'var(--gray-500)';
+            selectBank('revolut');
+        });
+        
+        btnRevInt.addEventListener('click', () => {
+            revolutMode = 'int';
+            btnRevInt.style.background = 'var(--gray-900)';
+            btnRevInt.style.color = 'white';
+            btnRevMx.style.background = 'transparent';
+            btnRevMx.style.color = 'var(--gray-500)';
+            selectBank('revolut');
+        });
+    }, 120);
         }
 
         if (valBankName) valBankName.textContent = b.name;
