@@ -321,7 +321,8 @@
             carouselBankName.style.opacity = '0';
             carouselBankName.style.transform = 'scale(0.92)';
             setTimeout(() => {
-                carouselBankName.textContent = `${bankData[bankKey].name.split(' ')[0]} (${currentBankIndex + 1}/${bankKeys.length})`;
+                const name = (bankData[bankKey].name || '').split(' ')[0];
+                carouselBankName.textContent = `${name} (${currentBankIndex + 1}/${bankKeys.length})`;
                 carouselBankName.style.opacity = '1';
                 carouselBankName.style.transform = 'scale(1)';
             }, 120);
@@ -385,16 +386,6 @@
             btnRevMx.style.color = 'var(--gray-500)';
             selectBank('revolut');
         });
-    }, 120);
-        }
-
-        if (valBankName) valBankName.textContent = b.name;
-        if (rowBankName) rowBankName.setAttribute('data-copy', b.name);
-
-        if (valAccount) valAccount.textContent = b.account;
-        if (rowAccount) rowAccount.setAttribute('data-copy', b.rawAccount);
-
-        if (speiEditor) speiEditor.update();
     }
 
     function prevBank() {
