@@ -18,20 +18,20 @@
             prefix: 'PAY'
         },
         revolut: {
-            name: 'STP',
+            name: 'STP\nCalle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico',
             account: '6469 9040 4054 2994 32',
             rawAccount: '646990404054299432',
             accountLabel: 'CLABE',
-            address: 'Calle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico',
+            currency: 'Mexican peso',
             prefix: 'PAY',
             isRevolut: true,
             international: {
-                name: 'Revolut Bank, S.A., Institución de Banca Múltiple',
+                name: 'Revolut Bank, S.A., Institución de Banca Múltiple\nCalle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico',
                 account: '1700 0240 4054 2994 30',
                 rawAccount: '170002404054299430',
-                accountLabel: 'Account',
+                accountLabel: 'Cuenta',
                 swift: 'REVOMXM2',
-                address: 'Calle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico'
+                currency: 'Mexican peso'
             }
         },
         banamex: {
@@ -321,17 +321,39 @@
             carouselBankName.style.opacity = '0';
             carouselBankName.style.transform = 'scale(0.92)';
             setTimeout(() => {
-                const name = (bankData[bankKey].name || '').split(' ')[0];
-                carouselBankName.textContent = `${name} (${currentBankIndex + 1}/${bankKeys.length})`;
+                const nameParts = (bankData[bankKey].name || '').split('\n')[0];
+                const displayName = nameParts.split(' ')[0];
+                carouselBankName.textContent = `${displayName} (${currentBankIndex + 1}/${bankKeys.length})`;
                 carouselBankName.style.opacity = '1';
                 carouselBankName.style.transform = 'scale(1)';
             }, 120);
         }
 
-        if (valBankName) valBankName.textContent = b.name;
-        if (rowBankName) rowBankName.setAttribute('data-copy', b.name);
+        const rowCurrency = document.getElementById('rowCurrency');
+        const valCurrency = document.getElementById('valCurrency');
+        if (b.currency) {
+            if (rowCurrency) {
+                rowCurrency.style.display = 'flex';
+                rowCurrency.setAttribute('data-copy', b.currency);
+            }
+            if (valCurrency) valCurrency.textContent = b.currency;
+        } else {
+            if (rowCurrency) rowCurrency.style.display = 'none';
+        }
+
+        if (valBankName) {
+            // Check if name has a newline for address
+            if (b.name.includes('\n')) {
+                const parts = b.name.split('\n');
+                valBankName.innerHTML = `${parts[0]}<br><span style="font-size: 0.75rem; color: var(--gray-500); font-weight: 400; line-height: 1.2; display: block; margin-top: 4px;">${parts[1]}</span>`;
+            } else {
+                valBankName.textContent = b.name;
+            }
+        }
+        if (rowBankName) rowBankName.setAttribute('data-copy', b.name.replace('\n', ', '));
 
         const lblAccount = document.getElementById('lblAccount');
+        // Ensure "CLABE" for MX and "Cuenta" for INT. If undefined, default to original.
         if (lblAccount) lblAccount.textContent = b.accountLabel || 'CLABE Interbancaria / Cuenta';
 
         if (valAccount) valAccount.textContent = b.account;
@@ -349,17 +371,9 @@
             if (rowSwift) rowSwift.style.display = 'none';
         }
 
+        // Hide address row since it's merged into bank name
         const rowAddress = document.getElementById('rowAddress');
-        const valAddress = document.getElementById('valAddress');
-        if (b.address) {
-            if (rowAddress) {
-                rowAddress.style.display = 'flex';
-                rowAddress.setAttribute('data-copy', b.address);
-            }
-            if (valAddress) valAddress.textContent = b.address;
-        } else {
-            if (rowAddress) rowAddress.style.display = 'none';
-        }
+        if (rowAddress) rowAddress.style.display = 'none';
 
         if (speiEditor) speiEditor.update();
     }

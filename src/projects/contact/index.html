@@ -86,7 +86,13 @@
             <div class="bank-modal-header">
                 <div class="bank-modal-title-group">
                     <h3 class="bank-modal-title">Datos Bancarios</h3>
-                    <span class="bank-active-tag" id="carouselBankName">BBVA (1/4)</span>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px;">
+                        <span class="bank-active-tag" id="carouselBankName" style="margin: 0;">BBVA (1/4)</span>
+                        <div class="revolut-toggle" id="revolutToggleContainer" style="display: none; background: rgba(0,0,0,0.06); border-radius: 8px; padding: 2px;">
+                            <button id="btnRevMx" style="background: var(--gray-900); color: white; border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Nacional (MX)</button>
+                            <button id="btnRevInt" style="background: transparent; color: var(--gray-500); border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Internacional</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="bank-modal-header-actions">
@@ -107,14 +113,14 @@
                 
                 <!-- Bank Fields -->
                 <div class="bank-field-section">
-                    
-                    <div class="bank-type-toggle-container" id="revolutToggleContainer" style="display: none; justify-content: center; margin-bottom: 12px;">
-                        <div style="display: inline-flex; background: rgba(0,0,0,0.05); border-radius: 8px; padding: 2px;">
-                            <button id="btnRevMx" style="background: var(--gray-900); color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Nacional (MX)</button>
-                            <button id="btnRevInt" style="background: transparent; color: var(--gray-500); border: none; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Internacional</button>
-                        </div>
-                    </div>
 
+                    <div class="bank-row" id="rowCurrency" data-copy="Mexican peso" data-field="currency" style="display: none;">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Moneda</span>
+                            <span class="bank-field-value" id="valCurrency">Mexican peso</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
                     <div class="bank-row" data-copy="Fernando Israel Rios Garcia" data-field="beneficiary">
                         <div class="bank-row-info">
                             <span class="bank-field-label">Beneficiario</span>
