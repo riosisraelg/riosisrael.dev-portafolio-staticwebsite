@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Panadería — Datos de Transferencia & Spin</title>
+    <meta name="description" content="Datos bancarios oficiales para transferencias y pagos de la Panadería vía Spin by OXXO y SPEI.">
+    <meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e0c0b" media="(prefers-color-scheme: dark)">
+
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+
+    <!-- Ambient Glowing Orbs Background -->
+    <div class="bakery-orbs" id="bakeryOrbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Full-Width & Full-Height Mobile First Container -->
+    <div class="full-screen-wrapper">
+        <main class="panaderia-container" id="panaderiaContainer">
+            
+            <!-- Brand Header -->
+            <header class="card-header">
+                <div class="brand-badge" aria-hidden="true">
+                    <span class="material-symbols-outlined">bakery_dining</span>
+                </div>
+                <h1 class="business-title">Panadería</h1>
+                <p class="business-subtitle">Datos de Transferencia</p>
+            </header>
+
+            <!-- Copyable Data Fields -->
+            <section class="data-fields-group" aria-label="Datos bancarios para transferir">
+                
+                <!-- Beneficiary -->
+                <div class="bank-row" data-copy="Guillermo Bala" role="button" tabindex="0" aria-label="Copiar Beneficiario">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Beneficiario</span>
+                        <span class="bank-field-value">Guillermo Bala</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <!-- Bank Name -->
+                <div class="bank-row" data-copy="Spin by OXXO" role="button" tabindex="0" aria-label="Copiar Institución">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Institución Financiera</span>
+                        <span class="bank-field-value">Spin by OXXO (STP)</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <!-- CLABE Interbancaria -->
+                <div class="bank-row" data-copy="728969000086766079" role="button" tabindex="0" aria-label="Copiar CLABE Interbancaria">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">CLABE Interbancaria (18 dígitos)</span>
+                        <span class="bank-field-value mono">7289 6900 0086 7660 79</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <!-- Celular Spin -->
+                <div class="bank-row highlighted" data-copy="+524425451092" role="button" tabindex="0" aria-label="Copiar Celular Spin o DIMO">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Celular (Spin / DIMO)</span>
+                        <span class="bank-field-value mono">442 545 1092</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+                <!-- Alias Spin -->
+                <div class="bank-row" data-copy="GuillermoB710" role="button" tabindex="0" aria-label="Copiar Alias Spin">
+                    <div class="bank-row-info">
+                        <span class="bank-field-label">Alias Spin</span>
+                        <span class="bank-field-value mono">GuillermoB710</span>
+                    </div>
+                    <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                </div>
+
+            </section>
+
+            <!-- ── Interactive Concept / Fare Editor Section (Exact Mechanism) ── -->
+            <section class="fare-section" id="panFareSection" aria-label="Editor de Concepto de Pago">
+                
+                <!-- Closed Row (Tap to Open) -->
+                <div class="fare-closed" id="panFareClosed">
+                    <div class="bank-row" id="panFareToggleRow" role="button" tabindex="0" aria-label="Personalizar motivo de pago">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Concepto / Motivo de Pago</span>
+                            <span class="bank-field-value" id="panFareDisplay">PAN 1</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">edit</span>
+                    </div>
+                </div>
+
+                <!-- Expanded Interactive Editor -->
+                <div class="fare-open" id="panFareOpen">
+                    <div class="fare-edit-header">
+                        <span class="bank-field-label">Personalizar Motivo de Pago</span>
+                        <button class="fare-close-btn" id="panFareCloseBtn" type="button" aria-label="Cerrar editor">
+                            <span class="material-symbols-outlined" style="font-size:18px">close</span>
+                        </button>
+                    </div>
+                    
+                    <p class="fare-desc">
+                        Agrega tu nombre o un detalle para que el panadero identifique tu pago rápidamente.
+                    </p>
+
+                    <div class="fare-input-group">
+                        <!-- Number Stepper -->
+                        <div class="fare-input-row">
+                            <label class="fare-input-label" for="panFareCount">Cantidad de panes</label>
+                            <div class="stepper-control">
+                                <button type="button" class="btn-step" id="btnMinusCount" aria-label="Restar 1">-</button>
+                                <input type="number" id="panFareCount" value="1" min="1" max="99" inputmode="numeric" enterkeyhint="next">
+                                <button type="button" class="btn-step" id="btnPlusCount" aria-label="Sumar 1">+</button>
+                            </div>
+                            <span style="font-size: 0.72rem; color: var(--gray-500); line-height: 1.35; margin-top: 4px;">
+                                💡 Este número es una referencia para el registro del panadero (solo es el número de panes que te llevas, no afecta el precio).
+                            </span>
+                        </div>
+
+                        <!-- Free Comment Input -->
+                        <div class="fare-input-row">
+                            <label class="fare-input-label" for="panFareComment">Tu Nombre o Detalle (Opcional)</label>
+                            <input type="text" id="panFareComment" placeholder="Ej. JUAN PEREZ, BOLILLO, CONCHAS" autocapitalize="characters" spellcheck="false" enterkeyhint="done" maxlength="32">
+                        </div>
+                    </div>
+
+                    <!-- Live Preview Box with Remaining Characters Counter -->
+                    <div class="fare-preview">
+                        <div class="fare-preview-header">
+                            <span class="fare-preview-label">Texto para tu transferencia:</span>
+                            <span class="fare-char-count" id="panFareTotalCounter">35 caracteres libres</span>
+                        </div>
+                        <span class="fare-preview-text" id="panFarePreviewText">PAN 1</span>
+                    </div>
+
+                    <!-- Copy Concept Action -->
+                    <button class="fare-copy-btn" id="panFareCopyBtn" type="button">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+                        <span>Copiar Concepto</span>
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Full Copy Action Button -->
+            <button class="btn-copy-all" id="btnCopyAll" type="button">
+                <span class="material-symbols-outlined">copy_all</span>
+                <span>Copiar todos los datos</span>
+            </button>
+
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notice" id="toastNotice" role="alert" aria-live="polite">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span id="toastMsg">Copiado al portapapeles</span>
+    </div>
+
+    <script src="script.js?v=2"></script>
+</body>
+</html>

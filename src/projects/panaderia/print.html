@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letrero QR Mostrador — Panadería</title>
+    <meta name="description" content="Letrero enfocado en código QR para mostrador de la Panadería.">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+
+    <style>
+        :root {
+            --gold-500: #d99b26;
+            --gold-700: #935d17;
+            --spin-purple: #7920ff;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f3f0e8;
+            color: #111827;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 24px 16px 40px;
+        }
+
+        .controls-bar {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .btn-action {
+            flex: 1;
+            height: 46px;
+            border-radius: 12px;
+            border: none;
+            font-family: var(--font-main);
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .btn-print { background: #111827; color: #ffffff; }
+        .btn-print:hover { transform: translateY(-2px); }
+
+        .btn-back { background: #ffffff; color: #4b5563; border: 1px solid #d1d5db; }
+        .btn-back:hover { color: #111827; }
+
+        .print-card-wrapper {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .counter-card {
+            width: 100%;
+            background: #ffffff;
+            border: 2px solid #e5dccb;
+            border-radius: 28px;
+            padding: 32px 24px 28px;
+            box-shadow: 0 16px 40px rgba(100, 62, 24, 0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .counter-card::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1.2px dashed rgba(217, 155, 38, 0.5);
+            border-radius: 20px;
+            pointer-events: none;
+        }
+
+        .card-brand h1 {
+            font-family: var(--font-serif);
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #1a140e;
+            letter-spacing: -0.02em;
+        }
+
+        .card-tagline {
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--gold-700);
+            margin-top: 2px;
+            margin-bottom: 16px;
+        }
+
+        /* ── HUGE Centered QR Frame ────────────────────────────── */
+        .qr-display-frame {
+            background: #ffffff;
+            border: 2.5px solid #111827;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .qr-display-frame img {
+            width: 250px;
+            height: 250px;
+            display: block;
+        }
+
+        .qr-scan-instruction {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        /* ── Minimalist Clean Footer Box ───────────────────────── */
+        .minimal-footer-box {
+            width: 100%;
+            background: #fdfbf7;
+            border: 1px solid #ebdcc5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .foot-inst {
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: var(--spin-purple);
+        }
+
+        .foot-clabe {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #000000;
+            letter-spacing: 0.02em;
+        }
+
+        .foot-phone {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        @media print {
+            body { background: #ffffff !important; padding: 0 !important; }
+            .controls-bar { display: none !important; }
+            .counter-card { box-shadow: none !important; margin: 0 auto; max-width: 360px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls-bar">
+        <button class="btn-action btn-print" onclick="window.print()" type="button">
+            <span class="material-symbols-outlined">print</span>
+            <span>Imprimir / PDF</span>
+        </button>
+        <a href="index.html" class="btn-action btn-back">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Tarjeta Web</span>
+        </a>
+    </div>
+
+    <div class="print-card-wrapper">
+        <div class="counter-card">
+            
+            <div class="card-brand">
+                <h1>Panadería</h1>
+            </div>
+            <p class="card-tagline">ESCANEA PARA PAGAR</p>
+
+            <div class="qr-display-frame">
+                <img src="qr_panaderia.png" alt="Código QR Panadería" width="250" height="250">
+            </div>
+
+            <p class="qr-scan-instruction">
+                📱 Abre los datos y copia la CLABE en tu celular
+            </p>
+
+            <div class="minimal-footer-box">
+                <span class="foot-inst">Spin by OXXO • Guillermo Bala</span>
+                <span class="foot-clabe">CLABE: 7289 6900 0086 7660 79</span>
+                <span class="foot-phone">Celular Spin: 442 545 1092</span>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

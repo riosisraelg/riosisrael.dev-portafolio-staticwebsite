@@ -104,10 +104,11 @@ const vfs = {
     '/home': ['rivers/'],
     '/home/rivers': ['portfolio/', 'projects/'],
     '/home/rivers/portfolio': ['index.html', 'script.js', 'style.css', 'status.txt', 'links.txt', 'notify-me.sh'],
-    '/home/rivers/projects': ['candle/', 'wpr/', 'contact/'],
+    '/home/rivers/projects': ['candle/', 'wpr/', 'contact/', 'panaderia/'],
     '/home/rivers/projects/candle': [],
     '/home/rivers/projects/wpr': ['index.html', 'style.css', 'run-wpr.sh'],
-    '/home/rivers/projects/contact': ['index.html', 'style.css', 'script.js', 'design.md']
+    '/home/rivers/projects/contact': ['index.html', 'style.css', 'script.js', 'design.md'],
+    '/home/rivers/projects/panaderia': ['index.html', 'style.css', 'script.js', 'print.html']
 };
 let currentDir = '/home/rivers/portfolio';
 
@@ -241,6 +242,9 @@ if (cmdInput) {
                         } else if (currentDir === '/home/rivers/projects/contact') {
                             outputHtml += `<br>Navigating to contact card & payment hub...`;
                             setTimeout(() => window.location.href = '/projects/contact/', 500);
+                        } else if (currentDir === '/home/rivers/projects/panaderia') {
+                            outputHtml += `<br>Navigating to panaderia payments...`;
+                            setTimeout(() => window.location.href = '/projects/panaderia/', 500);
                         }
                     } else if (isFile) {
                         outputHtml += `bash: cd: ${target}: Not a directory`;
@@ -377,12 +381,16 @@ if (cmdInput) {
             } else if (cmd === 'contact' || cmd === 'card' || cmd === 'pay') {
                 outputHtml += `<br>Opening digital contact card & payment hub...`;
                 setTimeout(() => window.location.href = '/projects/contact/', 500);
+            } else if (cmd === 'panaderia' || cmd === 'pan') {
+                outputHtml += `<br>Opening Panadería payment module...`;
+                setTimeout(() => window.location.href = '/projects/panaderia/', 500);
             } else if (cmd === 'clear') {
                 terminalHistory.innerHTML = '';
                 shouldAppend = false;
             } else if (cmd === 'help') {
                 outputHtml += `<br><span style="color: #9effff; font-weight: bold">Available Commands:</span><br>
-  <span style="color: #79ffa8">contact</span>, <span style="color: #79ffa8">card</span>, <span style="color: #79ffa8">pay</span>  : Open digital contact card & payment hub
+  <span style="color: #79ffa8">panaderia</span>, <span style="color: #79ffa8">pan</span>    : Open Panadería payments & QR
+  <span style="color: #79ffa8">contact</span>, <span style="color: #79ffa8">pay</span>      : Open digital contact card & payment hub
   <span style="color: #79ffa8">candle</span>             : Open Candle project
   <span style="color: #79ffa8">wpr</span>                : Open Welcome Party project
   <span style="color: #79ffa8">ls [dir]</span>           : List directory contents
