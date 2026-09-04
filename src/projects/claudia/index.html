@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Datos Bancarios — Claudia Alicia Garcia Juarez</title>
+    <meta name="description" content="Datos oficiales para transferencias bancarias y pagos en Revolut / STP de Claudia Alicia Garcia Juarez.">
+    
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+
+    <!-- ── Full-Screen Bank Modal View ────────────── -->
+    <div class="bank-modal-overlay full-screen-modal open" id="bankModalOverlay">
+        <div class="bank-modal-container full-screen-container">
+            
+            <div class="bank-modal-header">
+                <div class="bank-modal-title-group">
+                    <h3 class="bank-modal-title">Datos Bancarios</h3>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px;">
+                        <div class="revolut-toggle" id="revolutToggleContainer" style="display: flex; background: rgba(0,0,0,0.06); border-radius: 8px; padding: 2px;">
+                            <button id="btnRevMx" style="background: var(--gray-900); color: white; border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Nacional (MX)</button>
+                            <button id="btnRevInt" style="background: transparent; color: var(--gray-500); border: none; padding: 2px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: 0.2s;">Internacional</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bank-modal-header-actions">
+                    <button class="bank-nav-header-btn" id="prevBankBtn" aria-label="Cambiar a cuenta nacional / internacional">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button class="bank-nav-header-btn" id="nextBankBtn" aria-label="Cambiar a cuenta nacional / internacional">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bank-modal-body">
+                
+                <!-- Bank Fields -->
+                <div class="bank-field-section">
+
+                    <div class="bank-row" id="rowCurrency" data-copy="Mexican peso" data-field="currency">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Moneda</span>
+                            <span class="bank-field-value" id="valCurrency">Mexican peso</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" data-copy="Claudia Alicia Garcia Juarez" data-field="beneficiary">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Beneficiario</span>
+                            <span class="bank-field-value">Claudia Alicia Garcia Juarez</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowRevtag" data-copy="@caliciagarciaj" data-field="revtag">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Nombre en Revolut</span>
+                            <span class="bank-field-value" id="valRevtag">@caliciagarciaj</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowBankName" data-copy="STP" data-field="bank">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">Banco</span>
+                            <span class="bank-field-value" id="valBankName">
+                                STP<br>
+                                <span style="font-size: 0.75rem; color: var(--gray-500); font-weight: 400; line-height: 1.2; display: block; margin-top: 4px;">
+                                    Calle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico
+                                </span>
+                            </span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowAccount" data-copy="646990404036427976" data-field="account">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label" id="lblAccount">CLABE</span>
+                            <span class="bank-field-value" id="valAccount">6469 9040 4036 4279 76</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+
+                    <div class="bank-row" id="rowSwift" data-copy="REVOMXM2" data-field="swift" style="display: none;">
+                        <div class="bank-row-info">
+                            <span class="bank-field-label">BIC/SWIFT code</span>
+                            <span class="bank-field-value" id="valSwift">REVOMXM2</span>
+                        </div>
+                        <span class="material-symbols-outlined bank-row-icon">content_copy</span>
+                    </div>
+                    
+                </div>
+
+                <!-- Fare Editor Section -->
+                <div class="fare-section" id="speiFareSection">
+                    <div class="fare-closed" id="speiFareClosed">
+                        <div class="bank-row" id="speiFareToggleRow">
+                            <div class="bank-row-info">
+                                <span class="bank-field-label">Concepto de Transferencia</span>
+                                <span class="bank-field-value" id="speiFareDisplay">Personalizar y copiar</span>
+                            </div>
+                            <span class="material-symbols-outlined bank-row-icon">edit</span>
+                        </div>
+                    </div>
+                    
+                    <div class="fare-open" id="speiFareOpen">
+                        <div class="fare-edit-header">
+                            <span class="bank-field-label">Personalizar Concepto SPEI</span>
+                            <button class="fare-close-btn" id="speiFareCloseBtn" aria-label="Cerrar editor">
+                                <span class="material-symbols-outlined" style="font-size:18px">close</span>
+                            </button>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--gray-500); margin-bottom: 14px;">
+                            Ingresa tu nombre para generar el concepto con el prefijo oficial PAY.
+                        </div>
+                        <div class="fare-input-group">
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Tu Nombre</label>
+                                <input type="text" id="speiFareFirstName" placeholder="JUAN" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Tu Apellido</label>
+                                <input type="text" id="speiFareLastName" placeholder="PEREZ" autocapitalize="characters" spellcheck="false" enterkeyhint="next">
+                            </div>
+                            <div class="fare-input-row">
+                                <label class="fare-input-label">Cantidad de Pagos (1-10)</label>
+                                <input type="number" id="speiFareCount" placeholder="1" min="1" max="10" inputmode="numeric" enterkeyhint="done" value="1">
+                            </div>
+                        </div>
+                        <div class="fare-preview">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                <span class="fare-preview-label" style="margin-bottom: 0;">Concepto generado:</span>
+                                <span id="speiFareTotalCounter" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500;">40 restantes</span>
+                            </div>
+                            <span class="fare-preview-text" id="speiFarePreviewText">PAY 1</span>
+                        </div>
+                        <div class="fare-footer">
+                            <button class="fare-copy-btn" id="speiFareCopyBtn" disabled>Copiar Concepto</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="copy-toast" id="copyToast" role="alert" aria-live="polite">
+        ¡Copiado al portapapeles!
+    </div>
+
+    <script src="script.js?v=6"></script>
+</body>
+</html>

@@ -24,6 +24,7 @@
             accountLabel: 'CLABE',
             currency: 'Mexican peso',
             prefix: 'PAY',
+            revtag: '@riosisraelg',
             isRevolut: true,
             international: {
                 name: 'Revolut Bank, S.A., Institución de Banca Múltiple\nCalle Varsovia 36, Piso 6, Oficina 603-W, 06600, Ciudad de México, Alcaldía Cuauhtémoc, Colonia Juárez, Mexico',
@@ -31,7 +32,8 @@
                 rawAccount: '170002404054299430',
                 accountLabel: 'Cuenta',
                 swift: 'REVOMXM2',
-                currency: 'Mexican peso'
+                currency: 'Mexican peso',
+                revtag: '@riosisraelg'
             }
         },
         banamex: {
@@ -341,6 +343,18 @@
             if (rowCurrency) rowCurrency.style.display = 'none';
         }
 
+        const rowRevtag = document.getElementById('rowRevtag');
+        const valRevtag = document.getElementById('valRevtag');
+        if (b.revtag) {
+            if (rowRevtag) {
+                rowRevtag.style.display = 'flex';
+                rowRevtag.setAttribute('data-copy', b.revtag);
+            }
+            if (valRevtag) valRevtag.textContent = b.revtag;
+        } else {
+            if (rowRevtag) rowRevtag.style.display = 'none';
+        }
+
         if (valBankName) {
             // Check if name has a newline for address
             if (b.name.includes('\n')) {
@@ -350,7 +364,7 @@
                 valBankName.textContent = b.name;
             }
         }
-        if (rowBankName) rowBankName.setAttribute('data-copy', b.name.replace('\n', ', '));
+        if (rowBankName) rowBankName.setAttribute('data-copy', b.name.includes('\n') ? b.name.split('\n')[0] : b.name);
 
         const lblAccount = document.getElementById('lblAccount');
         // Ensure "CLABE" for MX and "Cuenta" for INT. If undefined, default to original.
