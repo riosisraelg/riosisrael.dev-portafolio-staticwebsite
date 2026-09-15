@@ -86,7 +86,7 @@ body {
     width: 100vw;
     min-height: 100vh;
     min-height: 100dvh;
-    background: var(--bg);
+    background: transparent;
     z-index: 10;
     display: flex;
     align-items: flex-start;
@@ -97,7 +97,9 @@ body {
 }
 
 .full-screen-container {
-    background: var(--bg);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: none;
     border-radius: 0;
     width: 100vw;
@@ -128,15 +130,78 @@ body {
     }
     .full-screen-container {
         border-radius: 32px;
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         box-shadow: 0 32px 80px rgba(0, 0, 0, 0.12);
         min-height: auto;
     }
     @media (prefers-color-scheme: dark) {
         .full-screen-container {
-            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(20, 20, 20, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
             box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
         }
+    }
+}
+
+@media (max-width: 767px) and (prefers-color-scheme: dark) {
+    .full-screen-container {
+        background: rgba(20, 20, 20, 0.7);
+    }
+}
+
+/* ── Orbs Background ──────────────────── */
+.hero-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    background: #3b82f6; /* Blueish */
+    top: -50px;
+    left: -50px;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: #a855f7; /* Purpleish */
+    bottom: -100px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 250px;
+    height: 250px;
+    background: #ec4899; /* Pinkish */
+    top: 40%;
+    left: 40%;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(100px, 50px) scale(1.2);
     }
 }
 
