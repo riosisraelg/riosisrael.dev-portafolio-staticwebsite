@@ -304,4 +304,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderBank();
     initFareEditor();
 
+    // ── Copy URL Logic ──────────────────────────────────────
+    const copyUrlBtn = document.getElementById('copyUrlBtn');
+    if (copyUrlBtn) {
+        copyUrlBtn.addEventListener('click', () => {
+            copyToClipboard(window.location.href).then(() => {
+                showToast('Enlace copiado al portapapeles');
+            });
+        });
+    }
+
 });

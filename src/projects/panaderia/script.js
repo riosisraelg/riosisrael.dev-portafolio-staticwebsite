@@ -219,4 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ── Copy URL ────────────────────────────────────────────
+    const btnCopyUrl = document.getElementById('btnCopyUrl');
+    if (btnCopyUrl) {
+        btnCopyUrl.addEventListener('click', () => {
+            copyToClipboard(window.location.href, '✓ Enlace copiado al portapapeles');
+        });
+    }
+
 });
