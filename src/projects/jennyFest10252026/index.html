@@ -73,8 +73,8 @@
             <div class="progress-step step-pending" id="progress-step-2">
                 <div class="progress-step-icon pending" id="progress-icon-2">✗</div>
                 <div class="progress-step-text">
-                    <div class="progress-step-title pending" id="progress-title-2">Fase 2: Aportación ($100 MXN)</div>
-                    <div class="progress-step-sub" id="progress-sub-2">Pendiente — elige un método de pago</div>
+                    <div class="progress-step-title pending" id="progress-title-2">Fase 2: Aportación Voluntaria</div>
+                    <div class="progress-step-sub" id="progress-sub-2">Opcional — aporta lo que quieras o lleva algo en especie</div>
                 </div>
                 <span class="material-symbols-outlined progress-step-arrow">chevron_right</span>
             </div>
@@ -150,36 +150,48 @@
             
             <div style="text-align: center;">
                 <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 2: Aportación Final</span>
+                    <span class="attendance-label" style="font-size: 1.1rem;">Fase 2: Aportación Voluntaria</span>
                 </div>
-                <p class="attendance-explanation" style="margin-bottom: 0; color: var(--gray-600); max-width: 400px; margin-left: auto; margin-right: auto;">
-                    Revisa los costos y elige el método que te sea más cómodo para liquidar tu parte.
+                <p class="attendance-explanation" style="margin-bottom: 0; color: var(--gray-600); max-width: 440px; margin-left: auto; margin-right: auto;">
+                    Esta fiesta es entre todos. Aporta <strong>lo que quieras y puedas</strong> para ayudar a comprar lo que falte. Si lo prefieres, puedes llevar algo <strong>en especie</strong> (guisado, bebida, botana o postre) — cualquier gesto suma. 💛
                 </p>
             </div>
 
             <div class="payment-large-card">
                 
-                <!-- Left: Cost Breakdown (Clickeable) -->
+                <!-- Left: Brief del evento + ubicación -->
                 <div class="payment-large-left" style="display: flex; flex-direction: column; gap: 12px; margin: 0;">
                     
                     <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                        <span class="attendance-label">Costos</span>
+                        <span class="attendance-label">El Evento</span>
                     </div>
 
-                <!-- Boton 1: Cuota Completa -->
-                <button id="openCostModal" class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: var(--surface); flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px;">
-                    <div class="step-card-header" style="justify-content: flex-start; font-size: 1rem; color: var(--fg); font-weight: 600; margin-bottom: 8px;">
-                        Cuota con Comida
+                    <div class="step-card-btn" style="width: 100%; border: 1px solid var(--border); background: var(--surface); flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px; gap: 10px; cursor: default;">
+                        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--fg);">
+                            <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--accent);">event</span>
+                            Domingo 25 de octubre de 2026
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--fg);">
+                            <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--accent);">schedule</span>
+                            14:00 — 21:00 hrs
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.9rem; color: var(--fg); line-height: 1.4;">
+                            <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--accent);">location_on</span>
+                            <span>
+                                Palapa Sección D<br>
+                                Blvd. Hacienda la Gloria 2200, Fracc. Hacienda Galindo, C.P. 76177
+                                <br>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Boulevard+Hacienda+la+Gloria+2200,+Fracc+Hacienda+Galindo,+76177" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px;">
+                                    <span class="material-symbols-outlined" style="font-size: 1rem;">map</span>
+                                    Ver en Google Maps
+                                </a>
+                            </span>
+                        </div>
+                        <div style="border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px; width: 100%; font-size: 0.8rem; color: var(--gray-600); line-height: 1.5;">
+                            <strong>Perks:</strong> 🏊 alberca (hasta 18:15) · 🍲 guisados · 🎶 música · 🎲 juegos de mesa
+                        </div>
                     </div>
-                    <div class="step-card-body" style="text-align: left; margin-bottom: 12px;">
-                        <span class="payment-cost-amount" style="font-size: 2rem; line-height: 1; color: var(--fg);">$100<span class="payment-cost-currency" style="font-size: 0.9rem;">MXN</span></span>
-                    </div>
-                    <div class="step-card-video" style="justify-content: flex-start; font-size: 0.75rem; width: 100%; border-top: 1px solid var(--border); padding-top: 8px; margin-top: auto;">
-                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">info</span>
-                        Tap para ver desglose
-                    </div>
-                </button>
-            </div>
+                </div>
 
             <!-- Right: Payment Methods -->
             <div class="payment-large-right" id="payment-methods-right" style="display: flex; flex-direction: column; gap: 12px; justify-content: center; min-height: 270px;">
@@ -188,7 +200,7 @@
                 <div class="payment-confirmed-banner" id="payment-confirmed-banner" style="display: none; width: 100%;">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg); padding-bottom: 12px; border-bottom: 1px dashed var(--border); width: 100%;">
                         <span class="material-symbols-outlined" style="font-size: 1.5rem; color: #22c55e;">check_circle</span>
-                        Aportación Confirmada
+                        ¡Gracias por tu aportación!
                     </div>
                     <div class="confirmed-hint" style="font-size: 0.75rem; color: var(--gray-500); font-weight: 500; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                         <span class="material-symbols-outlined" style="font-size: 1rem; color: var(--gray-500);" id="payment-banner-icon">info</span>
@@ -199,7 +211,7 @@
                 <!-- Options Wrapper -->
                 <div class="payment-options-wrapper" id="payment-options-wrapper" style="display: flex; flex-direction: column; gap: 12px;">
                     <div class="attendance-header" style="margin-bottom: 4px; justify-content: center;">
-                        <span class="attendance-label">Métodos de Pago</span>
+                        <span class="attendance-label">Métodos de Pago (monto libre)</span>
                     </div>
 
                     <!-- Tarjeta (Stripe) -->
@@ -307,8 +319,8 @@
             <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 28px;">
                 <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--fg); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">2</div>
                 <div>
-                    <div style="font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px;">Aportación Final</div>
-                    <div style="font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">Revisa los costos y realiza tu aportación de <strong>$100 MXN</strong> por los medios disponibles (Stripe, SPEI o CODI). <strong>Obligatoria.</strong></div>
+                    <div style="font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px;">Aportación Voluntaria</div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600); line-height: 1.5;">Aporta <strong>lo que quieras y puedas</strong> (Stripe, SPEI o CODI) para ayudar a comprar lo que falte, o lleva algo <strong>en especie</strong> si lo prefieres. <strong>Totalmente opcional.</strong></div>
                 </div>
             </div>
 
@@ -599,199 +611,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- ── Cost Breakdown Modal (Glassmorphism) ──────────────────────── -->
-<div class="cost-modal-overlay" id="costModalOverlay">
-    <div class="cost-modal-container">
-        <div class="cost-modal-header">
-            <h3 class="cost-modal-title">Desglose de Costos</h3>
-            <button class="cost-modal-close" id="closeCostModal">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-
-        <!-- Opción 1 Body (Ahora única) -->
-        <div class="cost-modal-body" id="body-opcion1">
-            <!-- VENUE -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Venue</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Lugar (Mondlicht)</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Limpieza</span>
-                        <span class="cost-item-value">$500</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Mobiliario (20 sillas y 2 mesas rectangulares)</span>
-                        <span class="cost-item-value">$400</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COMIDA -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Comida</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="font-weight: 600; color: var(--fg); font-size: 1rem; margin-bottom: 4px;">Carne (La Roja) — 4 kg total</div>
-                        <div style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 8px; line-height: 1.4;">4 cortes premium, 1 kg cada uno. ~180 gr/persona (descontando hueso de los cortes que lo tienen) para 17 invitados.</div>
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Cortes seleccionados</span>
-                                <span>$2,789</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 1 kg Ribeye ($580/kg)</span><span>$580</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 1 kg Tomahawk ($840/kg)</span><span>$840</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 1 kg New York ($489/kg)</span><span>$489</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 1 kg Picaña Sterling ($590/kg)</span><span>$590</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between; margin-top: 6px; font-weight: 500;"><span>+ Complementos: chistorra, chorizo, acompañamientos</span><span>$290</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Tacos para Ricardo Sierra</span>
-                                <span>$231</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <div class="detail-line" style="margin-bottom: 4px; font-weight: 500; color: var(--fg);">Taquería El Fogón (Jardines de la Hacienda)</div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 2 Tacos de arrachera (a la plancha)</span><span>$120</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 2 Tacos al pastor/fogón (a la plancha)</span><span>$46</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• 1 Litro de agua de horchata</span><span>$65</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Papas tipo Lays</span>
-                                <span>$400</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Papas Fritas Member's Mark Wrinkled Chips Salsas Negras 500 g</span><span>$114</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Papas Fritas con Sal de Mar Member's Mark Corte Ondulado 750 g</span><span>$149</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Extras (sobrante)</span><span>$137</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Guisos, acompañamientos y salsas (donantes)</span>
-                                <span>$0</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Guisos</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between; padding-left: 16px; color: var(--gray-500);"><span>- Papas</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between; padding-left: 16px; color: var(--gray-500);"><span>- Chicharrón en salsa roja (1 chile serrano)</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Spaguetti a la boloñesa con pimiento morrón rojo</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Guacamole</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Salsas</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between; padding-left: 16px; color: var(--gray-500);"><span>- Salsa roja</span><span>$0</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between; padding-left: 16px; color: var(--gray-500);"><span>- Salsa verde</span><span>$0</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BEBIDAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Bebidas</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Refrescos</span>
-                                <span>$524</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Refresco Coca-Cola Surtido 8 pzas de 2 L c/u</span><span>$271</span></div>
-                                <div class="detail-line" style="display: flex; justify-content: space-between;"><span>• Extras (sobrante)</span><span>$253</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Agua simple (garrafón)</span>
-                        <span class="cost-item-value">$60</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Hielo (2 bolsas 5 kg)</span>
-                        <span class="cost-item-value">$120</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- POSTRE -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Postre</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item">
-                        <span class="cost-item-name">Pastel (Selva Negra)</span>
-                        <span class="cost-item-value">$600</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- EXTRAS -->
-            <div class="cost-category">
-                <h4 class="cost-category-title">Extras</h4>
-                <div class="cost-category-items">
-                    <div class="cost-item" style="flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 12px;">
-                        <div style="background: var(--surface); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--primary); margin-bottom: 8px;">
-                                <span>Desechables</span>
-                                <span>$220</span>
-                            </div>
-                            <div class="cost-item-details" style="margin-left: 0;">
-                                <span class="detail-line">• Platos</span>
-                                <span class="detail-line">• Vasos</span>
-                                <span class="detail-line">• Cubiertos</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Rollo servilletas de cocina</span>
-                        <span class="cost-item-value">$40</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Bolsas para basura</span>
-                        <span class="cost-item-value">$45</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">Tacos extra para Ricardo</span>
-                        <span class="cost-item-value">$150</span>
-                    </div>
-                    <div class="cost-item">
-                        <span class="cost-item-name">2 Extensiones y 1 Multicontacto</span>
-                        <span class="cost-item-value">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOTAL -->
-            <div class="cost-total-section">
-                <div class="cost-total-row">
-                    <span class="cost-total-label">Costo Total</span>
-                    <span class="cost-total-value">$5,917.00</span>
-                </div>
-                <div class="cost-total-row cost-per-person">
-                    <span class="cost-total-label" style="font-size: 0.9rem; color: var(--gray-500);">Aprox. por persona (17)</span>
-                    <span class="cost-total-value" style="font-size: 0.9rem; color: var(--gray-500);">~$350 por persona</span>
-                </div>
-                <p style="font-size: 0.75rem; color: var(--gray-500); text-align: center; margin-top: 12px; font-weight: 500;">(Costos exactos calculados. No incluye margen para imprevistos)</p>
-                <p style="font-size: 0.7rem; color: var(--gray-500); text-align: center; margin-top: 6px;">*Número estimado ya sondeado; falta reconfirmar con la última lista de asistencia.</p>
-            </div>
-        </div>
-
-
     </div>
 </div>
 
@@ -1676,9 +1495,9 @@
             btnPaid._hooked = true;
             btnPaid.addEventListener('click', function() {
                 var paidList = guestsData.filter(function(g) { return g.pago; });
-                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS ($100 MXN)*\n" +
+                var txt = "*📋 LISTA DE APORTACIONES REALIZADAS (VOLUNTARIAS)*\n" +
                     "_Fiesta de Cumpleaños de Jenny_ 🎉\n\n" +
-                    paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Pago $100 Registrado*"; }).join("\n");
+                    paidList.map(function(g, i) { return (i + 1) + ". " + g.name + " - ✅ *Aportación Registrada*"; }).join("\n");
                 copyToClipboard(txt).then(function() { showToast("¡Lista de Pagos copiada! 📋"); });
             });
         }
@@ -1689,7 +1508,7 @@
                     "_Fiesta de Cumpleaños de Jenny_ 🎉\n\n" +
                     guestsData.map(function(g, i) {
                         var asisTxt = g.asistencia ? "✅ *Asistencia: Confirmada*" : "⏳ *Asistencia: Pendiente*";
-                        var pagoTxt = g.pago ? "✅ *Pago: $100 Registrado*" : "⏳ *Pago: Pendiente*";
+                        var pagoTxt = g.pago ? "✅ *Aportación: Registrada*" : "⏳ *Aportación: Pendiente*";
                         return (i + 1) + ". " + g.name + " — " + asisTxt + " | " + pagoTxt;
                     }).join("\n");
                 copyToClipboard(txt).then(function() { showToast("¡Estatus Combinado copiado! 📋"); });
@@ -1746,12 +1565,12 @@
             step2.className = 'progress-step step-done';
             icon2.className = 'progress-step-icon done'; icon2.textContent = '✓';
             title2.className = 'progress-step-title done'; title2.textContent = 'Fase 2: Aportación Registrada ✅';
-            sub2.textContent = '¡Gracias! Aportación de $100 MXN confirmada.';
+            sub2.textContent = '¡Gracias por tu aportación voluntaria!';
         } else {
             step2.className = 'progress-step step-pending';
             icon2.className = 'progress-step-icon pending'; icon2.textContent = '✗';
-            title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación ($100 MXN)';
-            sub2.textContent = 'Pendiente — elige un método de pago';
+            title2.className = 'progress-step-title pending'; title2.textContent = 'Fase 2: Aportación Voluntaria';
+            sub2.textContent = 'Opcional — aporta lo que quieras o lleva algo en especie';
         }
 
         // Taps on progress steps open confirm modal
@@ -1910,7 +1729,7 @@
     function htmlPhase2Ask() {
         return '<span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px">payments</span>' +
             '<h2 style="font-size:1.25rem;color:var(--fg);margin-bottom:10px;font-weight:700">¿Realizaste tu aportación?</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Completaste el pago de <strong>$100 MXN</strong> por Stripe, SPEI o CODI?</p>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¿Hiciste tu aportación voluntaria por Stripe, SPEI o CODI (o llevarás algo en especie)?</p>' +
             '<div style="display:flex;gap:10px">' +
             '<button onclick="confirmPhase2(false)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(220,38,38,0.5);background:linear-gradient(135deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#dc2626;font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✗ Todavía no</button>' +
             '<button onclick="confirmPhase2(true)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.88rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">✓ ¡Sí, ya pagué!</button>' +
@@ -1920,7 +1739,7 @@
     function htmlPhase2Success() {
         return '<span class="material-symbols-outlined" style="font-size:52px;color:var(--success);margin-bottom:12px">check_circle</span>' +
             '<h2 style="font-size:1.25rem;color:var(--success);margin-bottom:10px;font-weight:700">¡Fase 2 Completada! ✅</h2>' +
-            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¡Gracias! Tu aportación de $100 MXN está registrada. ¡Nos vemos el 25 de octubre! 🎉</p>' +
+            '<p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:22px;line-height:1.5">¡Gracias por tu aportación voluntaria! Cada gesto suma. ¡Nos vemos el 25 de octubre! 🎉</p>' +
             '<button onclick="closeConfirmModal()" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(34,197,94,0.5);background:linear-gradient(135deg,rgba(22,163,74,0.15),rgba(34,197,94,0.08));color:var(--success);font-family:var(--font);font-size:0.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(8px)">¡Entendido! 🍲🏊</button>';
     }
 
