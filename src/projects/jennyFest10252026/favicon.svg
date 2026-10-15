@@ -1,0 +1,47 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="256" height="256" fill="#ffffff"/>
+  
+  <!-- Dark circular background -->
+  <circle cx="128" cy="128" r="125" fill="#0a0a0a"/>
+  
+  <!-- Germany flag (left side) -->
+  <g id="germany-flag">
+    <rect x="45" y="95" width="55" height="35" fill="#000000"/>
+    <rect x="45" y="110" width="55" height="12" fill="#d00"/>
+    <rect x="45" y="122" width="55" height="8" fill="#ffce00"/>
+  </g>
+  
+  <!-- Mexico flag (right side) -->
+  <g id="mexico-flag">
+    <rect x="156" y="95" width="55" height="35" fill="#006341"/>
+    <rect x="177" y="95" width="12" height="35" fill="#ffffff"/>
+    <rect x="189" y="95" width="22" height="35" fill="#ce1126"/>
+  </g>
+  
+  <!-- Central celebration circle -->
+  <circle cx="128" cy="128" r="30" fill="#ffce00" opacity="0.95"/>
+  <circle cx="128" cy="128" r="24" fill="#ff6b9d"/>
+  <circle cx="128" cy="128" r="15" fill="#ffffff"/>
+  
+  <!-- Inner sparkle -->
+  <circle cx="128" cy="128" r="8" fill="#ffce00"/>
+  
+  <!-- Top decorative stars -->
+  <g id="stars">
+    <!-- Top left star -->
+    <circle cx="80" cy="55" r="4" fill="#ffce00"/>
+    
+    <!-- Top right star -->
+    <circle cx="176" cy="55" r="4" fill="#ffce00"/>
+  </g>
+  
+  <!-- Bottom decorative elements -->
+  <g id="bottom-decor">
+    <!-- Bottom left circle -->
+    <circle cx="70" cy="195" r="3.5" fill="#ff6b9d"/>
+    
+    <!-- Bottom right circle -->
+    <circle cx="186" cy="195" r="3.5" fill="#ff6b9d"/>
+  </g>
+</svg>
