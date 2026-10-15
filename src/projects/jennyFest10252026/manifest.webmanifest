@@ -1,0 +1,30 @@
+{
+  "name": "JennyFest — Fiesta de Cumpleaños",
+  "short_name": "JennyFest",
+  "description": "Fiesta de cumpleaños de Jenny. Domingo 25 de octubre de 2026, 14:00–21:00.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#2a0812",
+  "theme_color": "#b14258",
+  "icons": [
+    {
+      "src": "favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
